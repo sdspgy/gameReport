@@ -114,7 +114,7 @@ ec-canvas {
   /* position: relative;
   left: 60px; */
   z-index: -1;
-  opacity: 0.9;
+  opacity: 1;
 }
 
 .tr {
