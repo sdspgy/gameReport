@@ -1,0 +1,19 @@
+<view class="page">
+    <view class="weui-msg">
+        <view class="weui-msg__icon-area">
+            <icon type="warn" size="93"></icon>
+        </view>
+        <view class="weui-msg__text-area">
+            <view class="weui-msg__title">{{message}}</view>
+        </view>
+
+        <view class="weui-msg__extra-area">
+            <view class="weui-footer">
+                <view class="weui-footer__links">
+                    <view class="weui-footer__link">重庆互爱科技</view>
+                </view>
+                <view class="weui-footer__text">Copyright © 2019-2022</view>
+            </view>
+        </view>
+    </view>
+</view>

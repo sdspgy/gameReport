@@ -1,0 +1,32 @@
+<view>
+  <i-notice-bar icon="systemprompt" speed="2000" loop>
+    一怒红颜，焚神灭天！
+  </i-notice-bar>
+</view>
+
+<!-- 轮播图 -->
+<swiper indicator-dots="{{indicatorDots}}" easing-function="{{easingFunction}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+  <block wx:for="{{imgUrls}}" wx:key="{{index}}">
+    <swiper-item>
+      <image src="{{item}}" class="slide-image" style="width:100%; height:100%" />
+    </swiper-item>
+  </block>
+</swiper>
+
+<view style='text-align: center;'>{{message}}</view>
+
+<!-- 游戏列表 -->
+<view wx:key="{{item.id}}" wx:for="{{games}}">
+  <i-cell-group>
+    <i-cell title="{{item.name}}" label="{{item.state}}" value="{{item.type}}" only-tap-footer is-link url="{{item.url}}"></i-cell>
+  </i-cell-group>
+</view>
+
+<view class="flex fix_nav_wp">
+  <view class="nav_link" bindtap='gotoCompanyIndex' wx:key="{{item.id}}" wx:for="{{resources}}" wx:for-index="index">
+    <button class="defalut_btn on_cor" bindtap='viewButton' id="{{item.url}}">
+      <i-icon type="activity" size="20" color="#80848f" />
+      <text class="txt">{{item.name}}</text>
+    </button>
+  </view>
+</view>

@@ -1,0 +1,22 @@
+{
+  "pages": [
+    "pages/start/start",
+    "pages/login/login",
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/user/user",
+    "pages/user/user_manager",
+    "pages/role/role_info",
+    "pages/role/role_manager",
+    "pages/role/role_edit",
+    "pages/user/user_resource",
+    "pages/user/user_change_role"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "互爱科技",
+    "navigationBarTextStyle": "black"
+  },
+  "sitemapLocation": "sitemap.json"
+}

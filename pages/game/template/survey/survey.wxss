@@ -1,0 +1,397 @@
+.button {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.header {
+  background-color: #fff;
+  margin: 0 auto;
+  /* margin-top: 5px; *//* border: 1px solid #f00; */
+  position: relative;
+  top: -25px;
+}
+
+.header .headerTitle {
+  /* border: 1px solid rgb(0, 255, 85); */
+  width: 100px;
+  height: 30px;
+  position: absolute;
+  top: 10px;
+  left: 5px;
+  /* font-family: "Times New Roman", Georgia, Serif; */
+  font-size: 16px;
+}
+
+i-radio {
+  padding: 0 0;
+}
+
+.header .swiperView {
+  /* border: 1px solid rgb(0, 255, 85); */
+  width: 250px;
+  height: 50px;
+  margin: 0 auto;
+  margin-top: 60px;
+  font-family: "Times New Roman", Georgia, Serif;
+  font-size: 12px;
+  text-align: center;
+}
+
+.header .swiperView .swiperViewv1, .swiperViewv2, .swiperViewv3 {
+  float: right;
+  /* border: 1px solid rgb(0, 255, 85); */
+  width: 30%;
+  height: 50px;
+}
+
+.tabBar {
+  width: 90%;
+  background-color: rgba(0, 0, 0, 0);
+  margin: 0 auto;
+  position: relative;
+  top: -20px;
+}
+
+.gameDaily {
+  width: 30%;
+  height: 30px;
+  position: relative;
+  left: 5%;
+}
+
+.system {
+  padding-top: -20px;
+  width: 30%;
+  background-color: rgba(0, 0, 0, 0);
+  position: relative;
+  left: 65%;
+  top: -30px;
+}
+
+.system .ibutton, .gameDaily .gameDailyIbutton {
+  height: 30px;
+}
+
+.system .ibutton i-tab-bar-item:hover {
+  color: green;
+}
+
+.tabBar .itabBar {
+  height: 40px;
+}
+
+.channelService {
+  width: 90%;
+  margin: 0 auto;
+  /* font-family: "Times New Roman", Georgia, Serif; */
+  font-size: 15px;
+  /* border: 1px solid rgb(0, 255, 85); */
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.container {
+  margin: -60px auto;
+  /* border: 1px solid rgb(0, 255, 85); */
+  width: 100%;
+  height: 480px;
+  padding: 60px 0;
+}
+
+ec-canvas {
+  /* border: 1px solid rgb(255, 0, 221); */
+  width: 100%;
+  height: 100%;
+}
+
+.warp {
+  width: 90%;
+  height: 30px;
+  margin: 0 auto;
+}
+
+.table {
+  border: 0px solid darkgray;
+  /* position: relative;
+  left: 60px; */
+  z-index: -1;
+  opacity: 0.9;
+}
+
+.tr {
+  display: flex;
+  width: 1100px;
+  height: 1rem;
+}
+
+.td {
+  width: 100px;
+  /* display: flex; */
+  height: 1.5rem;
+  text-align: center;
+  font-family: "Times New Roman", Georgia, Serif;
+  font-size: 15px;
+}
+
+.bg-w {
+  background: rgb(250, 254, 255);
+}
+
+.bg-g {
+  background: #e6f3f9;
+}
+
+.th {
+  width: 100px;
+  color: rgb(83, 126, 155);
+  /* display: flex; */
+  height: 1.5rem;
+  text-align: center;
+  font-family: "Times New Roman", Georgia, Serif;
+  font-size: 12px;
+}
+
+/* scroll-view滚动条隐藏 */
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
+.panel {
+  height: 50px;
+  width: 200px;
+}
+
+view.radio-index--i-radio-cell.cell-index--i-cell.cell-index--i-cell-last {
+  background: #f8f8f8;
+}
+
+.panels {
+  width: 50%;
+  height: 30px;
+  margin: 0 auto;
+  /* margin-top: 5px; */
+  position: absolute;
+  left: 30%;
+  z-index: 1;
+}
+
+i-radio > view > i-cell > view > .i-cell {
+  background-color: #f8f8f8;
+}
+
+.os {
+  width: 90%;
+  margin: 0 auto;
+}
+
+/* ---------底部---------- */
+
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+
+.userinfo-nickname {
+  color: #aaa;
+}
+
+.usermotto {
+  margin-top: 50px;
+}
+
+.item {
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  background: white;
+  margin-left: 0;
+}
+
+/*确认按钮*/
+
+.confirm {
+  background: #4cd964;
+  color: white;
+  margin: 10px;
+  flex: 1;
+}
+
+/*删除按钮*/
+
+.delete {
+  background: #da634f;
+  color: white;
+  margin: 10px;
+  flex: 1;
+}
+
+/*标题与文本框1/3开*/
+
+.title {
+  flex: 1;
+}
+
+.subtitle {
+  flex: 3;
+}
+
+/*编辑与添加按钮*/
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+/* iconfont小图标 */
+
+/*为了更好展示，iconfont的字体文件代码忽略辣，各位道友可以下载时候看*/
+
+page {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.flex {
+  display: -webkit-flex;
+  display: flex;
+  width: 100%;
+}
+
+/*  底部悬浮导航  */
+
+.fix_nav_wp {
+  height: 110rpx;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: #fff;
+  border-top: 1rpx solid #e5e5e5;
+  z-index: 10;
+}
+
+.fix_nav_wp .nav_link {
+  flex: 1;
+}
+
+.fix_nav_wp button {
+  height: 110rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  font-size: 22rpx;
+  flex-direction: column;
+  color: #999;
+  position: relative;
+}
+
+.fix_nav_wp .tip_tip {
+  position: absolute;
+  right: 25rpx;
+  top: 5rpx;
+  min-width: 28rpx;
+  line-height: 32rpx;
+  height: 32rpx;
+  padding: 0 8rpx;
+  color: #fff;
+  background: #f00;
+  border-radius: 50em;
+  border: 1rpx solid #fff;
+}
+
+.fix_nav_wp .nav_link .iconfont {
+  height: 60rpx;
+  font-size: 56rpx;
+  line-height: 80rpx;
+  color: #c4c8cc;
+}
+
+.fix_nav_wp .nav_link .plus_wp {
+  width: 120rpx;
+  height: 120rpx;
+  margin-top: -45rpx;
+}
+
+.fix_nav_wp .nav_link  image {
+  width: 120rpx;
+  height: 120rpx;
+}
+
+.fix_nav_wp .nav_link .txt {
+  height: 50rpx;
+  line-height: 20rpx;
+  color: #c4c8cc;
+}
+
+.fix_nav_wp .nav_link.current .txt {
+  color: #00a2e9;
+}
+
+.fix_nav_wp .nav_link .del_ico {
+  display: block;
+}
+
+.fix_nav_wp .nav_link .cur_ico {
+  display: none;
+}
+
+.fix_nav_wp .nav_link.current .del_ico {
+  display: none;
+}
+
+.fix_nav_wp .nav_link.current .cur_ico {
+  display: block;
+  color: #00a2e9;
+}
+
+.fix_nav_wp .nav_link .txt_fb {
+  line-height: 18rpx;
+}
+
+.fix_nav_wp .nav_link .mp_ico {
+  font-size: 50rpx;
+  line-height: 80rpx;
+}
+
+.fix_nav_wp .nav_link .xiaox_ico {
+  font-size: 64rpx;
+  line-height: 70rpx;
+}
+
+.fix_nav_wp .nav_link .my_ico {
+  font-size: 56rpx;
+}
+
+.fix_nav_wp .on_cor .del_ico, .fix_nav_wp .on_cor .txt {
+  color: #00a2e9;
+}
+
+/* 清楚按钮的默认样式  */
+
+.defalut_btn {
+  background: transparent;
+  border: none;
+  overflow: visible;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
+  border-radius: 0;
+}
+
+.defalut_btn:after {
+  display: none;
+}
+
+.text-primary {
+  color: #00a2e9;
+}

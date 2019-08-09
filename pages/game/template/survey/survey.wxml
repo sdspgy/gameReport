@@ -1,0 +1,192 @@
+<!-- 全局提示 -->
+<i-message id="message" />
+
+<view class='button'>
+  <i-row>
+    <i-col span="12" i-class="col-class">
+      <i-button bind:click="handleClick" type="info" size="small" id="0">按用户</i-button>
+    </i-col>
+    <i-col span="12" i-class="col-class">
+      <i-button bind:click="handleClick" type="success" size="small" id="1">按设备</i-button>
+    </i-col>
+  </i-row>
+</view>
+
+<view class='gameDaily'>
+  <i-tab-bar i-class='gameDailyIbutton' current="" color="#1655cc" bindchange="handleGameDaily">
+    <i-tab-bar-item key="5" current-icon="homepage_fill" title="游戏概况"></i-tab-bar-item>
+  </i-tab-bar>
+</view>
+
+<view class='system'>
+  <i-tab-bar i-class='ibutton' current="" color="#1655cc" bindchange="handleChangeSystem">
+    <i-tab-bar-item key="0" current-icon="homepage_fill" dot="{{true}}" title="All"></i-tab-bar-item>
+    <i-tab-bar-item key="1" current-icon="group_fill" title="ANDROID"></i-tab-bar-item>
+    <i-tab-bar-item key="2" current-icon="remind_fill" count="" title="IOS"></i-tab-bar-item>
+  </i-tab-bar>
+</view>
+
+<view class='header' style='width:90%;height:150px'>
+  <view class='headerTitle'>
+    <i-icon type="switch" size="20" color="#4d80e6" />今日概况</view>
+  <swiper indicator-dots="{{indicatorDots}}" easing-function="{{easingFunction}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+    <block wx:for="{{swiperView}}" wx:key="{{index}}">
+      <swiper-item>
+        <view class='swiperView'>
+          <i-row>
+            <i-col span="8" i-class="col-class">
+              <view>{{item.title1}}</view>
+              <view>{{item.num1}}</view>
+              <view>{{item.time1}}</view>
+            </i-col>
+            <i-col span="8" i-class="col-class">
+              <view>{{item.title2}}</view>
+              <view>{{item.num2}}</view>
+              <view>{{item.time2}}</view>
+            </i-col>
+            <i-col span="8" i-class="col-class">
+              <view>{{item.title3}}</view>
+              <view>{{item.num3}}</view>
+              <view>{{item.time3}}</view>
+            </i-col>
+          </i-row>
+        </view>
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+
+<view class='tabBar'>
+  <i-tab-bar i-class='itabBar' current="" color="#f759ab" bindchange="handleChange">
+    <i-tab-bar-item key="0" icon="homepage" current-icon="homepage_fill" dot="{{true}}" title="今日"></i-tab-bar-item>
+    <i-tab-bar-item key="1" icon="group" current-icon="group_fill" title="昨日"></i-tab-bar-item>
+    <i-tab-bar-item key="2" icon="remind" current-icon="remind_fill" count="" title="7天"></i-tab-bar-item>
+    <i-tab-bar-item key="3" icon="mine" current-icon="mine_fill" title="30天"></i-tab-bar-item>
+  </i-tab-bar>
+</view>
+
+<view class='os'>
+  <!-- <i-tabs i-calss='statu' current="{{ indexStatu }}" color="#f759ab" bindchange="handleChangeStatus">
+    <i-tab key="0" title="渠道"></i-tab>
+    <i-tab key="1" title="分服"></i-tab>
+  </i-tabs>
+
+  <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+    <view class="picker">
+      <i-icon type="switch" size="20" color="#4d80e6" /> ：{{array[index]}}
+    </view>
+  </picker>
+
+  <picker bindchange="bindPickerChangeType" value="{{indexType}}" range="{{types}}">
+    <view class="picker">
+      <i-icon type="switch" size="20" color="#4d80e6" /> ：{{types[indexType]}}
+    </view>
+  </picker> -->
+
+  <view class="container">
+    <view class='panels'>
+      <i-panel title="">
+        <i-radio-group current="{{current}}" bindchange="handleUserChange">
+          <view class='panel'>
+            <i-radio style='float:left;background:#f8f8f8' wx:for="{{fruit}}" position="{{position}}" wx:key="{{item.id}}" id="{{item.id}}" value="{{item.name}}">
+            </i-radio>
+          </view>
+        </i-radio-group>
+      </i-panel>
+    </view>
+    <ec-canvas id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
+  </view>
+</view>
+
+<!-- 折叠面板 -->
+<view class='warp'>
+  <view class="caption-wrap">
+    <i-collapse name="name" accordion:true>
+      <i-collapse-item title="Daily_data" name="name1">
+        <view slot="content">
+          <!-- 表格 -->
+          <scroll-view scroll-x="true" scroll-y="true" style=" white-space: nowrap; display: flex;width: 400px; height: 300px;">
+            <view class="table">
+              <view class="tr bg-w">
+                <view class="th" wx:for="{{titleHead}}" wx:key="{{index}}">{{item.name}}</view>
+              </view>
+              <block wx:for="{{listData}}" wx:key="{{index}}">
+                <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
+                  <view class="td">{{item.ds}}</view>
+                  <view class="td">{{item.totalNum}}</view>
+                  <view class="td">{{item.dauNum}}</view>
+                  <view class="td">{{item.installNum}}</view>
+                  <view class="td">{{item.payCount}}</view>
+                  <view class="td">{{item.payAmount}}</view>
+                  <view class="td">{{item.payTimes}}</view>
+                  <view class="td">{{item.payInstallCount}}</view>
+                  <view class="td">{{item.payInstallAmount}}</view>
+                  <view class="td">{{item.payInstallTimes}}</view>
+                </view>
+                <view class="tr" wx:else>
+                  <view class="td">{{item.ds}}</view>
+                  <view class="td">{{item.totalNum}}</view>
+                  <view class="td">{{item.dauNum}}</view>
+                  <view class="td">{{item.installNum}}</view>
+                  <view class="td">{{item.payCount}}</view>
+                  <view class="td">{{item.payAmount}}</view>
+                  <view class="td">{{item.payTimes}}</view>
+                  <view class="td">{{item.payInstallCount}}</view>
+                  <view class="td">{{item.payInstallAmount}}</view>
+                  <view class="td">{{item.payInstallTimes}}</view>
+                </view>
+              </block>
+            </view>
+          </scroll-view>
+          <i-divider color="#ed3f14" lineColor="#4c8b27">...</i-divider>
+        </view>
+      </i-collapse-item>
+    </i-collapse>
+  </view>
+</view>
+
+<view class='warp'>
+  <view class="caption-wrap">
+    <i-collapse name="name" accordion:true>
+      <i-collapse-item title="Retention_data" name="name1">
+        <view slot="content">
+          <!-- 表格 -->
+          <scroll-view scroll-x="true" scroll-y="true" style=" white-space: nowrap; display: flex;width: 400px; height: 300px;">
+            <view class="table">
+              <view class="tr bg-w">
+                <view class="th" wx:for="{{titleHeadRetention}}" wx:key="{{index}}">{{item.name}}</view>
+              </view>
+              <block wx:for="{{listDataRetenttion}}" wx:key="{{index}}">
+                <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
+                  <view class="td">{{item.ds}}</view>
+                  <view class="td">{{item.dr}}</view>
+                  <view class="td">{{item.retention}}</view>
+                  <view class="td">{{item.retentionPercentage}}%</view>
+                </view>
+                <view class="tr" wx:else>
+                  <view class="td">{{item.ds}}</view>
+                  <view class="td">{{item.dr}}</view>
+                  <view class="td">{{item.retention}}</view>
+                  <view class="td">{{item.retentionPercentage}}%</view>
+                </view>
+              </block>
+            </view>
+          </scroll-view>
+          <i-divider color="#ed3f14" lineColor="#4c8b27">...</i-divider>
+        </view>
+      </i-collapse-item>
+    </i-collapse>
+  </view>
+</view>
+
+<view style='width:90%;height:70px'></view>
+
+<!-- ----------------底部 -->
+<view class="flex fix_nav_wp">
+  <view class="nav_link" bindtap='gotoCompanyIndex' wx:key="{{item.id}}" wx:for="{{menu}}" wx:for-index="index">
+    <button class="defalut_btn on_cor" bindtap='viewButton' id="{{item.url}}">
+      <i-icon type="{{item.icon}}" size="20" color="#80848f" />
+      <text class="txt">{{item.name}}</text>
+    </button>
+  </view>
+</view>

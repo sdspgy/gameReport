@@ -1,0 +1,16 @@
+<view class="weui-cells weui-cells_after-title">
+  <checkbox-group bindchange="checkboxChange">
+    <label class="weui-cell weui-check__label" wx:for="{{role_list}}" wx:key="id">
+      <checkbox class="weui-check" value="{{item.id}}" checked="{{item.contain}}" />
+      <view class="weui-cell__hd weui-check__hd_in-checkbox">
+        <icon class="weui-icon-checkbox_circle" type="circle" size="23" wx:if="{{!item.contain}}"></icon>
+        <icon class="weui-icon-checkbox_success" type="success" size="23" wx:if="{{item.contain}}"></icon>
+      </view>
+      <view class="weui-cell__bd">{{item.name}}</view>
+    </label>
+  </checkbox-group>
+
+  <view class="weui-btn-area">
+    <button class="weui-btn" type="primary" bindtap="save">确定</button>
+  </view>
+</view>

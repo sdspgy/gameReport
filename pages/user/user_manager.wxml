@@ -1,0 +1,18 @@
+<view class="table">
+  <view class="tr">
+    <view class="th">头像</view>
+    <view class="th">昵称</view>
+    <view class="th">操作</view>
+  </view>
+  <view class="tr" wx:key="{{item.openId}}" wx:for="{{user_list}}" wx:for-index="index">
+    <view class='td'>
+      <image class="userinfo-avatar" src="{{item.avatarUrl}}" mode="cover"></image>
+    </view>
+    <view class="td" style="line-height:105rpx"> {{item.name}} </view>
+    <view class="page__bd,td">
+      <view class="weui-btn-area">
+        <i-button type="primary" id="{{item.openId}}" bindtap="choose" shape="circle" size="small">操作</i-button>
+      </view>
+    </view>
+  </view>
+</view>

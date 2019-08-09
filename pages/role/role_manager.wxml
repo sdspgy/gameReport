@@ -1,0 +1,26 @@
+ <view class="weui-cell__bd">
+    <input class="weui-input" placeholder="请输入角色名" value='' bindinput='name' maxlength='8' />
+  </view>
+  <view class="weui-btn-area">
+    <button class="weui-btn" bindtap='addRole' type="primary" size='mini'>新增角色</button>
+  </view>
+<view class="table">
+  <view class="tr">
+    <view class="th">编号</view>
+    <view class="th">名字</view>
+    <view class="th">操作</view>
+  </view>
+  <view class="tr" wx:key="{{item.id}}" wx:for="{{role_list}}" wx:for-index="index">
+
+    <view class="td" style="line-height:105rpx"> {{item.id}} </view>
+    <view class="td" style="line-height:105rpx"> {{item.name}} </view>
+    <view class="page__bd,td">
+      <view class="weui-btn-area">
+        <i-button type="primary" id="{{item.id}}" bindtap="choose" shape="circle" size="small">操作</i-button>
+      </view>
+    </view>
+  </view>
+
+  <i-divider content="数据已经完成" color="#ed3f14" lineColor="#ed3f14"></i-divider>
+ 
+</view>

@@ -1,0 +1,14 @@
+<i-divider content="类型：0为Ajax请求；1为底部菜单" color="#2d8cf0" lineColor="#2d8cf0"></i-divider>
+<!-- <i-panel title="资源详情">
+  <i-input value='' bindinput='name' type="text" title="name" placeholder="{{ resource.name }}" maxlength='8' />
+  <i-input value='' bindinput='url' type="text" title="url" placeholder="{{ resource.url }}" maxlength='8' />
+  <i-input value='' bindinput="type" type="text" title="类型" placeholder="{{ resource.type }}" maxlength='1' />
+</i-panel> -->
+ <view class="weui-cell__bd">
+   <input class="weui-input" placeholder="{{ resource.name }}" value='{{ resource.name }}' bindinput='name' maxlength='8' />
+   <input class="weui-input" placeholder="{{ resource.url }}" value='{{ resource.url }}' bindinput='url' maxlength='16' />
+   <input class="weui-input" placeholder="{{ resource.type }}" value='{{ resource.type }}' bindinput='type' maxlength='1' />
+  </view>
+<view class="weui-btn-area">
+  <button class="weui-btn" bindtap='updateResource' type="primary" size='mini'>修改资源</button>
+</view>

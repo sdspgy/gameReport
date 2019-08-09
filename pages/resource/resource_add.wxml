@@ -1,0 +1,9 @@
+<i-divider content="类型：0为Ajax请求；1为底部菜单" color="#2d8cf0" lineColor="#2d8cf0"></i-divider>
+ <view class="weui-cell__bd">
+   <input class="weui-input" placeholder="name" value='' bindinput='name' maxlength='8' />
+   <input class="weui-input" placeholder="url" value='' bindinput='url' maxlength='8' />
+   <input class="weui-input" placeholder="type" value='' bindinput='type' maxlength='1' />
+  </view>
+  <view class="weui-btn-area">
+    <button class="weui-btn" bindtap='addResource' type="primary" size='mini'>新增资源</button>
+  </view>

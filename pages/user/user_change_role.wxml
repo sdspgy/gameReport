@@ -1,0 +1,13 @@
+<view class="weui-cells__title">选择</view>
+<view class="weui-cells weui-cells_after-title">
+  <view class="weui-cell weui-cell_select">
+    <view class="weui-cell__hd weui-cell__hd_in-select-after">
+      <view class="weui-label">角色名</view>
+    </view>
+    <view class="weui-cell__bd">
+      <picker bindchange="bindRoleChange" value="{{index}}" range="{{role_name}}">
+        <view class="weui-select weui-select_in-select-after">{{role_list[index].name}}</view>
+      </picker>
+    </view>
+  </view>
+</view>

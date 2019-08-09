@@ -1,0 +1,7 @@
+  <view class="tr" wx:key="{{item.id}}" wx:for="{{resources}}" wx:for-index="index">
+        <view class="weui-cells weui-cells_after-title td">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">{{item.name}}</view>
+            </view>
+        </view>
+  </view>
