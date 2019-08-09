@@ -181,7 +181,7 @@
 
 <view style='width:90%;height:70px'></view>
 
-<!--底部--->
+<!------底部--->
 <view class="flex fix_nav_wp">
   <view class="nav_link" bindtap='gotoCompanyIndex' wx:key="{{item.id}}" wx:for="{{menu}}" wx:for-index="index">
     <button class="defalut_btn on_cor" bindtap='viewButton' id="{{item.url}}">
