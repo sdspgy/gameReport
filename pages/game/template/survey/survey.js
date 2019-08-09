@@ -65,9 +65,9 @@ function initChart(canvas, width, height) {
           position: 'top'
         }
       },
-      // areaStyle: {
-      //   normal: {}
-      // },
+      areaStyle: {
+        normal: {}
+      },
       data: datas
     }]
   };
