@@ -18,14 +18,13 @@
   </i-tab-bar>
 </view>
 
-<view class='system'>
-  <i-tab-bar i-class='ibutton' current="" color="#1655cc" bindchange="handleChangeSystem">
-    <i-tab-bar-item key="0" current-icon="homepage_fill" dot="{{true}}" title="All"></i-tab-bar-item>
-    <i-tab-bar-item key="1" current-icon="group_fill" title="ANDROID"></i-tab-bar-item>
-    <i-tab-bar-item key="2" current-icon="remind_fill" count="" title="IOS"></i-tab-bar-item>
-  </i-tab-bar>
-</view>
-
+ <view class='system'>
+    <i-tab-bar i-class='ibutton' current="" color="#1655cc" bindchange="handleChangeSystem">
+      <i-tab-bar-item key="0" current-icon="homepage_fill" dot="{{true}}" title="All"></i-tab-bar-item>
+      <i-tab-bar-item key="1" current-icon="group_fill" title="ANDROID"></i-tab-bar-item>
+      <i-tab-bar-item key="2" current-icon="remind_fill" count="" title="IOS"></i-tab-bar-item>
+    </i-tab-bar>
+  </view>
 <view class='header' style='width:90%;height:150px'>
   <view class='headerTitle'>
     <i-icon type="switch" size="20" color="#4d80e6" />今日概况</view>
