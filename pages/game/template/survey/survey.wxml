@@ -1,4 +1,4 @@
-<!---- 全局提示 ---->
+<!-- 全局提示 -->
 <i-message id="message" />
 
 <view class='button'>
@@ -60,8 +60,8 @@
   <i-tab-bar i-class='itabBar' current="" color="#f759ab" bindchange="handleChange">
     <i-tab-bar-item key="0" icon="homepage" current-icon="homepage_fill" dot="{{true}}" title="今日"></i-tab-bar-item>
     <i-tab-bar-item key="1" icon="group" current-icon="group_fill" title="昨日"></i-tab-bar-item>
-    <i-tab-bar-item key="2" icon="remind" current-icon="remind_fill" count="" title="7天"></i-tab-bar-item>
-    <i-tab-bar-item key="3" icon="mine" current-icon="mine_fill" title="30天"></i-tab-bar-item>
+    <i-tab-bar-item key="7" icon="remind" current-icon="remind_fill" count="" title="7天"></i-tab-bar-item>
+    <i-tab-bar-item key="30" icon="mine" current-icon="mine_fill" title="30天"></i-tab-bar-item>
   </i-tab-bar>
 </view>
 
@@ -144,8 +144,7 @@
     </i-collapse>
   </view>
 </view>
-
-<view class='warp'>
+<view class='retentionWarp'>
   <view class="caption-wrap">
     <i-collapse name="name" accordion:true>
       <i-collapse-item title="Retention_data" name="name1">
@@ -179,9 +178,10 @@
   </view>
 </view>
 
+
 <view style='width:90%;height:70px'></view>
 
-<!-- 底部 -->
+<!------------底部-->
 <view class="flex fix_nav_wp">
   <view class="nav_link" bindtap='gotoCompanyIndex' wx:key="{{item.id}}" wx:for="{{menu}}" wx:for-index="index">
     <button class="defalut_btn on_cor" bindtap='viewButton' id="{{item.url}}">

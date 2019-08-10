@@ -1,3 +1,4 @@
+// echarts
 import * as echarts from '../../../../ec-canvas/echarts';
 // 全局提示
 const {
@@ -65,9 +66,9 @@ function initChart(canvas, width, height) {
           position: 'top'
         }
       },
-      areaStyle: {
-        normal: {}
-      },
+      // areaStyle: {
+      //   normal: {}
+      // },
       data: datas
     }]
   };
@@ -80,53 +81,53 @@ Page({
 
   data: {
     menu: [{
-        name: '概况',
-        url: '',
-        icon: 'dynamic_fill'
-      }, {
-        name: '新进',
-        url: '../retention/retention',
-        icon: 'barrage'
-      },
-      {
-        name: '留存',
-        url: '../source/source',
-        icon: 'createtask'
-      },
-      {
-        name: '付费',
-        url: '../behavior/behavior',
-        icon: 'other'
-      },
-      {
-        name: '其他',
-        url: '../portrait/portrait',
-        icon: 'group'
-      }
+      name: '概况',
+      url: '',
+      icon: 'dynamic_fill'
+    }, {
+      name: '新进',
+      url: '../source/source',
+      icon: 'barrage'
+    },
+    {
+      name: '留存',
+      url: '../retention/retention',
+      icon: 'createtask'
+    },
+    {
+      name: '付费',
+      url: '../behavior/behavior',
+      icon: 'other'
+    },
+    {
+      name: '其他',
+      url: '../portrait/portrait',
+      icon: 'group'
+    }
     ],
     gameid: "",
     swiperView: [{
-        title1: '访问人数',
-        num1: '0',
-        time1: '昨日：0',
-        title2: '新用户',
-        num2: '0',
-        time2: '昨日：0',
-        title3: '活跃数',
-        num3: '0',
-        time3: '昨日：0'
-      },
-      {
-        title1: '访问次数',
-        num1: '0',
-        time1: '昨日：0',
-        title2: '次均停留时长',
-        num2: '0',
-        time2: '昨日：0',
-        title3: '跳出率',
-        num3: '0',
-        time3: '昨日：0'
-      }
+      title1: '访问人数',
+      num1: '0',
+      time1: '昨日：0',
+      title2: '新用户',
+      num2: '0',
+      time2: '昨日：0',
+      title3: '活跃数',
+      num3: '0',
+      time3: '昨日：0'
+    },
+    {
+      title1: '访问次数',
+      num1: '0',
+      time1: '昨日：0',
+      title2: '次均停留时长',
+      num2: '0',
+      time2: '昨日：0',
+      title3: '跳出率',
+      num3: '0',
+      time3: '昨日：0'
+    }
     ],
     indicatorDots: false,
     autoplay: true,
@@ -134,7 +135,7 @@ Page({
     duration: 1000,
     easingFunction: "easeInOutCubic",
 
-    data: "1",
+    data: "7",
     sysType: "5",
     type: "0",
 
@@ -147,35 +148,35 @@ Page({
     indexType: 0,
     datas: [],
     titleHead: [{
-        "name": "日期"
-      },
-      {
-        "name": "总用户数"
-      },
-      {
-        "name": "活跃数"
-      },
-      {
-        "name": "注册数"
-      },
-      {
-        "name": "付费人数"
-      },
-      {
-        "name": "付费金额"
-      },
-      {
-        "name": "付费次数"
-      },
-      {
-        "name": "安装付费人数"
-      },
-      {
-        "name": "安装付费金额"
-      },
-      {
-        "name": "安装付费次数"
-      }
+      "name": "日期"
+    },
+    {
+      "name": "总用户数"
+    },
+    {
+      "name": "活跃数"
+    },
+    {
+      "name": "注册数"
+    },
+    {
+      "name": "付费人数"
+    },
+    {
+      "name": "付费金额"
+    },
+    {
+      "name": "付费次数"
+    },
+    {
+      "name": "安装付费人数"
+    },
+    {
+      "name": "安装付费金额"
+    },
+    {
+      "name": "安装付费次数"
+    }
     ],
     titleHeadRetention: [{
       "name": "日期"
@@ -200,7 +201,7 @@ Page({
     position: 'left',
   },
 
-  onLoad: function(e) {
+  onLoad: function (e) {
     this.setData({
       gameid: e.gameId
     })
@@ -221,7 +222,7 @@ Page({
     this.init_one()
   },
 
-  handleClick: function(e) {
+  handleClick: function (e) {
     this.setData({
       type: e.currentTarget.id
     });
@@ -253,7 +254,7 @@ Page({
     this.init();
   },
 
-  bindMultiPickerChange: function(e) {
+  bindMultiPickerChange: function (e) {
     this.setData({
       multiIndex: e.detail.value
     })
@@ -267,6 +268,7 @@ Page({
     });
     console.log("时间--------" + detail.key);
     this.init();
+    this.init_one();
   },
 
   handleUserChange({
@@ -303,7 +305,7 @@ Page({
     this.init();
   },
 
-  bindPickerChange: function(e) {
+  bindPickerChange: function (e) {
     console.log("渠道/分服--------" + e.detail.value)
     this.setData({
       index: e.detail.value
@@ -311,31 +313,31 @@ Page({
     this.init();
   },
 
-  bindPickerChangeType: function(e) {
+  bindPickerChangeType: function (e) {
     console.log("展示/分类--------" + e.detail.value)
     this.setData({
-        indexType: e.detail.value
-      }),
+      indexType: e.detail.value
+    }),
       cavasName = this.data.types[e.detail.value];
     this.init_one();
   },
 
   //图
-  init_one: function() {
+  init_one: function () {
     this.oneComponent.init((canvas, width, height) => {
       initChart(canvas, width, height)
     });
   },
 
   // 底部跳转
-  viewButton: function(e) {
+  viewButton: function (e) {
     wx.navigateTo({
       url: e.currentTarget.id + '?gameId=' + this.data.gameid
     })
   },
 
   //数据初始化
-  init: function() {
+  init: function () {
     wx.request({
       url: 'http://localhost:8080/api/daily',
       header: {
@@ -366,9 +368,11 @@ Page({
           })
         }
       },
-      error: function(e) {
+      error: function (e) {
 
       }
     })
   },
 })
+
+

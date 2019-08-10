@@ -103,10 +103,14 @@ ec-canvas {
   height: 100%;
 }
 
-.warp {
-  width: 90%;
-  height: 30px;
+.warp, .retentionWarp {
+  
   margin: 0 auto;
+  display: inline;
+}
+
+view.collapse-item-index--i-collapse-item {
+  border-top: none;
 }
 
 .table {
@@ -117,9 +121,15 @@ ec-canvas {
   opacity: 1;
 }
 
-.tr {
+.warp .tr {
   display: flex;
   width: 1100px;
+  height: 1rem;
+}
+
+.retentionWarp .tr {
+  display: flex;
+  width: 400px;
   height: 1rem;
 }
 
