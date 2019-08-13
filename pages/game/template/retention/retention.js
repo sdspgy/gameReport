@@ -1,3 +1,4 @@
+import url from "../../../../utils/util.js"
 import * as echarts from '../../../../ec-canvas/echarts';
 // 全局提示
 const {
@@ -101,6 +102,7 @@ Page({
     listData: [],
     gameid: "",
     sysType: "0",
+    isOs: 0,
     indexStatu: 0,
     array: ['全渠道', '应用宝', '小米', '华为'],
     arrayOs: ['全渠道', '应用宝', '小米', '华为'],
@@ -141,6 +143,8 @@ Page({
       type: "default",
       duration: 1
     });
+    this.init();
+    this.init_one();
   },
 
   titleTypes: (type) => {
@@ -163,7 +167,8 @@ Page({
     this.setData({
       datas: [25.6, 27, 29, 15, 93, 80, 90, 90, 79]
     })
-    this.init_one()
+    this.init();
+    this.init_one();
   },
 
   handleChangeData({
@@ -173,15 +178,20 @@ Page({
       data: detail.key
     });
     console.log("data---------" + this.data.data)
+    this.init();
+    this.init_one();
   },
 
   handleChangeSystem({
     detail
   }) {
     this.setData({
-      sysType: detail.key
+      sysType: detail.key,
+      isOs: detail.key == 3 ? 1 : 0
     });
     console.log("设备--------" + detail.key)
+    this.init();
+    this.init_one();
   },
 
   handleChangeStatus({
@@ -196,11 +206,15 @@ Page({
         array: this.data.arrayOs
       })
       console.log("渠道--------" + detail.key)
+      this.init();
+      this.init_one();
     } else {
       this.setData({
         array: this.data.arrayOs2
       })
       console.log("分服--------" + detail.key)
+      this.init();
+      this.init_one();
     }
   },
 
@@ -209,12 +223,14 @@ Page({
     this.setData({
       index: e.detail.value
     })
+    this.init();
+    this.init_one();
   },
 
   //数据初始化
   init: function() {
     wx.request({
-      url: 'http://localhost:8080/api/retention',
+      url: url.requestUrl + '/api/retention',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")
@@ -223,6 +239,7 @@ Page({
         gameid: parseInt(this.data.gameid),
         deviceType: parseInt(this.data.type),
         osType: parseInt(this.data.sysType),
+        isOs: this.data.isOs,
         data: parseInt(this.data.data),
         ccType: parseInt(this.data.indexStatu),
         ccNum: parseInt(this.data.index),

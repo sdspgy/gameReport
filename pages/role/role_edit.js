@@ -1,4 +1,4 @@
-// pages/role/role_edit.js
+import url from "../../utils/util.js"
 Page({
 
   /**
@@ -40,7 +40,7 @@ Page({
 
   findRoleResource: function (id) {
     wx.request({
-      url: 'http://localhost:8080/api/role/findRoleResource',
+      url: url.requestUrl + '/api/role/findRoleResource',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")
@@ -76,7 +76,7 @@ Page({
       }
     }
     wx.request({
-      url: 'http://localhost:8080/api/role/modifyRoleResource',
+      url: url.requestUrl + '/api/role/modifyRoleResource',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")

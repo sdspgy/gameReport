@@ -3,36 +3,37 @@
 
 <view class='boder'>
 
-<view class='button'>
-  <i-row>
-    <i-col span="12" i-class="col-class">
-      <i-button bind:click="handleClick" type="info" size="small" id="0">按用户</i-button>
-    </i-col>
-    <i-col span="12" i-class="col-class">
-      <i-button bind:click="handleClick" type="success" size="small" id="1">按设备</i-button>
-    </i-col>
-  </i-row>
-</view>
+  <view class='button'>
+    <i-row>
+      <i-col span="12" i-class="col-class">
+        <i-button bind:click="handleClick" type="info" size="small" id="0">按用户</i-button>
+      </i-col>
+      <i-col span="12" i-class="col-class">
+        <i-button bind:click="handleClick" type="success" size="small" id="1">按设备</i-button>
+      </i-col>
+    </i-row>
+  </view>
 
-  <i-tabs current="{{ source }}" color="#444988" bindchange="handleChangeSource">
+  <!-- <i-tabs current="{{ source }}" color="#444988" bindchange="handleChangeSource">
     <i-tab key="0" title="用户留存"></i-tab>
     <i-tab key="1" title="用户忠诚度"></i-tab>
-  </i-tabs>
+  </i-tabs> -->
 
   <view class='system'>
     <i-tab-bar i-class='ibutton' current="" color="#1655cc" bindchange="handleChangeSystem">
-      <i-tab-bar-item key="0" current-icon="homepage_fill" dot="{{true}}" title="All"></i-tab-bar-item>
+      <i-tab-bar-item key="0" current-icon="homepage_fill" title="All"></i-tab-bar-item>
       <i-tab-bar-item key="1" current-icon="group_fill" title="ANDROID"></i-tab-bar-item>
       <i-tab-bar-item key="2" current-icon="remind_fill" count="" title="IOS"></i-tab-bar-item>
+      <i-tab-bar-item key="3" current-icon="remind_fill" count="" title="NONE"></i-tab-bar-item>
     </i-tab-bar>
   </view>
 
   <view class='tabBar'>
     <i-tab-bar i-class='itabBar' color="#f759ab" bindchange="handleChangeData">
-      <i-tab-bar-item key="0" icon="homepage" current-icon="homepage_fill" dot="{{true}}" title="今日"></i-tab-bar-item>
+      <i-tab-bar-item key="0" icon="homepage" current-icon="homepage_fill" title="今日"></i-tab-bar-item>
       <i-tab-bar-item key="1" icon="group" current-icon="group_fill" title="昨日"></i-tab-bar-item>
-      <i-tab-bar-item key="2" icon="remind" current-icon="remind_fill" count="" title="7天"></i-tab-bar-item>
-      <i-tab-bar-item key="3" icon="mine" current-icon="mine_fill" title="30天"></i-tab-bar-item>
+      <i-tab-bar-item key="7" icon="remind" current-icon="remind_fill" count="" title="7天"></i-tab-bar-item>
+      <i-tab-bar-item key="30" icon="mine" current-icon="mine_fill" title="30天"></i-tab-bar-item>
     </i-tab-bar>
   </view>
 

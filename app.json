@@ -4,14 +4,30 @@
     "pages/login/login",
     "pages/index/index",
     "pages/logs/logs",
+    "pages/msg/msg",
+    "pages/msg/msg_fail",
+    "pages/msg/msg_success",
     "pages/user/user",
     "pages/user/user_manager",
+    "pages/user/userGameList",
+    "pages/user/user_resource",
+    "pages/user/user_change_role",
     "pages/role/role_info",
     "pages/role/role_manager",
     "pages/role/role_edit",
+<<<<<<< HEAD
     "pages/user/user_resource",
     "pages/user/user_change_role",
     "pages/game/template/pay/pay"
+=======
+    "pages/main/main",
+    "pages/my/my",
+    "pages/resource/resource_add",
+    "pages/resource/resource_edit",
+    "pages/resource/resource_manager",
+    "pages/game/template/survey/survey",
+    "pages/game/template/retention/retention"
+>>>>>>> master
   ],
   "window": {
     "backgroundTextStyle": "light",

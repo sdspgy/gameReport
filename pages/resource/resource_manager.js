@@ -1,4 +1,4 @@
-// pages/manager/resource_manager.js
+import url from "../../utils/util.js"
 Page({
 
   /**
@@ -19,7 +19,7 @@ Page({
   findAllResource: function(res) {
     var that = this;
     wx.request({
-      url: 'http://localhost:8080/api/resource/findAllResource',
+      url: url.requestUrl + '/api/resource/findAllResource',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")
@@ -63,7 +63,7 @@ Page({
   deleteResource: function(id) {
     var that = this;
     wx.request({
-      url: 'http://localhost:8080/api/resource/deleteResource',
+      url: url.requestUrl + '/api/resource/deleteResource',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")

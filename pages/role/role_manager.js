@@ -1,4 +1,4 @@
-// pages/manager/role_manager.js
+import url from "../../utils/util.js"
 Page({
 
   /**
@@ -18,7 +18,7 @@ Page({
 
   findAllRole: function(res) {
     wx.request({
-      url: 'http://localhost:8080/api/role/findAllRole',
+      url: url.requestUrl + '/api/role/findAllRole',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")
@@ -54,7 +54,7 @@ Page({
     }
 
     wx.request({
-      url: 'http://localhost:8080/api/role/addRole',
+      url: url.requestUrl + '/api/role/addRole',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")
@@ -104,7 +104,7 @@ Page({
   deleteRole: function(res) {
      var that = this;
     wx.request({
-      url: 'http://localhost:8080/api/role/deleteRole',
+      url: url.requestUrl + '/api/role/deleteRole',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")

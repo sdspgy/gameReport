@@ -1,4 +1,4 @@
-// pages/manager/user_manager.js
+import url from "../../utils/util.js"
 Page({
 
   /**
@@ -17,7 +17,7 @@ Page({
 
   findAllUser: function (res) {
     wx.request({
-      url: 'http://localhost:8080/api/user/findAllUser',
+      url: url.requestUrl + '/api/user/findAllUser',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")

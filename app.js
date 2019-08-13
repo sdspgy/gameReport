@@ -1,4 +1,4 @@
-//app.js
+import url from "./utils/util.js"
 App({
   onLaunch: function() {
     // 登录
@@ -16,7 +16,7 @@ App({
             success: function(res) {
               // console.log(res);
               wx.request({
-                url: 'http://localhost:8080/api/user/login',
+                url: url.requestUrl + '/api/user/login',
                 header: {
                   'content-type': 'application/x-www-form-urlencoded'
                 },

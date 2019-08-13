@@ -1,3 +1,4 @@
+import url from "../../utils/util.js"
 Page({
   data: {
     openId: '',
@@ -13,7 +14,7 @@ Page({
   },
   init: function() {
     wx.request({
-      url: 'http://localhost:8080/api/gamesUrl',
+      url: url.requestUrl + '/api/gamesUrl',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")
@@ -80,7 +81,7 @@ Page({
     }
     console.log("gameIds-------" + gameIds)
     wx.request({
-      url: 'http://localhost:8080/api/gamesIdsByOpenId',
+      url: url.requestUrl + '/api/gamesIdsByOpenId',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")

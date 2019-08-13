@@ -1,4 +1,4 @@
-// pages/user/user_resource.js
+import url from "../../utils/util.js"
 Page({
 
   /**
