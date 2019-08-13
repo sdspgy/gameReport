@@ -10,7 +10,8 @@
     "pages/role/role_manager",
     "pages/role/role_edit",
     "pages/user/user_resource",
-    "pages/user/user_change_role"
+    "pages/user/user_change_role",
+    "pages/game/template/pay/pay"
   ],
   "window": {
     "backgroundTextStyle": "light",

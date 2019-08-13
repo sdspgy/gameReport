@@ -1,0 +1,50 @@
+<i-row>
+  <!-- 按用户或者设备 -->
+  <i-row>
+    <i-col span="12" offset="0">
+      <i-button type='{{type.user}}' bind:click="sourceChange" data-source="{{conf.source.user}}">按用户</i-button>
+    </i-col>
+    <i-col span="12" offset="0">
+      <i-button type='{{type.device}}' bind:click="sourceChange" data-source="{{conf.source.device}}">按设备</i-button>
+    </i-col>
+  </i-row>
+  <!-- 按os -->
+  <i-row>
+    <i-tab-bar current="{{ os }}" color="#5cadff" bindchange="osChange">
+      <i-tab-bar-item key="{{conf.os.all}}" icon="mobilephone" current-icon="mobilephone_fill" title="ALL"></i-tab-bar-item>
+      <i-tab-bar-item key="{{conf.os.android}}" icon="mobilephone" current-icon="mobilephone_fill" title="ANDROID"></i-tab-bar-item>
+      <i-tab-bar-item key="{{conf.os.ios}}" icon="mobilephone" current-icon="mobilephone_fill" title="IOS"></i-tab-bar-item>
+      <i-tab-bar-item key="{{conf.os.none}}" icon="delete" current-icon="delete_fill" title="NONE"></i-tab-bar-item>
+    </i-tab-bar>
+  </i-row>
+  <!-- 按最近的时间 -->
+  <i-row>
+    <i-tab-bar current="{{ timeArea }}" color="#5cadff" bindchange="timeAreaChange">
+      <i-tab-bar-item key="{{conf.timeArea.today}}" icon="time" current-icon="time_fill" title="今日"></i-tab-bar-item>
+      <i-tab-bar-item key="{{conf.timeArea.yestoday}}" icon="time" current-icon="time_fill" title="昨天"></i-tab-bar-item>
+      <i-tab-bar-item key="{{conf.timeArea.week}}" icon="time" current-icon="time_fill" title="7天"></i-tab-bar-item>
+      <i-tab-bar-item key="{{conf.timeArea.month}}" icon="time" current-icon="time_fill" title="30天"></i-tab-bar-item>
+    </i-tab-bar>
+  </i-row>
+  <!-- 按渠道或者分服 -->
+   <i-row>
+    <i-tab-bar current="{{ sourceCliCre }}" color="#5cadff" bindchange="sourceCliCreChange">
+      <i-tab-bar-item key="{{conf.sourceCliCre.creative.val}}" icon="computer" current-icon="computer_fill" title="分渠道"></i-tab-bar-item>
+      <i-tab-bar-item key="{{conf.sourceCliCre.client.val}}" icon="computer" current-icon="computer_fill" title="分服"></i-tab-bar-item>
+    </i-tab-bar>
+  </i-row>
+  <!--  -->
+  <i-tabs current="{{sourceCliCreChoice}}"  bindchange="sourceCliCreChoiceChange">
+    <i-tab wx:for="{{sourceCliCreChoices}}" key="{{item.key}}" title="{{item.name}}"></i-tab>
+  </i-tabs>
+</i-row>
+
+<!-- 图表展示 -->
+<view class="chat-pane">
+  <view class="chart">
+    <ff-canvas id="chart1"></ff-canvas>
+  </view>
+  <view class="chart-title">
+    <text class="chart-title-text">用户付费情况</text>
+  </view>
+</view>
