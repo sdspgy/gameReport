@@ -1,4 +1,5 @@
 import F2 from '../../../../f2-canvas/lib/f2';
+import url from "../../../../utils/util.js";
 // 全局提示
 const {
   $Message
@@ -6,20 +7,20 @@ const {
 const app = getApp()
 const conf = {
   source: { //按用户或者设备
-    user: "user",
-    device: "device"
+    user: 0,
+    device: 1
   },
   os: { //操作系统 
-    all: "all",
-    android: "android",
-    ios: "ios",
+    all: "0",
+    android: "1",
+    ios: "2",
     none: "none"
   },
   timeArea: { //时间区间
-    today: "today",
-    yestoday: "yestoday",
-    week: "week",
-    month: "month"
+    today: 0,
+    yestoday: 1,
+    week: 7,
+    month: 30
   },
   sourceCliCre: {
     client: {
@@ -125,25 +126,27 @@ Page({
     sourceCliCreChoices: conf.sourceCliCre.creative.choice, //分服和分渠道的选择列表
     os: conf.os.all,
     timeArea: conf.timeArea.today,
+    datas: [],
+    chartTitle: "用户付费情况",
     type: {
-      "user": "info",
-      "device": "ghost"
+      0: "info",
+      1: "ghost"
     },
     chartData1: [{
-        year: '今日',
-        sales: 90
+        name: '今日',
+        value: 90
       },
       {
-        year: '昨日',
-        sales: 83
+        name: '昨日',
+        value: 83
       },
       {
-        year: '7天',
-        sales: 61
+        name: '7天',
+        value: 61
       },
       {
-        year: '30天',
-        sales: 65
+        name: '30天',
+        value: 65
       }
     ]
   },
@@ -166,6 +169,7 @@ Page({
         source: button.dataset.source,
         type: type
       })
+      this.update();
     }
   },
   //分服和分渠道选择change
@@ -178,6 +182,7 @@ Page({
         sourceCliCreChoice: conf.sourceCliCre[detail.key].choice[0].key,
         sourceCliCre: detail.key
       });
+      this.update();
     }
   },
   sourceCliCreChoiceChange: function({
@@ -186,7 +191,8 @@ Page({
     if (this.data.sourceCliCreChoice != detail.key) {
       this.setData({
         sourceCliCreChoice: detail.key
-      })
+      });
+      this.update();
     }
   },
   //os change
@@ -197,6 +203,7 @@ Page({
       this.setData({
         os: detail.key
       });
+      this.update();
     }
   },
   //时间区间选择 change
@@ -207,6 +214,7 @@ Page({
       this.setData({
         timeArea: detail.key
       })
+      this.update();
     }
   },
 
@@ -231,7 +239,7 @@ Page({
         sales: {
           tickCount: 5,
           formatter: function formatter(value) {
-            return value + "%";
+            return value;
           }
         }
 
@@ -248,10 +256,47 @@ Page({
         }
       });
 
-      chart.interval().position('year*sales');
+      chart.interval().position('name*value');
       chart.render();
     })
   },
+
+  update: function() {
+    let clientid = this.data.sourceCliCre == conf.sourceCliCre.client.val ? this.data.sourceCliCreChoice : null;
+    let creative = this.data.sourceCliCre == conf.sourceCliCre.creative.val ? this.data.sourceCliCreChoice : null;
+    this.query(this.data.source, 1, this.data.timeArea, clientid, this.data.os, creative);
+  },
+
+  //查询
+  query: function (source, gameid, day, clientid, os, creative) {
+    let data = {
+      source: source,
+      gameid: gameid,
+      day: day,
+    }
+    if (creative != null){
+      data.creative = creative;
+    }
+    if (os != conf.os.none) {
+      data.os = os;
+    }
+    if (clientid != null) {
+      data.clientid = clientid;
+    }
+    console.log(JSON.stringify(data));
+    wx.request({
+      url: url.requestUrl + "/api/pay/query",
+      header: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'token': wx.getStorageSync("token")
+      },
+      data: data,
+      method:"post",
+      success:(res) => {
+        console.log(res.data);
+      }
+    })
+  }
 
 
 

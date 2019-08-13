@@ -2,10 +2,10 @@
   <!-- 按用户或者设备 -->
   <i-row>
     <i-col span="12">
-      <i-button type='{{type.user}}' long="true" bind:click="sourceChange" data-source="{{conf.source.user}}">按用户</i-button>
+      <i-button type='{{type[conf.source.user]}}' long="true" bind:click="sourceChange" data-source="{{conf.source.user}}">按用户</i-button>
     </i-col>
     <i-col span="12">
-      <i-button type='{{type.device}}' long="true" bind:click="sourceChange" data-source="{{conf.source.device}}">按设备</i-button>
+      <i-button type='{{type[conf.source.device]}}' long="true" bind:click="sourceChange" data-source="{{conf.source.device}}">按设备</i-button>
     </i-col>
   </i-row>
   <!-- 按os -->
@@ -45,6 +45,6 @@
     <ff-canvas id="chart1"></ff-canvas>
   </view>
   <view class="chart-title">
-    <text class="chart-title-text">用户付费情况</text>
+    <text class="chart-title-text">{{chartTitle}}</text>
   </view>
 </view>
