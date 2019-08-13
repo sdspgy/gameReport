@@ -1,4 +1,4 @@
-// pages/user/user_change_role.js
+import url from "../../utils/util.js"
 Page({
 
   /**
@@ -22,7 +22,7 @@ Page({
         'openId': str[1],
       }),
       wx.request({
-        url: 'http://localhost:8080/api/role/findAllRole',
+      url: url.requestUrl + '/api/role/findAllRole',
         header: {
           'content-type': 'application/x-www-form-urlencoded',
           'token': wx.getStorageSync("token"),
@@ -64,7 +64,7 @@ Page({
     // console.log(this.data.role_list[e.detail.value].id);
     // console.log(this.data.openId);
     wx.request({
-      url: 'http://localhost:8080/api/user/GrantUserRole',
+      url: url.requestUrl + '/api/user/GrantUserRole',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")

@@ -1,3 +1,4 @@
+import url from "../../utils/util.js"
 //获取应用实例
 const app = getApp()
 Page({
@@ -47,7 +48,7 @@ Page({
 
   init: function () {
     wx.request({
-      url: 'http://localhost:8080/api/druidText',
+      url: url.requestUrl + '/api/druidText',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")

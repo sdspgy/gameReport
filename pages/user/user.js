@@ -1,4 +1,4 @@
-// pages/user/user.js
+import url from "../../utils/util.js"
 Page({
 
   /**
@@ -21,7 +21,7 @@ Page({
 
   findUserDetail: function(res) {
     wx.request({
-      url: 'http://localhost:8080/api/user/findUserDetail',
+      url: url.requestUrl + '/api/user/findUserDetail',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token"),

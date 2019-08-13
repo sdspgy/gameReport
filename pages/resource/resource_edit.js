@@ -1,3 +1,4 @@
+import url from "../../utils/util.js"
 Page({
 
   /**
@@ -25,7 +26,7 @@ Page({
   findResourceById: function(id) {
     var that = this;
     wx.request({
-      url: 'http://localhost:8080/api/resource/findResourceById',
+      url: url.requestUrl + '/api/resource/findResourceById',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")
@@ -72,7 +73,7 @@ Page({
       return false;
     };
     wx.request({
-      url: 'http://localhost:8080/api/resource/modifyResource',
+      url: url.requestUrl + '/api/resource/modifyResource',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")

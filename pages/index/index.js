@@ -1,4 +1,4 @@
-//index.js
+import url from "../../utils/util.js"
 //获取应用实例
 const app = getApp()
 
@@ -36,7 +36,7 @@ Page({
 
   init: function() {
     wx.request({
-      url: 'http://localhost:8080/api/gamesUrl',
+      url: url.requestUrl + '/api/gamesUrl',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")
@@ -47,7 +47,7 @@ Page({
           this.setData({
             games: e.data.gamesList,
           })
-          if (e.data.gamesList.length == 0){
+          if (e.data.gamesList.length == 0) {
             this.setData({
               message: '请联系管理员,申请游戏权限！'
             })
@@ -68,7 +68,7 @@ Page({
 
   getReourceType: function() {
     wx.request({
-      url: 'http://localhost:8080/api/resourceType',
+      url: url.requestUrl + '/api/resourceType',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")
@@ -94,7 +94,7 @@ Page({
   },
   findAllResource: function(res) {
     wx.request({
-      url: 'http://localhost:8080/api/role/findAllResource',
+      url: url.requestUrl + '/api/role/findAllResource',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")
@@ -119,7 +119,7 @@ Page({
   },
   test: function(res) {
     wx.request({
-      url: 'http://localhost:8080/api/user/test',
+      url: url.requestUrl + '/api/user/test',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         token: wx.getStorageSync("token")

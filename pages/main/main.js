@@ -1,3 +1,4 @@
+import url from "../../utils/util.js"
 Page({
 
   /**
@@ -16,7 +17,7 @@ Page({
 
   userManager: function (res) {
     wx.request({
-      url: 'http://localhost:8080/api/user/userManager',
+      url: url.requestUrl + '/api/user/userManager',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")
@@ -44,7 +45,7 @@ Page({
   },
   roleManager: function (res) {
     wx.request({
-      url: 'http://localhost:8080/api/role/roleManager',
+      url: url.requestUrl + '/api/role/roleManager',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")
@@ -71,7 +72,7 @@ Page({
   },
   resourceManager: function (res) {
     wx.request({
-      url: 'http://localhost:8080/api/resource/resourceManager',
+      url: url.requestUrl + '/api/resource/resourceManager',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")

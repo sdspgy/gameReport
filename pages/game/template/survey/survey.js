@@ -1,4 +1,4 @@
-// echarts
+import url from "../../../../utils/util.js"
 import * as echarts from '../../../../ec-canvas/echarts';
 // 全局提示
 const {
@@ -338,8 +338,9 @@ Page({
 
   //数据初始化
   init: function() {
+    console.log("---------" + url.requestUrl)
     wx.request({
-      url: 'http://localhost:8080/api/daily',
+      url: url.requestUrl + '/api/daily',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")

@@ -1,4 +1,4 @@
-// pages/role/role_info.js
+import url from "../../utils/util.js"
 Page({
 
   /**

@@ -1,3 +1,4 @@
+import url from "../../utils/util.js"
 Page({
 
   /**
@@ -48,7 +49,7 @@ Page({
       return false;
     };
     wx.request({
-      url: 'http://localhost:8080/api/resource/addResource',
+      url: url.requestUrl + '/api/resource/addResource',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")
