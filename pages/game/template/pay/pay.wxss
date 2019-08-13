@@ -20,3 +20,25 @@
   color:#495060;
   font-size:30rpx;
 }
+
+.table{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  border: 1px solid red;
+}
+
+.table-row {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+}
+
+.table-cell {
+  height: 50px;
+  font-size: 14px;
+  margin: 0 10px;
+  background-clor: gray;
+  text-align: center;
+  line-height: 50px;
+}

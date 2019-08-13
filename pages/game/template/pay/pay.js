@@ -24,22 +24,35 @@ const conf = {
   sourceCliCre: {
     client: {
       val: "client",
-      choice: [{ 
-        key: 1,
-        name: "1服"
-      }, {
-        key: 2,
-        name: "2服"
-      }, {
-        key: 3,
-        name: "3服"
-      }, {
-        key: 4,
-        name: "4服"
-      }, {
-        key: 5,
-        name: "5服"
-      }]
+      choice: [{
+          key: 1,
+          name: "1服"
+        }, {
+          key: 2,
+          name: "2服"
+        }, {
+          key: 3,
+          name: "3服"
+        }, {
+          key: 4,
+          name: "4服"
+        }, {
+          key: 5,
+          name: "5服"
+        },
+        {
+          key: 6,
+          name: "6服"
+        },
+        {
+          key: 7,
+          name: "7服"
+        },
+        {
+          key: 8,
+          name: "8服"
+        },
+      ]
     },
     creative: {
       val: "creative",
@@ -67,39 +80,38 @@ Page({
    * 生命周期
    * ---------------------------------------------------------------------
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     // 页面创建时执行
     this.initChart(this.data.chartData1, '#chart1');
   },
-  onShow: function () {
+  onShow: function() {
     // 页面出现在前台时执行
   },
-  onReady: function () {
+  onReady: function() {
     // 页面首次渲染完毕时执行
   },
-  onHide: function () {
+  onHide: function() {
     // 页面从前台变为后台时执行
   },
-  onUnload: function () {
+  onUnload: function() {
     // 页面销毁时执行
   },
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     // 触发下拉刷新时执行
   },
-  onReachBottom: function () {
+  onReachBottom: function() {
     // 页面触底时执行
   },
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     // 页面被用户分享时执行
   },
-  onPageScroll: function () {
+  onPageScroll: function() {
     // 页面滚动时执行
   },
-  onResize: function () {
+  onResize: function() {
     // 页面尺寸变化时执行
   },
-  onTabItemTap(item) {
-  },
+  onTabItemTap(item) {},
 
   /**
    * 数据
@@ -110,7 +122,7 @@ Page({
     source: conf.source.user,
     sourceCliCre: conf.sourceCliCre.creative.val,
     sourceCliCreChoice: conf.sourceCliCre.creative.choice[0].key, //分服和分渠道的选择
-    sourceCliCreChoices: conf.sourceCliCre.creative.choice,       //分服和分渠道的选择列表
+    sourceCliCreChoices: conf.sourceCliCre.creative.choice, //分服和分渠道的选择列表
     os: conf.os.all,
     timeArea: conf.timeArea.today,
     type: {
@@ -168,7 +180,7 @@ Page({
       });
     }
   },
-  sourceCliCreChoiceChange: function ({
+  sourceCliCreChoiceChange: function({
     detail
   }) {
     if (this.data.sourceCliCreChoice != detail.key) {
@@ -197,7 +209,7 @@ Page({
       })
     }
   },
-  
+
   /**
    * functions
    * -------------------------------------------------------------------------------------------

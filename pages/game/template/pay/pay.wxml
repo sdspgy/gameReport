@@ -1,11 +1,11 @@
 <i-row>
   <!-- 按用户或者设备 -->
   <i-row>
-    <i-col span="12" offset="0">
-      <i-button type='{{type.user}}' bind:click="sourceChange" data-source="{{conf.source.user}}">按用户</i-button>
+    <i-col span="12">
+      <i-button type='{{type.user}}' long="true" bind:click="sourceChange" data-source="{{conf.source.user}}">按用户</i-button>
     </i-col>
-    <i-col span="12" offset="0">
-      <i-button type='{{type.device}}' bind:click="sourceChange" data-source="{{conf.source.device}}">按设备</i-button>
+    <i-col span="12">
+      <i-button type='{{type.device}}' long="true" bind:click="sourceChange" data-source="{{conf.source.device}}">按设备</i-button>
     </i-col>
   </i-row>
   <!-- 按os -->
@@ -27,14 +27,14 @@
     </i-tab-bar>
   </i-row>
   <!-- 按渠道或者分服 -->
-   <i-row>
+  <i-row>
     <i-tab-bar current="{{ sourceCliCre }}" color="#5cadff" bindchange="sourceCliCreChange">
       <i-tab-bar-item key="{{conf.sourceCliCre.creative.val}}" icon="computer" current-icon="computer_fill" title="分渠道"></i-tab-bar-item>
       <i-tab-bar-item key="{{conf.sourceCliCre.client.val}}" icon="computer" current-icon="computer_fill" title="分服"></i-tab-bar-item>
     </i-tab-bar>
   </i-row>
-  <!--  -->
-  <i-tabs current="{{sourceCliCreChoice}}"  bindchange="sourceCliCreChoiceChange">
+  <!-- 渠道或者服的列表  -->
+  <i-tabs current="{{sourceCliCreChoice}}" bindchange="sourceCliCreChoiceChange">
     <i-tab wx:for="{{sourceCliCreChoices}}" key="{{item.key}}" title="{{item.name}}"></i-tab>
   </i-tabs>
 </i-row>
