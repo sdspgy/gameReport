@@ -86,7 +86,10 @@ const conf = {
       payInstallAmount: "安装付费金额",
       payInstallTimes: "安装付费次数"
     },
-    colWidth: 75
+    colWidth: 90
+  },
+  chartKeys:{
+    
   }
 }
 
@@ -99,7 +102,7 @@ Page({
   onLoad: function(options) {
     // 页面创建时执行
     this.initChart(this.data.chartData1, '#chart1');
-    this.initTable();
+    this.update();
   },
   onShow: function() {
     // 页面出现在前台时执行
@@ -144,7 +147,6 @@ Page({
     timeArea: conf.timeArea.today,
     tableData: [],
     chartTitle: "用户付费情况",
-    tableWidth: 900,
     type: {
       0: "info",
       1: "ghost"
@@ -234,6 +236,9 @@ Page({
       this.update();
     }
   },
+  test: function({detail}) {
+    console.log("row被点击:" + detail.data);
+  },
 
   /**
    * functions
@@ -282,13 +287,6 @@ Page({
     let clientid = this.data.sourceCliCre == conf.sourceCliCre.client.val ? this.data.sourceCliCreChoice : null;
     let creative = this.data.sourceCliCre == conf.sourceCliCre.creative.val ? this.data.sourceCliCreChoice : null;
     this.query(this.data.source, 1, this.data.timeArea, clientid, this.data.os, creative);
-  },
-
-  initTable: function() {
-    let keys = Object.keys(conf.table.titles);
-    this.setData({
-      tableWidth: keys.length * conf.table.colWidth
-    })
   },
 
   //查询

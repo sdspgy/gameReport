@@ -46,4 +46,4 @@
   </view>
 </view>
 
-<table caption="详细数据" titles="{{conf.table.titles}}" data="{{tableData}}" col-width="90" />
+<table caption="详细数据" titles="{{conf.table.titles}}" data="{{tableData}}" col-width="{{conf.table.colWidth}}" bind:rowtap="test" />
