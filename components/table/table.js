@@ -6,7 +6,7 @@
  *      caption:  表格标题
  *      col-width:单元格宽度(px)
  *      rowtap:   表格行被点击绑定的事件   detail:{data:被点击这一行的数据, index:被点击这一行的索引} 
- *      coltap:   表格行被点击绑定的事件   detail:{data:被点击这一行的数据, col:被点击这一行的索引}
+ *      coltap:   表格行被点击绑定的事件   detail:{data:被点击这一列的数据, col:被点击这一列的title名}
  */
 
 
