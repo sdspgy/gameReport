@@ -73,6 +73,21 @@ const conf = {
       ]
     }
   },
+  table: {
+    titles: {
+      ds: "日期",
+      totalNum: "总用户数",
+      dauNum: "活跃数",
+      installNum: "注册数",
+      payCount: "付费人数",
+      payAmount: "付费金额",
+      payTimes: "付费次数",
+      payInstallCount: "安装付费人数",
+      payInstallAmount: "安装付费金额",
+      payInstallTimes: "安装付费次数"
+    },
+    colWidth: 75
+  }
 }
 
 Page({
@@ -84,6 +99,7 @@ Page({
   onLoad: function(options) {
     // 页面创建时执行
     this.initChart(this.data.chartData1, '#chart1');
+    this.initTable();
   },
   onShow: function() {
     // 页面出现在前台时执行
@@ -126,8 +142,9 @@ Page({
     sourceCliCreChoices: conf.sourceCliCre.creative.choice, //分服和分渠道的选择列表
     os: conf.os.all,
     timeArea: conf.timeArea.today,
-    datas: [],
+    tableData: [],
     chartTitle: "用户付费情况",
+    tableWidth: 900,
     type: {
       0: "info",
       1: "ghost"
@@ -267,6 +284,13 @@ Page({
     this.query(this.data.source, 1, this.data.timeArea, clientid, this.data.os, creative);
   },
 
+  initTable: function() {
+    let keys = Object.keys(conf.table.titles);
+    this.setData({
+      tableWidth: keys.length * conf.table.colWidth
+    })
+  },
+
   //查询
   query: function (source, gameid, day, clientid, os, creative) {
     let data = {
@@ -293,6 +317,9 @@ Page({
       data: data,
       method:"post",
       success:(res) => {
+        this.setData({
+          tableData: res.data.msg
+        })
         console.log(res.data);
       }
     })

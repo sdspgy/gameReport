@@ -44,7 +44,6 @@
   <view class="chart">
     <ff-canvas id="chart1"></ff-canvas>
   </view>
-  <view class="chart-title">
-    <text class="chart-title-text">{{chartTitle}}</text>
-  </view>
 </view>
+
+<table caption="详细数据" titles="{{conf.table.titles}}" data="{{tableData}}" col-width="90" />

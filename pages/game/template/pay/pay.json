@@ -15,6 +15,7 @@
     "i-tabs": "../../../../dist/tabs/index",
     "i-tab": "../../../../dist/tab/index",
     "i-drawer": "../../../../dist/drawer/index",
-    "ff-canvas": "../../../../f2-canvas/f2-canvas"
+    "ff-canvas": "../../../../f2-canvas/f2-canvas",
+    "table": "../../../../components/table/table"
   }
 }
