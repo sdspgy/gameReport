@@ -6,6 +6,7 @@
  *      caption:  表格标题
  *      col-width:单元格宽度(px)
  *      rowtap:   表格行被点击绑定的事件   detail:{data:被点击这一行的数据, index:被点击这一行的索引} 
+ *      coltap:   表格行被点击绑定的事件   detail:{data:被点击这一行的数据, col:被点击这一行的索引}
  */
 
 
@@ -36,16 +37,31 @@ Component({
         },
     },
     data: {
-      crtRow:-1
+      crtRow:-1,
+      crtCol: null
     },
     methods: {
       //row被tap 
       onRowTap:function(event) {
         let v = event.currentTarget;
         this.setData({
-          crtRow: v.dataset.index
+          crtRow: v.dataset.index,
+          crtCol: null
         })
         this.triggerEvent('rowtap', {data: this.properties.data[this.data.crtRow], index: this.data.crtRow}, {});
+      },
+      
+      onColTap:function(event) {
+        let v = event.currentTarget;
+        this.setData({
+          crtRow: -1,
+          crtCol: v.dataset.col
+        })
+        let data = [];
+        this.properties.data.forEach((item, index) => {
+          data[index] = item[this.data.crtCol];
+        })
+        this.triggerEvent('coltap', { data: data, col: this.data.crtCol }, {});
       }
     }
 })

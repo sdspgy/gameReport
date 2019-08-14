@@ -5,6 +5,8 @@ const {
   $Message
 } = require('../../../../dist/base/index');
 const app = getApp()
+var chart1 = null;
+var chart2 = null;
 const conf = {
   source: { //按用户或者设备
     user: 0,
@@ -88,8 +90,8 @@ const conf = {
     },
     colWidth: 90
   },
-  chartKeys:{
-    
+  chartKeys: {
+
   }
 }
 
@@ -101,8 +103,9 @@ Page({
    */
   onLoad: function(options) {
     // 页面创建时执行
-    this.initChart(this.data.chartData1, '#chart1');
-    this.update();
+    this.initChart1(this.data.chartData1);
+    this.initChart2([]);
+    this.queryAndUpdate();
   },
   onShow: function() {
     // 页面出现在前台时执行
@@ -188,7 +191,7 @@ Page({
         source: button.dataset.source,
         type: type
       })
-      this.update();
+      this.queryAndUpdate();
     }
   },
   //分服和分渠道选择change
@@ -201,7 +204,7 @@ Page({
         sourceCliCreChoice: conf.sourceCliCre[detail.key].choice[0].key,
         sourceCliCre: detail.key
       });
-      this.update();
+      this.queryAndUpdate();
     }
   },
   sourceCliCreChoiceChange: function({
@@ -211,7 +214,7 @@ Page({
       this.setData({
         sourceCliCreChoice: detail.key
       });
-      this.update();
+      this.queryAndUpdate();
     }
   },
   //os change
@@ -222,7 +225,7 @@ Page({
       this.setData({
         os: detail.key
       });
-      this.update();
+      this.queryAndUpdate();
     }
   },
   //时间区间选择 change
@@ -233,11 +236,27 @@ Page({
       this.setData({
         timeArea: detail.key
       })
-      this.update();
+      this.queryAndUpdate();
     }
   },
-  test: function({detail}) {
-    console.log("row被点击:" + detail.data);
+  onRowTap: function({
+    detail
+  }) {
+    console.log(detail.index + ":" + JSON.stringify(detail.data));
+  },
+  onColTap: function({
+    detail
+  }) {
+    console.log(detail.col + ":" + JSON.stringify(detail.data));
+    let len = detail.data.length - 1;
+    let data= [];
+    detail.data.forEach((value, index) => {
+      let d = new Object();
+      d.i = len - index;
+      d.value = value;
+      data[index] = d;
+    })
+    this.updateChart2Data(data);
   },
 
   /**
@@ -246,27 +265,30 @@ Page({
    */
 
   //初始化图表
-  initChart: function(data, select) {
+  initChart1: function(data) {
     var that = this;
     /*在这里改变一下结构即可*/
-    that.chartComponent = that.selectComponent(select);
+    that.chartComponent = that.selectComponent('#chart1');
     that.chartComponent.init((canvas, width, height) => {
-      const chart = new F2.Chart({
+      const c1 = new F2.Chart({
         el: canvas,
         width,
         height,
         animate: true
       });
-      chart.source(data, {
-        sales: {
+      c1.source(data, {
+        value: {
           tickCount: 5,
           formatter: function formatter(value) {
             return value;
           }
+        },
+        name: {
+
         }
 
       });
-      chart.tooltip({
+      c1.tooltip({
         showItemMarker: false,
         onShow(ev) {
           const {
@@ -278,25 +300,55 @@ Page({
         }
       });
 
-      chart.interval().position('name*value');
-      chart.render();
+      c1.interval().position('name*value');
+      c1.render();
+      chart1 = c1;
     })
   },
 
-  update: function() {
+  initChart2: function(data) {
+    /*在这里改变一下结构即可*/
+    let that = this;
+    that.chartComponent = that.selectComponent('#chart2');
+    that.chartComponent.init((canvas, width, height) => {
+      const c2 = new F2.Chart({
+        el: canvas,
+        width,
+        height,
+        animate: true
+      });
+      c2.source(data.reverse(), {
+        value: {
+          tickCount: 10,
+          formatter: function formatter(ivalue) {
+            return ivalue;
+          }
+        }
+      });
+      c2.line().position('i*value');
+      c2.render();
+      chart2 = c2;
+    })
+  },
+
+  updateChart2Data: function(data) {
+    chart2.changeData(data);
+  },
+
+  queryAndUpdate: function() {
     let clientid = this.data.sourceCliCre == conf.sourceCliCre.client.val ? this.data.sourceCliCreChoice : null;
     let creative = this.data.sourceCliCre == conf.sourceCliCre.creative.val ? this.data.sourceCliCreChoice : null;
     this.query(this.data.source, 1, this.data.timeArea, clientid, this.data.os, creative);
   },
 
   //查询
-  query: function (source, gameid, day, clientid, os, creative) {
+  query: function(source, gameid, day, clientid, os, creative) {
     let data = {
       source: source,
       gameid: gameid,
       day: day,
     }
-    if (creative != null){
+    if (creative != null) {
       data.creative = creative;
     }
     if (os != conf.os.none) {
@@ -313,8 +365,8 @@ Page({
         'token': wx.getStorageSync("token")
       },
       data: data,
-      method:"post",
-      success:(res) => {
+      method: "post",
+      success: (res) => {
         this.setData({
           tableData: res.data.msg
         })

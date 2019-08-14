@@ -46,4 +46,10 @@
   </view>
 </view>
 
-<table caption="详细数据" titles="{{conf.table.titles}}" data="{{tableData}}" col-width="{{conf.table.colWidth}}" bind:rowtap="test" />
+<view class="chat-pane">
+  <view class="chart">
+    <ff-canvas id="chart2"></ff-canvas>
+  </view>
+</view>
+
+<table caption="详细数据" titles="{{conf.table.titles}}" data="{{tableData}}" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
