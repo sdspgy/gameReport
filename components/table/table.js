@@ -36,6 +36,21 @@ Component({
             })
         },
     },
+    observers: {
+      "data": function(data) {
+        if (this.data.crtRow > -1) {
+          this.triggerEvent('rowtap', { data: data[this.data.crtRow], index: this.data.crtRow }, {});
+        }
+        if (this.data.crtCol != null) {
+          let d = [];
+          data.forEach((item, index) => {
+            d[index] = item[this.data.crtCol];
+          })
+          this.triggerEvent('coltap', { data: d, col: this.data.crtCol }, {});
+        }
+      }
+    },
+
     data: {
       crtRow:-1,
       crtCol: null
