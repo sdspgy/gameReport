@@ -96,7 +96,7 @@ Page({
       },
       {
         name: '付费',
-        url: '../behavior/behavior',
+        url: '../pay/pay',
         icon: 'other'
       },
       {

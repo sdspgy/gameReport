@@ -38,6 +38,12 @@
       <i-tab-bar-item key="2" icon="remind" current-icon="remind_fill" count="" title="7天"></i-tab-bar-item>
       <i-tab-bar-item key="3" icon="mine" current-icon="mine_fill" title="30天"></i-tab-bar-item>
     </i-tab-bar>
+    <i-tab-bar i-class='itabBar' color="#f759ab" bindchange="handleChangeData">
+      <i-tab-bar-item key="0" icon="homepage" current-icon="homepage_fill" dot="{{true}}" title="今日"></i-tab-bar-item>
+      <i-tab-bar-item key="1" icon="group" current-icon="group_fill" title="昨日"></i-tab-bar-item>
+      <i-tab-bar-item key="2" icon="remind" current-icon="remind_fill" count="" title="7天"></i-tab-bar-item>
+      <i-tab-bar-item key="3" icon="mine" current-icon="mine_fill" title="30天"></i-tab-bar-item>
+    </i-tab-bar>
   </view>
 
   <view class="containers">
