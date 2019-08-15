@@ -37,6 +37,7 @@ Component({
         },
     },
     observers: {
+      //数据发生变化触发外部绑定的事件
       "data": function(data) {
         if (this.data.crtRow > -1) {
           this.triggerEvent('rowtap', { data: data[this.data.crtRow], index: this.data.crtRow }, {});
@@ -52,20 +53,22 @@ Component({
     },
 
     data: {
-      crtRow:-1,
-      crtCol: null
+      crtRow:-1,    //当前被选中的行
+      crtCol: null  //当前被选中的列
     },
     methods: {
-      //row被tap 
+      //表格行被点击
       onRowTap:function(event) {
         let v = event.currentTarget;
         this.setData({
           crtRow: v.dataset.index,
           crtCol: null
         })
+        //触发外部绑定的事件
         this.triggerEvent('rowtap', {data: this.properties.data[this.data.crtRow], index: this.data.crtRow}, {});
       },
       
+      //
       onColTap:function(event) {
         let v = event.currentTarget;
         this.setData({
@@ -76,6 +79,7 @@ Component({
         this.properties.data.forEach((item, index) => {
           data[index] = item[this.data.crtCol];
         })
+        //触发外部绑定的事件
         this.triggerEvent('coltap', { data: data, col: this.data.crtCol }, {});
       }
     }
