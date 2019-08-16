@@ -8,7 +8,7 @@
   box-sizing: border-box;
 } 
 @import 'style/weui.wxss';
-
+@import 'style/template.wxss';
 page{
     background-color: #F8F8F8;
     font-size: 16px;

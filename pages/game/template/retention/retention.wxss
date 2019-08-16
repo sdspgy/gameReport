@@ -102,7 +102,7 @@ view.collapse-item-index--i-collapse-item {
 
 .os {
   position: relative;
-  top: 10px;
+  top: 7px;
 }
 
 .picker {

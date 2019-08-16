@@ -84,6 +84,39 @@ function initChart(canvas, width, height) {
 Page({
 
   data: {
+    navData: [{
+      name: "概况", //文本
+      currentMenu: 0, //是否是当前页，0不是  1是
+      style: 0, //样式
+      ico: 'dynamic_fill', //不同图标
+      fn: 'gotoIndex' //对应处理函数
+    }, {
+      name: "新进",
+      currentMenu: 0,
+      style: 0,
+      ico: 'mine_fill',
+      fn: 'gotoOldGoods'
+    }, {
+      name: "留存",
+      currentMenu: 1,
+      style: 1,
+      ico: 'picture_fill',
+      fn: 'gotoPublish'
+    }, {
+      name: "付费",
+      currentMenu: 0,
+      style: 0,
+      ico: 'redpacket_fill',
+      fn: 'gotoRecruit'
+    }, {
+      name: "其他",
+      currentMenu: 0,
+      style: 0,
+      ico: 'task_fill',
+      fn: 'gotoMine'
+    }, ],
+    bType: ['info', 'ghost'],
+    bTypeIndex: 0,
     source: '0',
     data: '0',
     ec: {
@@ -113,9 +146,9 @@ Page({
 
   onLoad: function(options) {
     this.setData({
-      gameid: options.gameid
+      gameid: options.gameId
     });
-    console.log(options.gameid);
+    console.log(options.gameId);
 
     datas = this.data.datas;
     titleName = this.data.titleName;
@@ -123,7 +156,6 @@ Page({
 
     //数据初始化
     this.init();
-
     this.init_one();
 
   },
@@ -138,11 +170,18 @@ Page({
     this.setData({
       type: e.currentTarget.id
     });
-    $Message({
-      content: e.currentTarget.id == 0 ? "按用户" : "按设备",
-      type: "default",
-      duration: 1
-    });
+    if (e.currentTarget.id != this.data.bTypeIndex) {
+      this.data.bType[0] = [this.data.bType[1], this.data.bType[1] = this.data.bType[0]][0];
+      this.setData({
+        bTypeIndex: e.currentTarget.id,
+        bType: this.data.bType
+      })
+    };
+    // $Message({
+    //   content: e.currentTarget.id == 0 ? "按用户" : "按设备",
+    //   type: "default",
+    //   duration: 1
+    // });
     this.init();
     this.init_one();
   },
@@ -225,6 +264,27 @@ Page({
     })
     this.init();
     this.init_one();
+  },
+  //底部菜单
+  gotoIndex: function() {
+    wx.redirectTo({
+      url: '../survey/survey?gameId=' + this.data.gameid,
+    });
+  },
+  gotoOldGoods: function() {
+    wx.redirectTo({
+      url: '../source/source?gameId=' + this.data.gameid,
+    });
+  },
+  gotoRecruit: function() {
+    wx.redirectTo({
+      url: '../pay/pay?gameId=' + this.data.gameid,
+    });
+  },
+  gotoMine: function() {
+    wx.redirectTo({
+      url: '../portrait/portrait?gameId=' + this.data.gameid,
+    });
   },
 
   //数据初始化
