@@ -61,7 +61,9 @@ Component({
 
     data: {
       crtRow:-1,    //当前被选中的行
-      crtCol: null  //当前被选中的列
+      crtCol: null,  //当前被选中的列
+      left1: 0,
+      left2: 0,
     },
     methods: {
       //row被tap 
@@ -87,6 +89,11 @@ Component({
         })
         //触发外部绑定的事件
         this.triggerEvent('coltap', { data: data, col: this.data.crtCol }, {});
+      },
+        bindToHead:function({detail}){
+        this.setData({
+          left1: detail.scrollLeft
+        })
       }
     }
 })
