@@ -9,7 +9,6 @@
     </i-col>
   </i-row>
   <!-- 按os -->
-
   <i-tab-bar current="{{ os }}" color="#5cadff" bindchange="osChange">
     <i-tab-bar-item key="{{conf.os.all}}" icon="mobilephone" current-icon="mobilephone_fill" title="ALL"></i-tab-bar-item>
     <i-tab-bar-item key="{{conf.os.android}}" icon="mobilephone" current-icon="mobilephone_fill" title="ANDROID"></i-tab-bar-item>
@@ -40,14 +39,18 @@
 </view>
 
 <!-- 图表展示 -->
-<view class="chat-pane">
+<!-- <view class="chat-pane">
   <view class="chart">
     <ff-canvas id="chart1"></ff-canvas>
   </view>
-</view>
-<view class="chat-pane">
-  <view class="chart">
-    <ff-canvas id="chart2"></ff-canvas>
+</view> -->
+
+<view class="chart">
+  <view class="chart-title">{{chartTitle2}}</view>
+  <view class="chat-pane">
+    <view class="chart-body">
+      <ff-canvas id="chart2"></ff-canvas>
+    </view>
   </view>
 </view>
 

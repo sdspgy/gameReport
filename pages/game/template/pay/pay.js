@@ -117,7 +117,6 @@ Page({
    */
   onLoad: function(options) {
     // 页面创建时执行
-    this.initChart1(this.data.chartData1);
     this.initChart2([]);
     this.queryAndUpdate();
   },
@@ -163,6 +162,7 @@ Page({
     os: conf.os.all,
     timeArea: conf.timeArea.today,
     tableData: [],
+    chartTitle2: "图表暂无数据",
     type: {
       0: "info",
       1: "ghost"
@@ -253,17 +253,46 @@ Page({
       this.queryAndUpdate();
     }
   },
+  //表格横行被点击
   onRowTap: function({
     detail
   }) {
     console.log(detail.index + ":" + JSON.stringify(detail.data));
   },
+  //表格竖行被点击
   onColTap: function({
     detail
   }) {
     console.log(detail.col + ":" + JSON.stringify(detail.data));
     let len = detail.data.length - 1;
     let data = [];
+    //chart title设置
+    var title = '';
+   
+    if (detail.data.length == 0) {
+      title = "图表暂无数据";
+    } else {
+      let timeArea = this.data.timeArea;
+      switch (parseInt(timeArea)) {
+        case conf.timeArea.today: title += "今日"; break;
+        case conf.timeArea.yestoday: title += "昨日"; break;
+        case conf.timeArea.week: title += "一周内"; break;
+        case conf.timeArea.month: title += "一月内"; break;
+      }
+      if (this.data.sourceCliCre == conf.sourceCliCre.client.val) {
+        title += conf.sourceCliCre.client.choice[this.data.sourceCliCreChoice].name;
+      }
+      let os = this.data.os;
+      switch (os) {
+        case conf.os.all: title += "全平台"; break;
+        case conf.os.android: title += "安卓平台"; break;
+        case conf.os.ios: title += "苹果平台"; break;
+      }
+      title += conf.table.titles[detail.col] + "变化趋势";
+    }
+    this.setData({
+      chartTitle2: title
+    })
     detail.data.forEach((value, index) => {
       let d = new Object();
       d.i = len - index;
@@ -391,23 +420,6 @@ Page({
   },
 
   tableDataProcess: function(data) {
-    // ds: "日期",
-    //   installNum: "注册数",
-    //     dauNum: "活跃数",
-    //       payCount: "付费人数",
-    //         payAmount: "付费总额",
-    //           payRate: "付费率",   // 付费人数/活跃数 *
-    //             ARPU: "ARPU",       //付费总额/活跃数 *
-    //               ARPPU: "ARPPU",     //付费总额/付费人数 *
-
-    //                 payInstallRate: "注册付费率",  //注册付费人数/注册人数*
-    //                   payInstallCount: "注册付费人数",
-    //                     payInstallAmount: "注册付费总额",
-    //                       payInstallARPU: "注册付费ARPU",  //注册付费总额/注册人数,*
-    //                         payInstallARPPU: "注册付费ARPPU", //注册付费总额/注册付费人数*
-
-    //                           payTimes: "付费次数",
-    //                             payInstallTimes: "注册付费次数"
     data.forEach((item) => {
       item.payRate = (item.payCount * 100 / item.dauNum).toFixed(2);
       item.ARPU = (item.payAmount / item.dauNum).toFixed(2);

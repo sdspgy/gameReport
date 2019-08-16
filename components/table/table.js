@@ -90,6 +90,7 @@ Component({
         //触发外部绑定的事件
         this.triggerEvent('coltap', { data: data, col: this.data.crtCol }, {});
       },
+      //滑动绑定
         bindToHead:function({detail}){
         this.setData({
           left1: detail.scrollLeft

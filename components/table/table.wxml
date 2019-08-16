@@ -5,16 +5,13 @@
       <view class="tr">
         <view class="th" wx:for="{{titles}}" wx:for-index="key" wx:for-item="value" bindtap="onColTap" data-col="{{key}}">{{value}}</view>
       </view>
-      </view>
+    </view>
   </scroll-view>
-  <scroll-view bindscroll="bindToHead" scroll-left="{{left2}}" scroll-x="true" scroll-y="{{scrollY}}" style="height:{{tableHeight}}px;">
+  <scroll-view id="tbody" bindscroll="bindToHead" scroll-left="{{left2}}" scroll-x="true" scroll-y="{{scrollY}}" style="height:{{tableHeight}}px;">
     <view class="table" style="width:{{tableWidth}}px;">
-      <!-- <view class="tr">
-        <view class="th" wx:for="{{titles}}" wx:for-index="key" wx:for-item="value" bindtap="onColTap" data-col="{{key}}">{{value}}</view>
-      </view> -->
       <view class="tr {{index % 2 == 0?'bg-g':''}} {{((crtRow==index) && (crtCol==null))?'selected':''}}" wx:for="{{data}}" bindtap="onRowTap" data-index="{{index}}">
         <view class="td {{((crtCol == key) && (crtRow == -1))?'selected':''}}" wx:for="{{titles}}" wx:for-index="key" wx:for-item="value">{{item[key]}}</view>
       </view>
     </view>
   </scroll-view>
-  </view>
+</view>
