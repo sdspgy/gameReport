@@ -27,7 +27,12 @@ const conf = {
   sourceCliCre: {
     client: {
       val: "client",
-      choice: [{
+      choice: [
+        {
+          key: -1,
+          name: "所有服",
+        },
+        {
           key: 1,
           name: "1服"
         }, {
@@ -59,7 +64,12 @@ const conf = {
     },
     creative: {
       val: "creative",
-      choice: [{
+      choice: [
+        {
+          key: "all",
+          name: "所有渠道"
+        },
+         {
           key: 1,
           name: "华为"
         },
@@ -78,17 +88,24 @@ const conf = {
   table: {
     titles: {
       ds: "日期",
-      totalNum: "总用户数",
-      dauNum: "活跃数",
       installNum: "注册数",
+      dauNum: "活跃数",
       payCount: "付费人数",
-      payAmount: "付费金额",
+      payAmount: "付费总额",
+      payRate: "付费率", // 付费人数/活跃数 *
+      ARPU: "ARPU", //付费总额/活跃数 *
+      ARPPU: "ARPPU", //付费总额/付费人数 *
+
+      payInstallRate: "注册付费率", //注册付费人数/注册人数*
+      payInstallCount: "注册付费人数",
+      payInstallAmount: "注册付费总额",
+      payInstallARPU: "注册付费ARPU", //注册付费总额/注册人数,*
+      payInstallARPPU: "注册付费ARPPU", //注册付费总额/注册付费人数*
+
       payTimes: "付费次数",
-      payInstallCount: "安装付费人数",
-      payInstallAmount: "安装付费金额",
-      payInstallTimes: "安装付费次数"
+      payInstallTimes: "注册付费次数"
     },
-    colWidth: 90
+    colWidth: 95
   },
   chartKeys: {
 
@@ -200,12 +217,13 @@ Page({
   }) {
     if (this.data.sourceCliCre != detail.key) {
       this.setData({
+        sourceCliCre: detail.key,
         sourceCliCreChoices: conf.sourceCliCre[detail.key].choice,
-        sourceCliCreChoice: conf.sourceCliCre[detail.key].choice[0].key,
-        sourceCliCre: detail.key
+        sourceCliCreChoice: conf.sourceCliCre[detail.key].choice[0].key
       });
       this.queryAndUpdate();
     }
+    console.log(this.data.sourceCliCreChoice);
   },
   sourceCliCreChoiceChange: function({
     detail
@@ -249,7 +267,7 @@ Page({
   }) {
     console.log(detail.col + ":" + JSON.stringify(detail.data));
     let len = detail.data.length - 1;
-    let data= [];
+    let data = [];
     detail.data.forEach((value, index) => {
       let d = new Object();
       d.i = len - index;
@@ -367,12 +385,42 @@ Page({
       data: data,
       method: "post",
       success: (res) => {
+        let tableData = this.tableDataProcess(res.data.msg);
         this.setData({
-          tableData: res.data.msg
+          tableData: tableData
         })
-        console.log(res.data);
+        console.log(tableData);
       }
     })
+  },
+
+  tableDataProcess: function(data) {
+    // ds: "日期",
+    //   installNum: "注册数",
+    //     dauNum: "活跃数",
+    //       payCount: "付费人数",
+    //         payAmount: "付费总额",
+    //           payRate: "付费率",   // 付费人数/活跃数 *
+    //             ARPU: "ARPU",       //付费总额/活跃数 *
+    //               ARPPU: "ARPPU",     //付费总额/付费人数 *
+
+    //                 payInstallRate: "注册付费率",  //注册付费人数/注册人数*
+    //                   payInstallCount: "注册付费人数",
+    //                     payInstallAmount: "注册付费总额",
+    //                       payInstallARPU: "注册付费ARPU",  //注册付费总额/注册人数,*
+    //                         payInstallARPPU: "注册付费ARPPU", //注册付费总额/注册付费人数*
+
+    //                           payTimes: "付费次数",
+    //                             payInstallTimes: "注册付费次数"
+    data.forEach((item) => {
+      item.payRate = (item.payCount * 100 / item.dauNum).toFixed(2);
+      item.ARPU = (item.payAmount / item.dauNum).toFixed(2);
+      item.ARPPU = (item.payAmount / item.payCount).toFixed(2);
+      item.payInstallRate = (item.payInstallCount * 100 / item.installNum).toFixed(2);
+      item.payInstallARPU = (item.payInstallAmount / item.installNum).toFixed(2);
+      item.payInstallARPPU = (item.payInstallAmount / item.payInstallCount).toFixed(2);
+    })
+    return data;
   }
 
 

@@ -34,7 +34,7 @@
     </i-tab-bar>
   </i-row>
   <!-- 渠道或者服的列表  -->
-  <i-tabs current="{{sourceCliCreChoice}}" bindchange="sourceCliCreChoiceChange">
+  <i-tabs current="{{sourceCliCreChoice}}"  bindchange="sourceCliCreChoiceChange">
     <i-tab wx:for="{{sourceCliCreChoices}}" key="{{item.key}}" title="{{item.name}}"></i-tab>
   </i-tabs>
 </i-row>
