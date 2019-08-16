@@ -1,21 +1,23 @@
 {
   "usingComponents": {
-    "ec-canvas": "../../../../ec-canvas/ec-canvas",
     "i-row": "../../../../dist/row/index",
     "i-col": "../../../../dist/col/index",
     "i-button": "../../../../dist/button/index",
     "i-tab-bar": "../../../../dist/tab-bar/index",
     "i-tab-bar-item": "../../../../dist/tab-bar-item/index",
-    "i-message": "../../../../dist/message/index",
-    "i-divider": "../../../../dist/divider/index",
-    "i-collapse": "../../../../dist/collapse/index",
-    "i-collapse-item": "../../../../dist/collapse-item/index",
     "i-radio-group": "../../../../dist/radio-group/index",
-    "i-radio": "../../../../dist/radio/index",
     "i-tabs": "../../../../dist/tabs/index",
     "i-tab": "../../../../dist/tab/index",
-    "i-drawer": "../../../../dist/drawer/index",
     "ff-canvas": "../../../../f2-canvas/f2-canvas",
-    "table": "../../../../components/table/table"
+    "table": "../../../../components/table/table",
+    "van-tabs": "../../../../dist/vant/tabs/index",
+    "van-tab": "../../../../dist/vant/tab/index",
+    "van-collapse": "../../../../dist/vant/collapse/index",
+    "van-collapse-item": "../../../../dist/vant/collapse-item/index",
+    "van-popup": "../../../../dist/vant/popup/index",
+    "van-button": "../../../../dist/vant/button/index",
+    "van-row": "../../../../dist/vant/row/index",
+    "van-col": "../../../../dist/vant/col/index",
+    "van-transition": "../../../../dist/vant/transition/index"
   }
 }

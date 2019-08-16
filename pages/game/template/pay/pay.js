@@ -27,7 +27,12 @@ const conf = {
   sourceCliCre: {
     client: {
       val: "client",
-      choice: [{
+      choice: [
+        {
+          key: -1,
+          name: "所有服",
+        },
+        {
           key: 1,
           name: "1服"
         }, {
@@ -59,7 +64,12 @@ const conf = {
     },
     creative: {
       val: "creative",
-      choice: [{
+      choice: [
+        {
+          key: "all",
+          name: "所有渠道"
+        },
+        {
           key: 1,
           name: "华为"
         },
@@ -78,20 +88,24 @@ const conf = {
   table: {
     titles: {
       ds: "日期",
-      totalNum: "总用户数",
-      dauNum: "活跃数",
       installNum: "注册数",
+      dauNum: "活跃数",
       payCount: "付费人数",
-      payAmount: "付费金额",
-      payTimes: "付费次数",
-      payInstallCount: "安装付费人数",
-      payInstallAmount: "安装付费金额",
-      payInstallTimes: "安装付费次数"
-    },
-    colWidth: 90
-  },
-  chartKeys: {
+      payAmount: "付费总额",
+      payRate: "付费率", // 付费人数/活跃数 *
+      ARPU: "ARPU", //付费总额/活跃数 *
+      ARPPU: "ARPPU", //付费总额/付费人数 *
 
+      payInstallRate: "注册付费率", //注册付费人数/注册人数*
+      payInstallCount: "注册付费人数",
+      payInstallAmount: "注册付费总额",
+      payInstallARPU: "注册付费ARPU", //注册付费总额/注册人数,*
+      payInstallARPPU: "注册付费ARPPU", //注册付费总额/注册付费人数*
+
+      payTimes: "付费次数",
+      payInstallTimes: "注册付费次数"
+    },
+    colWidth: 95
   }
 }
 
@@ -101,40 +115,39 @@ Page({
    * 生命周期
    * ---------------------------------------------------------------------
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     // 页面创建时执行
-    this.initChart1(this.data.chartData1);
     this.initChart2([]);
     this.queryAndUpdate();
   },
-  onShow: function() {
+  onShow: function () {
     // 页面出现在前台时执行
   },
-  onReady: function() {
+  onReady: function () {
     // 页面首次渲染完毕时执行
   },
-  onHide: function() {
+  onHide: function () {
     // 页面从前台变为后台时执行
   },
-  onUnload: function() {
+  onUnload: function () {
     // 页面销毁时执行
   },
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function () {
     // 触发下拉刷新时执行
   },
-  onReachBottom: function() {
+  onReachBottom: function () {
     // 页面触底时执行
   },
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
     // 页面被用户分享时执行
   },
-  onPageScroll: function() {
+  onPageScroll: function () {
     // 页面滚动时执行
   },
-  onResize: function() {
+  onResize: function () {
     // 页面尺寸变化时执行
   },
-  onTabItemTap(item) {},
+  onTabItemTap(item) { },
 
   /**
    * 数据
@@ -144,32 +157,32 @@ Page({
     conf: conf,
     source: conf.source.user,
     sourceCliCre: conf.sourceCliCre.creative.val,
-    sourceCliCreChoice: conf.sourceCliCre.creative.choice[0].key, //分服和分渠道的选择
+    sourceCliCreChoice: 0, //分服和分渠道的选择
     sourceCliCreChoices: conf.sourceCliCre.creative.choice, //分服和分渠道的选择列表
     os: conf.os.all,
     timeArea: conf.timeArea.today,
     tableData: [],
-    chartTitle: "用户付费情况",
+    chartTitle2: "图表暂无数据",
     type: {
       0: "info",
       1: "ghost"
     },
     chartData1: [{
-        name: '今日',
-        value: 90
-      },
-      {
-        name: '昨日',
-        value: 83
-      },
-      {
-        name: '7天',
-        value: 61
-      },
-      {
-        name: '30天',
-        value: 65
-      }
+      name: '今日',
+      value: 90
+    },
+    {
+      name: '昨日',
+      value: 83
+    },
+    {
+      name: '7天',
+      value: 61
+    },
+    {
+      name: '30天',
+      value: 65
+    }
     ]
   },
 
@@ -179,7 +192,7 @@ Page({
    */
 
   // 按用户和按设备change
-  sourceChange: function(event) {
+  sourceChange: function (event) {
     console.log(event);
     let button = event.currentTarget;
     let sourcet = button.dataset.source;
@@ -195,30 +208,31 @@ Page({
     }
   },
   //分服和分渠道选择change
-  sourceCliCreChange: function({
+  sourceCliCreChange: function ({
     detail
   }) {
     if (this.data.sourceCliCre != detail.key) {
       this.setData({
+        sourceCliCre: detail.key,
         sourceCliCreChoices: conf.sourceCliCre[detail.key].choice,
-        sourceCliCreChoice: conf.sourceCliCre[detail.key].choice[0].key,
-        sourceCliCre: detail.key
+        sourceCliCreChoice: 0
       });
       this.queryAndUpdate();
     }
+    console.log(this.data.sourceCliCreChoice);
   },
-  sourceCliCreChoiceChange: function({
+  sourceCliCreChoiceChange: function ({
     detail
   }) {
-    if (this.data.sourceCliCreChoice != detail.key) {
+    if (this.data.sourceCliCreChoice != detail.index) {
       this.setData({
-        sourceCliCreChoice: detail.key
+        sourceCliCreChoice: detail.index
       });
       this.queryAndUpdate();
     }
   },
   //os change
-  osChange: function({
+  osChange: function ({
     detail
   }) {
     if (this.data.os != detail.key) {
@@ -229,7 +243,7 @@ Page({
     }
   },
   //时间区间选择 change
-  timeAreaChange: function({
+  timeAreaChange: function ({
     detail
   }) {
     if (this.data.timeArea != detail.key) {
@@ -239,17 +253,46 @@ Page({
       this.queryAndUpdate();
     }
   },
-  onRowTap: function({
+  //表格横行被点击
+  onRowTap: function ({
     detail
   }) {
     console.log(detail.index + ":" + JSON.stringify(detail.data));
   },
-  onColTap: function({
+  //表格竖行被点击
+  onColTap: function ({
     detail
   }) {
     console.log(detail.col + ":" + JSON.stringify(detail.data));
     let len = detail.data.length - 1;
-    let data= [];
+    let data = [];
+    //chart title设置
+    var title = '';
+
+    if (detail.data.length == 0) {
+      title = "图表暂无数据";
+    } else {
+      let timeArea = this.data.timeArea;
+      switch (parseInt(timeArea)) {
+        case conf.timeArea.today: title += "今日"; break;
+        case conf.timeArea.yestoday: title += "昨日"; break;
+        case conf.timeArea.week: title += "一周内"; break;
+        case conf.timeArea.month: title += "一月内"; break;
+      }
+      if (this.data.sourceCliCre == conf.sourceCliCre.client.val) {
+        title += conf.sourceCliCre.client.choice[this.data.sourceCliCreChoice].name;
+      }
+      let os = this.data.os;
+      switch (os) {
+        case conf.os.all: title += "全平台"; break;
+        case conf.os.android: title += "安卓平台"; break;
+        case conf.os.ios: title += "苹果平台"; break;
+      }
+      title += conf.table.titles[detail.col] + "变化趋势";
+    }
+    this.setData({
+      chartTitle2: title
+    })
     detail.data.forEach((value, index) => {
       let d = new Object();
       d.i = len - index;
@@ -265,7 +308,7 @@ Page({
    */
 
   //初始化图表
-  initChart1: function(data) {
+  initChart1: function (data) {
     var that = this;
     /*在这里改变一下结构即可*/
     that.chartComponent = that.selectComponent('#chart1');
@@ -306,7 +349,7 @@ Page({
     })
   },
 
-  initChart2: function(data) {
+  initChart2: function (data) {
     /*在这里改变一下结构即可*/
     let that = this;
     that.chartComponent = that.selectComponent('#chart2');
@@ -331,18 +374,18 @@ Page({
     })
   },
 
-  updateChart2Data: function(data) {
+  updateChart2Data: function (data) {
     chart2.changeData(data);
   },
 
-  queryAndUpdate: function() {
-    let clientid = this.data.sourceCliCre == conf.sourceCliCre.client.val ? this.data.sourceCliCreChoice : null;
-    let creative = this.data.sourceCliCre == conf.sourceCliCre.creative.val ? this.data.sourceCliCreChoice : null;
+  queryAndUpdate: function () {
+    let clientid = this.data.sourceCliCre == conf.sourceCliCre.client.val ? conf.sourceCliCre.client.choice[this.data.sourceCliCreChoice].key : null;
+    let creative = this.data.sourceCliCre == conf.sourceCliCre.creative.val ? conf.sourceCliCre.creative.choice[this.data.sourceCliCreChoice].key : null;
     this.query(this.data.source, 1, this.data.timeArea, clientid, this.data.os, creative);
   },
 
   //查询
-  query: function(source, gameid, day, clientid, os, creative) {
+  query: function (source, gameid, day, clientid, os, creative) {
     let data = {
       source: source,
       gameid: gameid,
@@ -367,12 +410,25 @@ Page({
       data: data,
       method: "post",
       success: (res) => {
+        let tableData = this.tableDataProcess(res.data.msg);
         this.setData({
-          tableData: res.data.msg
+          tableData: tableData
         })
-        console.log(res.data);
+        console.log(tableData);
       }
     })
+  },
+
+  tableDataProcess: function (data) {
+    data.forEach((item) => {
+      item.payRate = (item.payCount * 100 / item.dauNum).toFixed(2);
+      item.ARPU = (item.payAmount / item.dauNum).toFixed(2);
+      item.ARPPU = (item.payAmount / item.payCount).toFixed(2);
+      item.payInstallRate = (item.payInstallCount * 100 / item.installNum).toFixed(2);
+      item.payInstallARPU = (item.payInstallAmount / item.installNum).toFixed(2);
+      item.payInstallARPPU = (item.payInstallAmount / item.payInstallCount).toFixed(2);
+    })
+    return data;
   }
 
 

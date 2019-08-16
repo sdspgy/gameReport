@@ -15,6 +15,7 @@
     "pages/role/role_info",
     "pages/role/role_manager",
     "pages/role/role_edit",
+    "pages/game/template/pay/pay",
     "pages/main/main",
     "pages/my/my",
     "pages/resource/resource_add",

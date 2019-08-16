@@ -1,4 +1,4 @@
-<i-row>
+<view>
   <!-- 按用户或者设备 -->
   <i-row>
     <i-col span="12">
@@ -9,47 +9,49 @@
     </i-col>
   </i-row>
   <!-- 按os -->
-  <i-row>
-    <i-tab-bar current="{{ os }}" color="#5cadff" bindchange="osChange">
-      <i-tab-bar-item key="{{conf.os.all}}" icon="mobilephone" current-icon="mobilephone_fill" title="ALL"></i-tab-bar-item>
-      <i-tab-bar-item key="{{conf.os.android}}" icon="mobilephone" current-icon="mobilephone_fill" title="ANDROID"></i-tab-bar-item>
-      <i-tab-bar-item key="{{conf.os.ios}}" icon="mobilephone" current-icon="mobilephone_fill" title="IOS"></i-tab-bar-item>
-      <i-tab-bar-item key="{{conf.os.none}}" icon="delete" current-icon="delete_fill" title="NONE"></i-tab-bar-item>
-    </i-tab-bar>
-  </i-row>
+  <i-tab-bar current="{{ os }}" color="#5cadff" bindchange="osChange">
+    <i-tab-bar-item key="{{conf.os.all}}" icon="mobilephone" current-icon="mobilephone_fill" title="ALL"></i-tab-bar-item>
+    <i-tab-bar-item key="{{conf.os.android}}" icon="mobilephone" current-icon="mobilephone_fill" title="ANDROID"></i-tab-bar-item>
+    <i-tab-bar-item key="{{conf.os.ios}}" icon="mobilephone" current-icon="mobilephone_fill" title="IOS"></i-tab-bar-item>
+    <i-tab-bar-item key="{{conf.os.none}}" icon="delete" current-icon="delete_fill" title="NONE"></i-tab-bar-item>
+  </i-tab-bar>
+
   <!-- 按最近的时间 -->
-  <i-row>
-    <i-tab-bar current="{{ timeArea }}" color="#5cadff" bindchange="timeAreaChange">
-      <i-tab-bar-item key="{{conf.timeArea.today}}" icon="time" current-icon="time_fill" title="今日"></i-tab-bar-item>
-      <i-tab-bar-item key="{{conf.timeArea.yestoday}}" icon="time" current-icon="time_fill" title="昨天"></i-tab-bar-item>
-      <i-tab-bar-item key="{{conf.timeArea.week}}" icon="time" current-icon="time_fill" title="7天"></i-tab-bar-item>
-      <i-tab-bar-item key="{{conf.timeArea.month}}" icon="time" current-icon="time_fill" title="30天"></i-tab-bar-item>
-    </i-tab-bar>
-  </i-row>
+
+  <i-tab-bar current="{{ timeArea }}" color="#5cadff" bindchange="timeAreaChange">
+    <i-tab-bar-item key="{{conf.timeArea.today}}" icon="time" current-icon="time_fill" title="今日"></i-tab-bar-item>
+    <i-tab-bar-item key="{{conf.timeArea.yestoday}}" icon="time" current-icon="time_fill" title="昨天"></i-tab-bar-item>
+    <i-tab-bar-item key="{{conf.timeArea.week}}" icon="time" current-icon="time_fill" title="7天"></i-tab-bar-item>
+    <i-tab-bar-item key="{{conf.timeArea.month}}" icon="time" current-icon="time_fill" title="30天"></i-tab-bar-item>
+  </i-tab-bar>
+
   <!-- 按渠道或者分服 -->
-  <i-row>
-    <i-tab-bar current="{{ sourceCliCre }}" color="#5cadff" bindchange="sourceCliCreChange">
-      <i-tab-bar-item key="{{conf.sourceCliCre.creative.val}}" icon="computer" current-icon="computer_fill" title="分渠道"></i-tab-bar-item>
-      <i-tab-bar-item key="{{conf.sourceCliCre.client.val}}" icon="computer" current-icon="computer_fill" title="分服"></i-tab-bar-item>
-    </i-tab-bar>
-  </i-row>
+
+  <i-tab-bar current="{{ sourceCliCre }}" color="#5cadff" bindchange="sourceCliCreChange">
+    <i-tab-bar-item key="{{conf.sourceCliCre.creative.val}}" icon="computer" current-icon="computer_fill" title="分渠道"></i-tab-bar-item>
+    <i-tab-bar-item key="{{conf.sourceCliCre.client.val}}" icon="computer" current-icon="computer_fill" title="分服"></i-tab-bar-item>
+  </i-tab-bar>
+
   <!-- 渠道或者服的列表  -->
-  <i-tabs current="{{sourceCliCreChoice}}" bindchange="sourceCliCreChoiceChange">
-    <i-tab wx:for="{{sourceCliCreChoices}}" key="{{item.key}}" title="{{item.name}}"></i-tab>
-  </i-tabs>
-</i-row>
+  <van-tabs color="#2d8cf0" active="{{sourceCliCreChoice}}" bind:click="sourceCliCreChoiceChange">
+    <van-tab wx:for="{{sourceCliCreChoices}}" title="{{item.name}}"></van-tab>
+  </van-tabs>
+</view>
 
 <!-- 图表展示 -->
-<view class="chat-pane">
+<!-- <view class="chat-pane">
   <view class="chart">
     <ff-canvas id="chart1"></ff-canvas>
   </view>
-</view>
+</view> -->
 
-<view class="chat-pane">
-  <view class="chart">
-    <ff-canvas id="chart2"></ff-canvas>
+<view class="chart">
+  <view class="chart-title">{{chartTitle2}}</view>
+  <view class="chat-pane">
+    <view class="chart-body">
+      <ff-canvas id="chart2"></ff-canvas>
+    </view>
   </view>
 </view>
 
-<table caption="详细数据" titles="{{conf.table.titles}}" data="{{tableData}}" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
+<table caption="详细数据" titles="{{conf.table.titles}}" data="{{tableData}}" table-height="400" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
