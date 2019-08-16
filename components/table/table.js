@@ -57,7 +57,7 @@ Component({
       crtCol: null  //当前被选中的列
     },
     methods: {
-      //表格行被点击
+      //row被tap 
       onRowTap:function(event) {
         let v = event.currentTarget;
         this.setData({
@@ -68,7 +68,6 @@ Component({
         this.triggerEvent('rowtap', {data: this.properties.data[this.data.crtRow], index: this.data.crtRow}, {});
       },
       
-      //
       onColTap:function(event) {
         let v = event.currentTarget;
         this.setData({

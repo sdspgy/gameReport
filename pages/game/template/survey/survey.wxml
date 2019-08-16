@@ -1,6 +1,5 @@
 <!-- 全局提示 -->
 <i-message id="message" />
-
 <view class='button'>
   <i-row>
     <i-col span="12" i-class="col-class">
@@ -11,20 +10,18 @@
     </i-col>
   </i-row>
 </view>
-
 <view class='gameDaily'>
   <i-tab-bar i-class='gameDailyIbutton' current="" color="#1655cc" bindchange="handleGameDaily">
     <i-tab-bar-item key="5" current-icon="homepage_fill" title="游戏概况"></i-tab-bar-item>
   </i-tab-bar>
 </view>
-
- <view class='system'>
-    <i-tab-bar i-class='ibutton' current="" color="#1655cc" bindchange="handleChangeSystem">
-      <i-tab-bar-item key="0" current-icon="homepage_fill" dot="{{true}}" title="All"></i-tab-bar-item>
-      <i-tab-bar-item key="1" current-icon="group_fill" title="ANDROID"></i-tab-bar-item>
-      <i-tab-bar-item key="2" current-icon="remind_fill" count="" title="IOS"></i-tab-bar-item>
-    </i-tab-bar>
-  </view>
+<view class='system'>
+  <i-tabs i-class='ibutton' current="{{sysType}}" color="#f759ab" bindchange="handleChangeSystem">
+    <i-tab key="0" title="All"></i-tab>
+    <i-tab key="1" title="ANDROID"></i-tab>
+    <i-tab key="2" count="IOS" title="IOS"></i-tab>
+  </i-tabs>
+</view>
 <view class='header' style='width:90%;height:150px'>
   <view class='headerTitle'>
     <i-icon type="switch" size="20" color="#4d80e6" />今日概况</view>
@@ -54,34 +51,15 @@
     </block>
   </swiper>
 </view>
-
 <view class='tabBar'>
-  <i-tab-bar i-class='itabBar' current="" color="#f759ab" bindchange="handleChange">
-    <i-tab-bar-item key="0" icon="homepage" current-icon="homepage_fill" dot="{{true}}" title="今日"></i-tab-bar-item>
-    <i-tab-bar-item key="1" icon="group" current-icon="group_fill" title="昨日"></i-tab-bar-item>
-    <i-tab-bar-item key="7" icon="remind" current-icon="remind_fill" count="" title="7天"></i-tab-bar-item>
-    <i-tab-bar-item key="30" icon="mine" current-icon="mine_fill" title="30天"></i-tab-bar-item>
+  <i-tab-bar i-class='itabBar' current="{{data}}" color="#f759ab" bindchange="handleChange">
+    <i-tab-bar-item key="0" icon="remind" current-icon="like_fill" title="今日"></i-tab-bar-item>
+    <i-tab-bar-item key="1" icon="remind" current-icon="like_fill" title="昨日"></i-tab-bar-item>
+    <i-tab-bar-item key="7" icon="remind" current-icon="like_fill" count="" title="7天"></i-tab-bar-item>
+    <i-tab-bar-item key="30" icon="remind" current-icon="like_fill" title="30天"></i-tab-bar-item>
   </i-tab-bar>
 </view>
-
 <view class='os'>
-  <!-- <i-tabs i-calss='statu' current="{{ indexStatu }}" color="#f759ab" bindchange="handleChangeStatus">
-    <i-tab key="0" title="渠道"></i-tab>
-    <i-tab key="1" title="分服"></i-tab>
-  </i-tabs>
-
-  <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
-    <view class="picker">
-      <i-icon type="switch" size="20" color="#4d80e6" /> ：{{array[index]}}
-    </view>
-  </picker>
-
-  <picker bindchange="bindPickerChangeType" value="{{indexType}}" range="{{types}}">
-    <view class="picker">
-      <i-icon type="switch" size="20" color="#4d80e6" /> ：{{types[indexType]}}
-    </view>
-  </picker> -->
-
   <view class="container">
     <view class='panels'>
       <i-panel title="">
@@ -96,90 +74,100 @@
     <ec-canvas id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
   </view>
 </view>
-
-<!-- 折叠面板 -->
 <view class='warp'>
-  <view class="caption-wrap">
-    <i-collapse name="name" accordion:true>
-      <i-collapse-item title="Daily_data" name="name1">
-        <view slot="content">
-          <!-- 表格 -->
-          <scroll-view scroll-x="true" scroll-y="true" style=" white-space: nowrap; display: flex;width: 400px; height: 300px;">
-            <view class="table">
-              <view class="tr bg-w">
-                <view class="th" wx:for="{{titleHead}}" wx:key="{{index}}">{{item.name}}</view>
-              </view>
-              <block wx:for="{{listData}}" wx:key="{{index}}">
-                <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
-                  <view class="td">{{item.ds}}</view>
-                  <view class="td">{{item.totalNum}}</view>
-                  <view class="td">{{item.dauNum}}</view>
-                  <view class="td">{{item.installNum}}</view>
-                  <view class="td">{{item.payCount}}</view>
-                  <view class="td">{{item.payAmount}}</view>
-                  <view class="td">{{item.payTimes}}</view>
-                  <view class="td">{{item.payInstallCount}}</view>
-                  <view class="td">{{item.payInstallAmount}}</view>
-                  <view class="td">{{item.payInstallTimes}}</view>
-                </view>
-                <view class="tr" wx:else>
-                  <view class="td">{{item.ds}}</view>
-                  <view class="td">{{item.totalNum}}</view>
-                  <view class="td">{{item.dauNum}}</view>
-                  <view class="td">{{item.installNum}}</view>
-                  <view class="td">{{item.payCount}}</view>
-                  <view class="td">{{item.payAmount}}</view>
-                  <view class="td">{{item.payTimes}}</view>
-                  <view class="td">{{item.payInstallCount}}</view>
-                  <view class="td">{{item.payInstallAmount}}</view>
-                  <view class="td">{{item.payInstallTimes}}</view>
-                </view>
-              </block>
-            </view>
-          </scroll-view>
-          <i-divider color="#ed3f14" lineColor="#4c8b27">...</i-divider>
+  <!-- 表格 -->
+  <scroll-view scroll-x="true" scroll-y="true" style=" white-space: nowrap; display: flex; height: 280px;">
+    <view class="table">
+      <view class="tr bg-w">
+        <view class="th" wx:for="{{titleHead}}" wx:key="{{index}}">{{item.name}}</view>
+      </view>
+      <block wx:for="{{listData}}" wx:key="{{index}}">
+        <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
+          <view class="td">{{item.ds}}</view>
+          <view class="td">{{item.installNum}}</view>
+          <view class="td">{{item.dauNum}}</view>
+          <view class="td">{{item.payCount}}</view>
+          <view class="td">{{item.payAmount}}</view>
+          <view class="td">{{item.rate}}</view>
+          <view class="td">{{item.arpu}}</view>
+          <view class="td">{{item.arppu}}</view>
+          <view class="td">{{item.installPayRate}}</view>
+          <view class="td">{{item.payInstallCount}}</view>
+          <view class="td">{{item.payInstallAmount}}</view>
+          <view class="td">{{item.installPayArpu}}</view>
+          <view class="td">{{item.installPayArppu}}</view>
+          <view class="td">{{item.payTimes}}</view>
+          <view class="td">{{item.payInstallTimes}}</view>
         </view>
-      </i-collapse-item>
-    </i-collapse>
+        <view class="tr" wx:else>
+          <view class="td">{{item.ds}}</view>
+          <view class="td">{{item.installNum}}</view>
+          <view class="td">{{item.dauNum}}</view>
+          <view class="td">{{item.payCount}}</view>
+          <view class="td">{{item.payAmount}}</view>
+          <view class="td">{{item.rate}}</view>
+          <view class="td">{{item.arpu}}</view>
+          <view class="td">{{item.arppu}}</view>
+          <view class="td">{{item.installPayRate}}</view>
+          <view class="td">{{item.payInstallCount}}</view>
+          <view class="td">{{item.payInstallAmount}}</view>
+          <view class="td">{{item.installPayArpu}}</view>
+          <view class="td">{{item.installPayArppu}}</view>
+          <view class="td">{{item.payTimes}}</view>
+          <view class="td">{{item.payInstallTimes}}</view>
+        </view>
+      </block>
+    </view>
+  </scroll-view>
+</view>
+<view class='os'>
+  <view class='container'>
+    <view class='mychartPay'>
+      <ec-canvas id="mychart-pay" canvas-id="mychart-pay" ec="{{ mychartPay }}"></ec-canvas>
+    </view>
   </view>
 </view>
 <view class='retentionWarp'>
-  <view class="caption-wrap">
-    <i-collapse name="name" accordion:true>
-      <i-collapse-item title="Retention_data" name="name1">
-        <view slot="content">
-          <!-- 表格 -->
-          <scroll-view scroll-x="true" scroll-y="true" style=" white-space: nowrap; display: flex;width: 400px; height: 300px;">
-            <view class="table">
-              <view class="tr bg-w">
-                <view class="th" wx:for="{{titleHeadRetention}}" wx:key="{{index}}">{{item.name}}</view>
-              </view>
-              <block wx:for="{{listDataRetenttion}}" wx:key="{{index}}">
-                <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
-                  <view class="td">{{item.ds}}</view>
-                  <view class="td">{{item.dr}}</view>
-                  <view class="td">{{item.retention}}</view>
-                  <view class="td">{{item.retentionPercentage}}%</view>
-                </view>
-                <view class="tr" wx:else>
-                  <view class="td">{{item.ds}}</view>
-                  <view class="td">{{item.dr}}</view>
-                  <view class="td">{{item.retention}}</view>
-                  <view class="td">{{item.retentionPercentage}}%</view>
-                </view>
-              </block>
-            </view>
-          </scroll-view>
-          <i-divider color="#ed3f14" lineColor="#4c8b27">...</i-divider>
+  <!-- 表格 -->
+  <scroll-view scroll-x="true" scroll-y="true" style=" white-space: nowrap; display: flex; height: 300px;">
+    <view class="table">
+      <view class="tr bg-w">
+        <view class="th" wx:for="{{titleHeadRetention}}" wx:key="{{index}}">{{item.name}}</view>
+      </view>
+      <block wx:for="{{listDataRetenttion}}" wx:key="{{index}}">
+        <view class="tr bg-g" wx:if="{{index%2==0}}">
+          <view style="display:inline-block" class="td">{{item[0].ds}}</view>
+          <view wx:for="{{item}}" wx:key="{{index}}">
+            <view style="display:inline-block" class="td">{{item.dr}}</view>
+            <view style="display:inline-block" class="td">{{item.retention}}</view>
+            <view style="display:inline-block" class="td">{{item.retentionPercentage}}%</view>
+          </view>
         </view>
-      </i-collapse-item>
-    </i-collapse>
+        <view class="tr" wx:else>
+          <view style="display:inline-block" class="td">{{item[0].ds}}</view>
+          <view wx:for="{{item}}" wx:key="{{index}}">
+            <view style="display:inline-block" class="td">{{item.dr}}</view>
+            <view style="display:inline-block" class="td">{{item.retention}}</view>
+            <view style="display:inline-block" class="td">{{item.retentionPercentage}}%</view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </scroll-view>
+</view>
+<view class='container'>
+  <view class='mychartRetention'>
+    <view class="section">
+      <picker mode="date" value="{{retentionDate}}" start="2015-09-01" end="2032-09-01" bindchange="bindDateChange">
+        <view class="picker">
+          当前选择: {{retentionDate}}
+        </view>
+      </picker>
+    </view>
+    <ec-canvas id="mychart-mychartRetention" canvas-id="mychart-retention" ec="{{ mychartRetention }}"></ec-canvas>
   </view>
 </view>
-
-
-<view style='width:90%;height:70px'></view>
-
+<view style='width:90%;height:50px'></view>
 <!------------底部-->
 <view class="flex fix_nav_wp">
   <view class="nav_link" bindtap='gotoCompanyIndex' wx:key="{{item.id}}" wx:for="{{menu}}" wx:for-index="index">

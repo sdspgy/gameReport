@@ -69,7 +69,7 @@ const conf = {
           key: "all",
           name: "所有渠道"
         },
-         {
+        {
           key: 1,
           name: "华为"
         },
@@ -106,9 +106,6 @@ const conf = {
       payInstallTimes: "注册付费次数"
     },
     colWidth: 95
-  },
-  chartKeys: {
-
   }
 }
 
