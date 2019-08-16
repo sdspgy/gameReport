@@ -21,6 +21,13 @@ Component({
         caption: {
             type: String
         },
+        scrollY: {
+          type: Boolean,
+          value: false
+        },
+        tableHeight: {
+          type: Number
+        },
         colWidth: {
             type: Number,
             value: 75

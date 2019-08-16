@@ -158,12 +158,11 @@ Page({
     conf: conf,
     source: conf.source.user,
     sourceCliCre: conf.sourceCliCre.creative.val,
-    sourceCliCreChoice: conf.sourceCliCre.creative.choice[0].key, //分服和分渠道的选择
+    sourceCliCreChoice: 0, //分服和分渠道的选择
     sourceCliCreChoices: conf.sourceCliCre.creative.choice, //分服和分渠道的选择列表
     os: conf.os.all,
     timeArea: conf.timeArea.today,
     tableData: [],
-    chartTitle: "用户付费情况",
     type: {
       0: "info",
       1: "ghost"
@@ -216,7 +215,7 @@ Page({
       this.setData({
         sourceCliCre: detail.key,
         sourceCliCreChoices: conf.sourceCliCre[detail.key].choice,
-        sourceCliCreChoice: conf.sourceCliCre[detail.key].choice[0].key
+        sourceCliCreChoice: 0
       });
       this.queryAndUpdate();
     }
@@ -225,9 +224,9 @@ Page({
   sourceCliCreChoiceChange: function({
     detail
   }) {
-    if (this.data.sourceCliCreChoice != detail.key) {
+    if (this.data.sourceCliCreChoice != detail.index) {
       this.setData({
-        sourceCliCreChoice: detail.key
+        sourceCliCreChoice: detail.index
       });
       this.queryAndUpdate();
     }
@@ -351,8 +350,8 @@ Page({
   },
 
   queryAndUpdate: function() {
-    let clientid = this.data.sourceCliCre == conf.sourceCliCre.client.val ? this.data.sourceCliCreChoice : null;
-    let creative = this.data.sourceCliCre == conf.sourceCliCre.creative.val ? this.data.sourceCliCreChoice : null;
+    let clientid = this.data.sourceCliCre == conf.sourceCliCre.client.val ? conf.sourceCliCre.client.choice[this.data.sourceCliCreChoice].key : null;
+    let creative = this.data.sourceCliCre == conf.sourceCliCre.creative.val ? conf.sourceCliCre.creative.choice[this.data.sourceCliCreChoice].key : null;
     this.query(this.data.source, 1, this.data.timeArea, clientid, this.data.os, creative);
   },
 

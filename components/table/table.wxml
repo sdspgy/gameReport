@@ -1,9 +1,9 @@
 <view class="table-pane">
   <view class="caption">{{caption}}</view>
-  <scroll-view scroll-x="true" class="table-scroll">
+  <scroll-view scroll-x="true" scroll-y="{{scrollY}}" style="height:{{tableHeight}}px;">
     <view class="table" style="width:{{tableWidth}}px;">
       <view class="tr">
-        <view class="th" wx:for="{{titles}}" wx:for-index="key"  wx:for-item="value" bindtap="onColTap" data-col="{{key}}" >{{value}}</view>
+        <view class="th" wx:for="{{titles}}" wx:for-index="key" wx:for-item="value" bindtap="onColTap" data-col="{{key}}">{{value}}</view>
       </view>
       <view class="tr {{index % 2 == 0?'bg-g':''}} {{((crtRow==index) && (crtCol==null))?'selected':''}}" wx:for="{{data}}" bindtap="onRowTap" data-index="{{index}}">
         <view class="td {{((crtCol == key) && (crtRow == -1))?'selected':''}}" wx:for="{{titles}}" wx:for-index="key" wx:for-item="value">{{item[key]}}</view>
