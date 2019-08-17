@@ -27,8 +27,7 @@ const conf = {
   sourceCliCre: {
     client: {
       val: "client",
-      choice: [
-        {
+      choice: [{
           key: -1,
           name: "所有服",
         },
@@ -64,8 +63,7 @@ const conf = {
     },
     creative: {
       val: "creative",
-      choice: [
-        {
+      choice: [{
           key: "all",
           name: "所有渠道"
         },
@@ -106,7 +104,38 @@ const conf = {
       payInstallTimes: "注册付费次数"
     },
     colWidth: 95
-  }
+  },
+  navData: [{
+    name: "概况", //文本
+    currentMenu: 0, //是否是当前页，0不是  1是
+    style: 0, //样式
+    ico: 'dynamic_fill', //不同图标
+    fn: 'gotoIndex' //对应处理函数
+  }, {
+    name: "新进",
+    currentMenu: 0,
+    style: 0,
+    ico: 'mine_fill',
+    fn: 'gotoOldGoods'
+  }, {
+    name: "留存",
+    currentMenu: 0,
+    style: 0,
+    ico: 'picture_fill',
+    fn: 'gotoPublish'
+  }, {
+    name: "付费",
+    currentMenu: 1,
+    style: 0,
+    ico: 'redpacket_fill',
+    fn: 'gotoRecruit'
+  }, {
+    name: "其他",
+    currentMenu: 0,
+    style: 0,
+    ico: 'task_fill',
+    fn: 'gotoMine'
+  }, ]
 }
 
 Page({
@@ -115,39 +144,43 @@ Page({
    * 生命周期
    * ---------------------------------------------------------------------
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     // 页面创建时执行
+    this.setData({
+      gameid: options.gameId
+    });
+    console.log("---------" + options.gameId);
     this.initChart2([]);
     this.queryAndUpdate();
   },
-  onShow: function () {
+  onShow: function() {
     // 页面出现在前台时执行
   },
-  onReady: function () {
+  onReady: function() {
     // 页面首次渲染完毕时执行
   },
-  onHide: function () {
+  onHide: function() {
     // 页面从前台变为后台时执行
   },
-  onUnload: function () {
+  onUnload: function() {
     // 页面销毁时执行
   },
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     // 触发下拉刷新时执行
   },
-  onReachBottom: function () {
+  onReachBottom: function() {
     // 页面触底时执行
   },
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     // 页面被用户分享时执行
   },
-  onPageScroll: function () {
+  onPageScroll: function() {
     // 页面滚动时执行
   },
-  onResize: function () {
+  onResize: function() {
     // 页面尺寸变化时执行
   },
-  onTabItemTap(item) { },
+  onTabItemTap(item) {},
 
   /**
    * 数据
@@ -163,26 +196,28 @@ Page({
     timeArea: conf.timeArea.today,
     tableData: [],
     chartTitle2: "图表暂无数据",
+    navData: conf.navData,
+    gameid: '',
     type: {
       0: "info",
       1: "ghost"
     },
     chartData1: [{
-      name: '今日',
-      value: 90
-    },
-    {
-      name: '昨日',
-      value: 83
-    },
-    {
-      name: '7天',
-      value: 61
-    },
-    {
-      name: '30天',
-      value: 65
-    }
+        name: '今日',
+        value: 90
+      },
+      {
+        name: '昨日',
+        value: 83
+      },
+      {
+        name: '7天',
+        value: 61
+      },
+      {
+        name: '30天',
+        value: 65
+      }
     ]
   },
 
@@ -192,7 +227,7 @@ Page({
    */
 
   // 按用户和按设备change
-  sourceChange: function (event) {
+  sourceChange: function(event) {
     console.log(event);
     let button = event.currentTarget;
     let sourcet = button.dataset.source;
@@ -208,7 +243,7 @@ Page({
     }
   },
   //分服和分渠道选择change
-  sourceCliCreChange: function ({
+  sourceCliCreChange: function({
     detail
   }) {
     if (this.data.sourceCliCre != detail.key) {
@@ -221,7 +256,7 @@ Page({
     }
     console.log(this.data.sourceCliCreChoice);
   },
-  sourceCliCreChoiceChange: function ({
+  sourceCliCreChoiceChange: function({
     detail
   }) {
     if (this.data.sourceCliCreChoice != detail.index) {
@@ -232,7 +267,7 @@ Page({
     }
   },
   //os change
-  osChange: function ({
+  osChange: function({
     detail
   }) {
     if (this.data.os != detail.key) {
@@ -243,7 +278,7 @@ Page({
     }
   },
   //时间区间选择 change
-  timeAreaChange: function ({
+  timeAreaChange: function({
     detail
   }) {
     if (this.data.timeArea != detail.key) {
@@ -254,13 +289,13 @@ Page({
     }
   },
   //表格横行被点击
-  onRowTap: function ({
+  onRowTap: function({
     detail
   }) {
     console.log(detail.index + ":" + JSON.stringify(detail.data));
   },
   //表格竖行被点击
-  onColTap: function ({
+  onColTap: function({
     detail
   }) {
     console.log(detail.col + ":" + JSON.stringify(detail.data));
@@ -274,19 +309,33 @@ Page({
     } else {
       let timeArea = this.data.timeArea;
       switch (parseInt(timeArea)) {
-        case conf.timeArea.today: title += "今日"; break;
-        case conf.timeArea.yestoday: title += "昨日"; break;
-        case conf.timeArea.week: title += "一周内"; break;
-        case conf.timeArea.month: title += "一月内"; break;
+        case conf.timeArea.today:
+          title += "今日";
+          break;
+        case conf.timeArea.yestoday:
+          title += "昨日";
+          break;
+        case conf.timeArea.week:
+          title += "一周内";
+          break;
+        case conf.timeArea.month:
+          title += "一月内";
+          break;
       }
       if (this.data.sourceCliCre == conf.sourceCliCre.client.val) {
         title += conf.sourceCliCre.client.choice[this.data.sourceCliCreChoice].name;
       }
       let os = this.data.os;
       switch (os) {
-        case conf.os.all: title += "全平台"; break;
-        case conf.os.android: title += "安卓平台"; break;
-        case conf.os.ios: title += "苹果平台"; break;
+        case conf.os.all:
+          title += "全平台";
+          break;
+        case conf.os.android:
+          title += "安卓平台";
+          break;
+        case conf.os.ios:
+          title += "苹果平台";
+          break;
       }
       title += conf.table.titles[detail.col] + "变化趋势";
     }
@@ -308,7 +357,7 @@ Page({
    */
 
   //初始化图表
-  initChart1: function (data) {
+  initChart1: function(data) {
     var that = this;
     /*在这里改变一下结构即可*/
     that.chartComponent = that.selectComponent('#chart1');
@@ -349,7 +398,7 @@ Page({
     })
   },
 
-  initChart2: function (data) {
+  initChart2: function(data) {
     /*在这里改变一下结构即可*/
     let that = this;
     that.chartComponent = that.selectComponent('#chart2');
@@ -374,18 +423,18 @@ Page({
     })
   },
 
-  updateChart2Data: function (data) {
+  updateChart2Data: function(data) {
     chart2.changeData(data);
   },
 
-  queryAndUpdate: function () {
+  queryAndUpdate: function() {
     let clientid = this.data.sourceCliCre == conf.sourceCliCre.client.val ? conf.sourceCliCre.client.choice[this.data.sourceCliCreChoice].key : null;
     let creative = this.data.sourceCliCre == conf.sourceCliCre.creative.val ? conf.sourceCliCre.creative.choice[this.data.sourceCliCreChoice].key : null;
     this.query(this.data.source, 1, this.data.timeArea, clientid, this.data.os, creative);
   },
 
   //查询
-  query: function (source, gameid, day, clientid, os, creative) {
+  query: function(source, gameid, day, clientid, os, creative) {
     let data = {
       source: source,
       gameid: gameid,
@@ -419,7 +468,7 @@ Page({
     })
   },
 
-  tableDataProcess: function (data) {
+  tableDataProcess: function(data) {
     data.forEach((item) => {
       item.payRate = (item.payCount * 100 / item.dauNum).toFixed(2);
       item.ARPU = (item.payAmount / item.dauNum).toFixed(2);
@@ -429,8 +478,28 @@ Page({
       item.payInstallARPPU = (item.payInstallAmount / item.payInstallCount).toFixed(2);
     })
     return data;
-  }
+  },
 
-
+  //底部菜单
+  gotoIndex: function() {
+    wx.redirectTo({
+      url: '../survey/survey?gameId=' + this.data.gameid,
+    });
+  },
+  gotoOldGoods: function() {
+    wx.redirectTo({
+      url: '../source/source?gameId=' + this.data.gameid,
+    });
+  },
+  gotoPublish: function() {
+    wx.redirectTo({
+      url: '../retention/retention?gameId=' + this.data.gameid,
+    });
+  },
+  gotoMine: function() {
+    wx.redirectTo({
+      url: '../portrait/portrait?gameId=' + this.data.gameid,
+    });
+  },
 
 })

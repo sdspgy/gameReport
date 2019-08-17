@@ -5,6 +5,42 @@ const {
   $Message
 } = require('../../../../dist/base/index');
 var cavasName = '活跃';
+const conf = {
+  table: {
+    titles: {
+      ds: "日期",
+      installNum: "注册数",
+      dauNum: "活跃数",
+      payCount: "付费人数",
+      payAmount: "付费总额",
+      payRate: "付费率", // 付费人数/活跃数 *
+      ARPU: "ARPU", //付费总额/活跃数 *
+      ARPPU: "ARPPU", //付费总额/付费人数 *
+
+      payInstallRate: "注册付费率", //注册付费人数/注册人数*
+      payInstallCount: "注册付费人数",
+      payInstallAmount: "注册付费总额",
+      payInstallARPU: "注册付费ARPU", //注册付费总额/注册人数,*
+      payInstallARPPU: "注册付费ARPPU", //注册付费总额/注册付费人数*
+
+      payTimes: "付费次数",
+      payInstallTimes: "注册付费次数"
+    },
+    retentionTitles: {
+      ds: "日期",
+      oneDr: "1日留存",
+      oneRetention: "1日留存用户数",
+      oneRetentionPercentage: "1日留存百分比",
+      twoDr: "2日留存",
+      twoRetention: "2日留存用户数",
+      twoRetentionPercentage: "2日留存百分比",
+      threeDr: "3日留存",
+      threeRetention: "3日留存用户数",
+      threeRetentionPercentage: "3日留存百分比",
+    },
+    colWidth: 95
+  }
+}
 Page({
   data: {
     navData: [{
@@ -40,6 +76,7 @@ Page({
     }, ],
     gameid: "",
     bType: ['info', 'ghost'],
+    conf: conf,
     swiperView: [{
         title1: '访问人数',
         num1: '0',
@@ -80,147 +117,9 @@ Page({
     indexType: 0,
     datas: [],
     payList: [],
-    titleHead: [{
-        "name": "日期"
-      },
-      {
-        "name": "注册数"
-      },
-      {
-        "name": "活跃数"
-      },
-      {
-        "name": "付费人数"
-      },
-      {
-        "name": "付费总额"
-      },
-      {
-        "name": "付费率"
-      },
-      {
-        "name": "ARPU"
-      },
-      {
-        "name": "ARPPU"
-      },
-      {
-        "name": "注册付费率"
-      },
-      {
-        "name": "注册付费人数"
-      },
-      {
-        "name": "注册付费总额"
-      },
-      {
-        "name": "注册付费ARPU"
-      },
-      {
-        "name": "注册付费ARPPU"
-      },
-      {
-        "name": "付费次数"
-      },
-      {
-        "name": "注册付费次数"
-      }
-    ],
-    titleHeadRetention: [{
-      "name": "日期"
-    }, {
-      "name": "几日留存"
-    }, {
-      "name": "留存用户数"
-    }, {
-      "name": "百分比留存"
-    }, {
-      "name": "几日留存"
-    }, {
-      "name": "留存用户数"
-    }, {
-      "name": "百分比留存"
-    }, {
-      "name": "几日留存"
-    }, {
-      "name": "留存用户数"
-    }, {
-      "name": "百分比留存"
-    }, {
-      "name": "几日留存"
-    }, {
-      "name": "留存用户数"
-    }, {
-      "name": "百分比留存"
-    }, {
-      "name": "几日留存"
-    }, {
-      "name": "留存用户数"
-    }, {
-      "name": "百分比留存"
-    }, {
-      "name": "几日留存"
-    }, {
-      "name": "留存用户数"
-    }, {
-      "name": "百分比留存"
-    }, {
-      "name": "几日留存"
-    }, {
-      "name": "留存用户数"
-    }, {
-      "name": "百分比留存"
-    }, {
-      "name": "几日留存"
-    }, {
-      "name": "留存用户数"
-    }, {
-      "name": "百分比留存"
-    }, {
-      "name": "几日留存"
-    }, {
-      "name": "留存用户数"
-    }, {
-      "name": "百分比留存"
-    }, {
-      "name": "几日留存"
-    }, {
-      "name": "留存用户数"
-    }, {
-      "name": "百分比留存"
-    }, {
-      "name": "几日留存"
-    }, {
-      "name": "留存用户数"
-    }, {
-      "name": "百分比留存"
-    }, {
-      "name": "几日留存"
-    }, {
-      "name": "留存用户数"
-    }, {
-      "name": "百分比留存"
-    }, {
-      "name": "几日留存"
-    }, {
-      "name": "留存用户数"
-    }, {
-      "name": "百分比留存"
-    }, {
-      "name": "几日留存"
-    }, {
-      "name": "留存用户数"
-    }, {
-      "name": "百分比留存"
-    }, {
-      "name": "几日留存"
-    }, {
-      "name": "留存用户数"
-    }, {
-      "name": "百分比留存"
-    }, ],
     listData: [],
     listDataRetenttion: [],
+    retentionDataList: [],
     fruit: [{
       id: 0,
       name: '活跃',
@@ -291,15 +190,9 @@ Page({
         xAxis: [{
           type: 'category',
           boundaryGap: false,
-          textStyle: {
-            fontsize: '15px'
-          },
           data: ['1日', '2日', '3日', '4日', '5日', '6日', '7日']
         }],
         yAxis: [{
-          textStyle: {
-            fontsize: '15px'
-          },
           type: 'value'
         }],
         color: '#5cadff',
@@ -342,28 +235,6 @@ Page({
             fontSize: 10
           }
         },
-        toolbox: {
-          show: false,
-          feature: {
-            mark: {
-              show: true
-            },
-            dataView: {
-              show: true,
-              readOnly: false
-            },
-            magicType: {
-              show: true,
-              type: ['line', 'bar', 'stack', 'tiled']
-            },
-            restore: {
-              show: true
-            },
-            saveAsImage: {
-              show: true
-            }
-          }
-        },
         grid: {
           left: '3%',
           right: '5%',
@@ -390,65 +261,47 @@ Page({
       chart.setOption(option);
       return chart;
     });
-    this.retentionComponent = this.selectComponent('#mychart-mychartRetention');
-    this.retentionComponent.init((canvas, width, height) => {
-      const chart = echarts.init(canvas, null, {
-        width: width,
-        height: height
-      });
-      canvas.setChart(chart);
-      var option = {
-        title: {
-          text: '',
-          subtext: ''
-        },
-        tooltip: {
-          trigger: 'item',
-          formatter: "{b} : {c}%"
-        },
-        toolbox: {
-          show: false,
-          feature: {
-            mark: {
-              show: true
-            },
-            dataView: {
-              show: true,
-              readOnly: false
-            },
-            restore: {
-              show: true
-            },
-            saveAsImage: {
-              show: true
-            }
-          }
-        },
-        legend: {
-          data: [],
-          textStyle: {
-            fontSize: 10
-          }
-        },
-        calculable: true,
-        series: [{
-          name: '',
-          type: 'funnel',
-          width: '65%',
-          itemStyle: {
-            normal: {
-              label: {
-                show: false,
-                position: 'inside'
-              },
-            }
-          },
-          data: this.data.retentionEcharts
-        }]
-      };
-      chart.setOption(option);
-      return chart;
-    });
+    // this.retentionComponent = this.selectComponent('#mychart-mychartRetention');
+    // this.retentionComponent.init((canvas, width, height) => {
+    //   const chart = echarts.init(canvas, null, {
+    //     width: width,
+    //     height: height
+    //   });
+    //   canvas.setChart(chart);
+    //   var option = {
+    //     title: {
+    //       text: '',
+    //       subtext: ''
+    //     },
+    //     tooltip: {
+    //       trigger: 'item',
+    //       formatter: "{b} : {c}%"
+    //     },
+    //     legend: {
+    //       data: [],
+    //       textStyle: {
+    //         fontSize: 10
+    //       }
+    //     },
+    //     calculable: true,
+    //     series: [{
+    //       name: '',
+    //       type: 'funnel',
+    //       width: '65%',
+    //       itemStyle: {
+    //         normal: {
+    //           label: {
+    //             show: false,
+    //             position: 'inside'
+    //           },
+    //         }
+    //       },
+    //       data: this.data.retentionEcharts
+    //     }]
+    //   };
+    //   chart.setOption(option);
+    //   return chart;
+    // });
   },
   handleClick: function(e) {
     if (e.currentTarget.id != parseInt(this.data.type)) {
@@ -558,11 +411,12 @@ Page({
       success: (e) => {
         if (e.data.success === true) {
           this.setData({
-            listData: e.data.shareDailyResultTypes,
+            listData: this.tableDataProcess(e.data.shareDailyResultTypes),
             listDataRetenttion: e.data.shareRetentionResultTypes,
             datas: e.data.dauNumOrInstallNumList,
             payList: e.data.payList,
-            retentionEcharts: e.data.echartsRetentions
+            retentionEcharts: e.data.echartsRetentions,
+            retentionDataList: e.data.shareRetentionList
           });
           this.init_one();
         } else {
@@ -576,4 +430,17 @@ Page({
       error: function(e) {}
     })
   },
+
+  tableDataProcess: function(data) {
+    data.forEach((item) => {
+      item.payRate = (item.payCount * 100 / item.dauNum).toFixed(2);
+      item.ARPU = (item.payAmount / item.dauNum).toFixed(2);
+      item.ARPPU = (item.payAmount / item.payCount).toFixed(2);
+      item.payInstallRate = (item.payInstallCount * 100 / item.installNum).toFixed(2);
+      item.payInstallARPU = (item.payInstallAmount / item.installNum).toFixed(2);
+      item.payInstallARPPU = (item.payInstallAmount / item.payInstallCount).toFixed(2);
+    })
+    return data;
+  },
+
 })

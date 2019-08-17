@@ -8,6 +8,7 @@
     "i-radio-group": "../../../../dist/radio-group/index",
     "i-tabs": "../../../../dist/tabs/index",
     "i-tab": "../../../../dist/tab/index",
+    "i-icon": "../../../../dist/icon/index",
     "ff-canvas": "../../../../f2-canvas/f2-canvas",
     "table": "../../../../components/table/table",
     "van-tabs": "../../../../dist/vant/tabs/index",

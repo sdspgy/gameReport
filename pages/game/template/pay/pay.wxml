@@ -55,3 +55,11 @@
 </view>
 
 <table caption="详细数据" titles="{{conf.table.titles}}" data="{{tableData}}" table-height="400" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
+
+<!--底部-->
+<import src="../../../../template/nav" />
+<view class="flex fix_nav_wp">
+<block wx:for="{{navData}}" wx:key="">
+    <template is="nav" data="{{...item}}"/>
+</block>
+</view> 
