@@ -1,7 +1,49 @@
 <!-- 全局提示 -->
 <i-message id="message" />
+<view class='boder'>
+  <view class='button'>
+    <i-row>
+      <i-col span="12" i-class="col-class">
+        <i-button bind:click="handleClick" type="{{bType[0]}}" size="small" id="0">按用户</i-button>
+      </i-col>
+      <i-col span="12" i-class="col-class">
+        <i-button bind:click="handleClick" type="{{bType[1]}}" size="small" id="1">按设备</i-button>
+      </i-col>
+    </i-row>
+  </view>
+  <view class='system'>
+    <i-tab-bar i-class='ibutton' current="{{sysType}}" color="#5cadff" bindchange="handleChangeSystem">
+      <i-tab-bar-item key="0" icon="remind" current-icon="like_fill" title="All"></i-tab-bar-item>
+      <i-tab-bar-item key="1" icon="remind" current-icon="like_fill" title="ANDROID"></i-tab-bar-item>
+      <i-tab-bar-item key="2" icon="remind" current-icon="like_fill" count="" title="IOS"></i-tab-bar-item>
+      <i-tab-bar-item key="3" icon="remind" current-icon="delete_fill" count="" title="NONE"></i-tab-bar-item>
+    </i-tab-bar>
+  </view>
+  <view class='tabBar'>
+    <i-tabs i-class='itabBar' current="{{ data }}" color="#5cadff" bindchange="handleChangeData">
+      <i-tab key="0" icon="homepage" current-icon="homepage_fill" title="今日"></i-tab>
+      <i-tab key="1" icon="group" current-icon="group_fill" title="昨日"></i-tab>
+      <i-tab key="7" icon="remind" current-icon="remind_fill" count="" title="7天"></i-tab>
+      <i-tab key="30" icon="mine" current-icon="mine_fill" title="30天"></i-tab>
+    </i-tabs>
+  </view>
+  <view class='os'>
+    <i-tabs i-calss='statu' current="{{ indexStatu }}" color="#5cadff" bindchange="handleChangeStatus">
+      <i-tab key="2" title="概况"></i-tab>
+      <i-tab key="0" title="渠道"></i-tab>
+      <i-tab key="1" title="分服"></i-tab>
+    </i-tabs>
+    <picker wx:if="{{pickerShow}}" class='picker' bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+      <view class="picker">
+        <i-icon type="switch" size="20" color="#4d80e6" /> {{array[index]}}
+      </view>
+    </picker>
+  </view>
+  <view class="containers">
+    <ff-canvas id="retentionF2" canvas-id="retentionF2Canvas" opts="{{ optsRetentionF2 }}"></ff-canvas>
+  </view>
+</view>
 
-<view class='boder'>-----</view>
 <!--底部-->
 <import src="../../../../template/nav" />
 <view class="flex fix_nav_wp">

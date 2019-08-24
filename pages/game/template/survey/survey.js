@@ -1,4 +1,5 @@
-import url from "../../../../utils/util.js"
+import url from "../../../../utils/util.js";
+import F2 from '../../../../f2-canvas/lib/f2';
 import * as echarts from '../../../../ec-canvas/echarts';
 // 全局提示
 const {
@@ -28,15 +29,21 @@ const conf = {
     },
     retentionTitles: {
       ds: "日期",
-      oneDr: "1日留存",
-      oneRetention: "1日留存用户数",
-      oneRetentionPercentage: "1日留存百分比",
-      twoDr: "2日留存",
-      twoRetention: "2日留存用户数",
-      twoRetentionPercentage: "2日留存百分比",
-      threeDr: "3日留存",
-      threeRetention: "3日留存用户数",
-      threeRetentionPercentage: "3日留存百分比",
+      oneRetentionPercentage: "1日留存",
+      twoRetentionPercentage: "2日留存",
+      threeRetentionPercentage: "3日留存",
+      fourRetentionPercentage: "4日留存",
+      fiveRetentionPercentage: "5日留存",
+      sixRetentionPercentage: "6日留存",
+      sevenRetentionPercentage: "7日留存",
+      eightRetentionPercentage: "8日留存",
+      nineRetentionPercentage: "9日留存",
+      tenRetentionPercentage: "10日留存",
+      elevenRetentionPercentage: "11日留存",
+      twelveRetentionPercentage: "12日留存",
+      thirteenRetentionPercentage: "13日留存",
+      fourteenRetentionPercentage: "14日留存",
+      fifteenRetentionPercentage: "15日留存",
     },
     colWidth: 95
   }
@@ -106,7 +113,7 @@ Page({
     duration: 1000,
     easingFunction: "easeInOutCubic",
     data: "7",
-    sysType: "5",
+    sysType: 0,
     type: "0",
     indexStatu: 0,
     array: ['全渠道', '应用宝', '小米', '华为'],
@@ -132,15 +139,6 @@ Page({
     position: 'left',
     retentionDate: '昨日',
     retentionEcharts: [],
-    ec: {
-      lazyLoad: true,
-    },
-    mychartPay: {
-      lazyLoad: true,
-    },
-    mychartRetention: {
-      lazyLoad: true,
-    }
   },
   onLoad: function(e) {
     this.setData({
@@ -154,68 +152,86 @@ Page({
   init_one: function() {
     this.oneComponent = this.selectComponent('#mychart-dom-bar');
     this.oneComponent.init((canvas, width, height) => {
-      const chart = echarts.init(canvas, null, {
-        width: width,
-        height: height
+      const chart = new F2.Chart({
+        el: canvas,
+        width,
+        height,
+        animate: true
       });
-      canvas.setChart(chart);
-      var option = {
-        title: {
-          text: '',
-          // subtext: cavasName + "数"
-        },
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'cross',
-            label: {
-              backgroundColor: '#b6a2de'
-            }
-          },
-          formatter: "{c}",
-        },
-        legend: {
-          // left: 'left',
-          data: [],
-          textStyle: {
-            fontSize: 10
+      chart.source(this.data.datas, {
+        value: {
+          tickCount: 10,
+          formatter: function formatter(ivalue) {
+            return ivalue;
           }
-        },
-        grid: {
-          left: '3%',
-          right: '5%',
-          bottom: '10%',
-          containLabel: true
-        },
-        xAxis: [{
-          type: 'category',
-          boundaryGap: false,
-          data: ['1日', '2日', '3日', '4日', '5日', '6日', '7日']
-        }],
-        yAxis: [{
-          type: 'value'
-        }],
-        color: '#5cadff',
-        series: [{
-          name: '',
-          type: 'line',
-          stack: '总量',
-          label: {
-            normal: {
-              show: true,
-              position: 'top',
-              fontSize: 15,
-              rich: {}
-            }
-          },
-          areaStyle: {
-            normal: {}
-          },
-          data: this.data.datas
-        }]
-      };
-      chart.setOption(option);
+        }
+      });
+      chart.line().position('time*value');
+      chart.render();
       return chart;
+
+      // const chart = echarts.init(canvas, null, {
+      //   width: width,
+      //   height: height
+      // });
+      // canvas.setChart(chart);
+      // var option = {
+      //   title: {
+      //     text: '',
+      //     // subtext: cavasName + "数"
+      //   },
+      //   tooltip: {
+      //     trigger: 'axis',
+      //     axisPointer: {
+      //       type: 'cross',
+      //       label: {
+      //         backgroundColor: '#b6a2de'
+      //       }
+      //     },
+      //     formatter: "{c}",
+      //   },
+      //   legend: {
+      //     // left: 'left',
+      //     data: [],
+      //     textStyle: {
+      //       fontSize: 10
+      //     }
+      //   },
+      //   grid: {
+      //     left: '3%',
+      //     right: '5%',
+      //     bottom: '10%',
+      //     containLabel: true
+      //   },
+      //   xAxis: [{
+      //     type: 'category',
+      //     boundaryGap: false,
+      //     data: ['1日', '2日', '3日', '4日', '5日', '6日', '7日']
+      //   }],
+      //   yAxis: [{
+      //     type: 'value'
+      //   }],
+      //   color: '#5cadff',
+      //   series: [{
+      //     name: '',
+      //     type: 'line',
+      //     stack: '总量',
+      //     label: {
+      //       normal: {
+      //         show: true,
+      //         position: 'top',
+      //         fontSize: 15,
+      //         rich: {}
+      //       }
+      //     },
+      //     areaStyle: {
+      //       normal: {}
+      //     },
+      //     data: this.data.datas
+      //   }]
+      // };
+      // chart.setOption(option);
+      // return chart;
     });
     this.payComponent = this.selectComponent('#mychart-pay');
     this.payComponent.init((canvas, width, height) => {
@@ -226,7 +242,22 @@ Page({
       canvas.setChart(chart);
       var option = {
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+          align: 'center',
+          axisPointer: {
+            type: 'cross',
+            label: {
+              backgroundColor: '#b6a2de'
+            }
+          },
+          formatter: "",
+          padding: [
+            0, // 上
+            0, // 右
+            0, // 下
+            0, // 左
+          ],
+          position: ['90%', '5%'],
         },
         legend: {
           left: 'left',
@@ -261,47 +292,48 @@ Page({
       chart.setOption(option);
       return chart;
     });
-    // this.retentionComponent = this.selectComponent('#mychart-mychartRetention');
-    // this.retentionComponent.init((canvas, width, height) => {
-    //   const chart = echarts.init(canvas, null, {
-    //     width: width,
-    //     height: height
-    //   });
-    //   canvas.setChart(chart);
-    //   var option = {
-    //     title: {
-    //       text: '',
-    //       subtext: ''
-    //     },
-    //     tooltip: {
-    //       trigger: 'item',
-    //       formatter: "{b} : {c}%"
-    //     },
-    //     legend: {
-    //       data: [],
-    //       textStyle: {
-    //         fontSize: 10
-    //       }
-    //     },
-    //     calculable: true,
-    //     series: [{
-    //       name: '',
-    //       type: 'funnel',
-    //       width: '65%',
-    //       itemStyle: {
-    //         normal: {
-    //           label: {
-    //             show: false,
-    //             position: 'inside'
-    //           },
-    //         }
-    //       },
-    //       data: this.data.retentionEcharts
-    //     }]
-    //   };
-    //   chart.setOption(option);
-    //   return chart;
-    // });
+    this.retentionComponent = this.selectComponent('#mychart-mychartRetention');
+    this.retentionComponent.init((canvas, width, height) => {
+      const chart = echarts.init(canvas, null, {
+        width: width,
+        height: height
+      });
+      canvas.setChart(chart);
+      var option = {
+        title: {
+          text: '',
+          subtext: ''
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: "{b} : {c}%",
+          position: [150, 200]
+        },
+        legend: {
+          data: [],
+          textStyle: {
+            fontSize: 10
+          }
+        },
+        calculable: true,
+        series: [{
+          name: '',
+          type: 'funnel',
+          width: '65%',
+          itemStyle: {
+            normal: {
+              label: {
+                show: false,
+                position: 'inside'
+              },
+            }
+          },
+          data: this.data.retentionEcharts
+        }]
+      };
+      chart.setOption(option);
+      return chart;
+    });
   },
   handleClick: function(e) {
     if (e.currentTarget.id != parseInt(this.data.type)) {
@@ -311,22 +343,9 @@ Page({
         bType: this.data.bType
       })
     };
-    // $Message({
-    //   content: e.currentTarget.id == 0 ? "按用户" : "按设备",
-    //   type: "default",
-    //   duration: 1
-    // });
     this.init();
   },
-  handleGameDaily({
-    detail
-  }) {
-    this.setData({
-      sysType: detail.key
-    });
-    console.log("游戏概况--------" + detail.key);
-    this.init();
-  },
+
   handleChangeSystem({
     detail
   }) {
@@ -336,6 +355,7 @@ Page({
     console.log("设备--------" + detail.key);
     this.init();
   },
+
   handleChange({
     detail
   }) {
@@ -345,6 +365,7 @@ Page({
     console.log("时间--------" + detail.key);
     this.init();
   },
+
   handleUserChange({
     detail = {}
   }) {
@@ -356,6 +377,7 @@ Page({
     console.log("活跃/新增--------" + this.data.currentIndex);
     this.init();
   },
+
   bindDateChange: function(e) {
     console.log('rentention时间--------' + e.detail.value)
     this.setData({
@@ -364,12 +386,6 @@ Page({
     this.init();
   },
   // 底部跳转
-  viewButton: function(e) {
-    wx.navigateTo({
-      url: e.currentTarget.id + '?gameId=' + this.data.gameid
-    })
-  },
-
   gotoOldGoods: function() {
     wx.redirectTo({
       url: '../source/source?gameId=' + this.data.gameid,
@@ -412,8 +428,7 @@ Page({
         if (e.data.success === true) {
           this.setData({
             listData: this.tableDataProcess(e.data.shareDailyResultTypes),
-            listDataRetenttion: e.data.shareRetentionResultTypes,
-            datas: e.data.dauNumOrInstallNumList,
+            datas: this.f2DI(e.data.dauNumOrInstallNumList),
             payList: e.data.payList,
             retentionEcharts: e.data.echartsRetentions,
             retentionDataList: e.data.shareRetentionList
@@ -431,12 +446,23 @@ Page({
     })
   },
 
+  f2DI: function(data) {
+    let datas = [];
+    data.forEach((item, index) => {
+      let info = new Object();
+      info.time = index + 1;
+      info.value = item;
+      datas.push(info);
+    });
+    return datas;
+  },
+
   tableDataProcess: function(data) {
     data.forEach((item) => {
-      item.payRate = (item.payCount * 100 / item.dauNum).toFixed(2);
+      item.payRate = (item.payCount * 100 / item.dauNum).toFixed(2) + '%';
       item.ARPU = (item.payAmount / item.dauNum).toFixed(2);
       item.ARPPU = (item.payAmount / item.payCount).toFixed(2);
-      item.payInstallRate = (item.payInstallCount * 100 / item.installNum).toFixed(2);
+      item.payInstallRate = (item.payInstallCount * 100 / item.installNum).toFixed(2) + '%';
       item.payInstallARPU = (item.payInstallAmount / item.installNum).toFixed(2);
       item.payInstallARPPU = (item.payInstallAmount / item.payInstallCount).toFixed(2);
     })

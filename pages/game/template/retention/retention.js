@@ -1,84 +1,18 @@
-import url from "../../../../utils/util.js"
-import * as echarts from '../../../../ec-canvas/echarts';
+import url from "../../../../utils/util.js";
+import F2 from '../../../../f2-canvas/lib/f2';
 // 全局提示
 const {
   $Message
 } = require('../../../../dist/base/index');
 
-var datas = [];
-var titleName = '';
 const titleType = {
   0: '用户留存',
   1: '用户忠诚度',
-}
-
-function initChart(canvas, width, height) {
-  const chart = echarts.init(canvas, null, {
-    width: width,
-    height: height
-  });
-  canvas.setChart(chart);
-
-  var option = {
-    title: {
-      text: titleName
-    },
-    tooltip: {
-      trigger: 'axis',
-      // axisPointer: {
-      //   type: 'cross',
-      //   label: {
-      //     backgroundColor: '#6a7985'
-      //   }
-      // }
-      formatter: "{c}%",
-    },
-    legend: {
-      data: ['xxx', '留存率']
-    },
-    toolbox: {
-      feature: {
-        saveAsImage: {
-          show: false
-        }
-      }
-    },
-    grid: {
-      left: '3%',
-      right: '5%',
-      bottom: '10%',
-      containLabel: true
-    },
-    xAxis: [{
-      type: 'category',
-      boundaryGap: false,
-      data: ['1日', '2日', '3日', '4日', '5日', '6日', '7日']
-    }],
-    yAxis: [{
-      type: 'value',
-      axisLabel: {
-        formatter: '{value} %'
-      }
-    }],
-    series: [{
-      // name: '留存率',
-      type: 'line',
-      stack: '总量',
-      label: {
-        normal: {
-          show: true,
-          position: 'top'
-        }
-      },
-      // areaStyle: {
-      //   normal: {}
-      // },
-      data: datas
-    }]
-  };
-
-  chart.setOption(option);
-  return chart;
+};
+const conf = {
+  table: {
+    colWidth: 95,
+  }
 }
 
 Page({
@@ -118,54 +52,80 @@ Page({
     bType: ['info', 'ghost'],
     bTypeIndex: 0,
     source: '0',
-    data: '0',
-    ec: {
+    data: 7,
+    optsRetentionF2: {
       lazyLoad: true
-      // onInit: initChart
     },
-    titleName: '用户留存',
-    datas: [25.6, 27, 29, 15, 13, 80, 90, 90, 99],
-    titleHead: [{
-      "name": "日期"
-    }, {
-      "name": "第几日留存"
-    }, {
-      "name": "留存用户数"
-    }],
-    listData: [],
+    retentionlist: [],
     gameid: "",
-    sysType: "0",
+    sysType: 0,
     isOs: 0,
     indexStatu: 0,
     array: ['全渠道', '应用宝', '小米', '华为'],
-    arrayOs: ['全渠道', '应用宝', '小米', '华为'],
-    arrayOs2: ['全服', '1服', '2服', '3服'],
+    arrayCreate: ['全渠道', '应用宝', '小米', '华为'],
+    arrayClient: ['全服', '1服', '2服', '3服'],
     index: 0,
-    type: "0",
+    type: 0,
+    conf: conf,
+    retentionTitles: {
+      ds: "日期",
+      os: "操作系统",
+      clientid: "服",
+      creative: "渠道",
+      oneRetentionPercentage: "1日留存",
+      twoRetentionPercentage: "2日留存",
+      threeRetentionPercentage: "3日留存",
+      fourRetentionPercentage: "4日留存",
+      fiveRetentionPercentage: "5日留存",
+      sixRetentionPercentage: "6日留存",
+      sevenRetentionPercentage: "7日留存",
+      eightRetentionPercentage: "8日留存",
+      nineRetentionPercentage: "9日留存",
+      tenRetentionPercentage: "10日留存",
+      elevenRetentionPercentage: "11日留存",
+      twelveRetentionPercentage: "12日留存",
+      thirteenRetentionPercentage: "13日留存",
+      fourteenRetentionPercentage: "14日留存",
+      fifteenRetentionPercentage: "15日留存",
+    },
+    tableOs: {
+      os: "操作系统",
+    },
+    pickerShow: true,
   },
 
   onLoad: function(options) {
     this.setData({
       gameid: options.gameId
     });
-    console.log(options.gameId);
-
-    datas = this.data.datas;
-    titleName = this.data.titleName;
-    this.oneComponent = this.selectComponent('#mychart-dom-bar');
-
+    console.log("--------游戏Id:" + options.gameId);
     //数据初始化
     this.init();
-    this.init_one();
-
   },
 
-  init_one: function() {
-    this.oneComponent.init((canvas, width, height) => {
-      initChart(canvas, width, height)
+  init_f2: function() {
+    this.retentionComponent = this.selectComponent('#retentionF2');
+    this.retentionComponent.init((canvas, width, height) => {
+      const chart = new F2.Chart({
+        el: canvas,
+        width,
+        height,
+        animate: true
+      });
+      chart.source(this.data.datas, {
+        value: {
+          tickCount: 10,
+          formatter: function formatter(ivalue) {
+            return ivalue;
+          }
+        }
+      });
+      chart.line().position('time*value');
+      chart.render();
+      return chart;
     });
   },
-
+  // 用户设备
   handleClick: function(e) {
     this.setData({
       type: e.currentTarget.id
@@ -183,7 +143,6 @@ Page({
     //   duration: 1
     // });
     this.init();
-    this.init_one();
   },
 
   titleTypes: (type) => {
@@ -201,69 +160,69 @@ Page({
       type: "default",
       duration: 1
     });
-    console.log("type--------" + this.data.source)
     titleName = this.titleTypes(this.data.source);
-    this.setData({
-      datas: [25.6, 27, 29, 15, 93, 80, 90, 90, 79]
-    })
     this.init();
-    this.init_one();
   },
-
+  // 日期
   handleChangeData({
     detail
   }) {
     this.setData({
       data: detail.key
     });
-    console.log("data---------" + this.data.data)
+    console.log("日期---------" + detail.key)
     this.init();
-    this.init_one();
   },
-
+  // OS
   handleChangeSystem({
     detail
   }) {
     this.setData({
       sysType: detail.key,
-      isOs: detail.key == 3 ? 1 : 0
+      isOs: detail.key == 3 ? 1 : 0,
     });
     console.log("设备--------" + detail.key)
     this.init();
-    this.init_one();
   },
-
+  //渠道/分服
   handleChangeStatus({
     detail
   }) {
     this.setData({
       indexStatu: detail.key,
-      index: 0
+      index: 0,
     });
-    if (detail.key == 0) {
+    if (detail.key == 2) {
       this.setData({
-        array: this.data.arrayOs
+        pickerShow: false
       })
-      console.log("渠道--------" + detail.key)
       this.init();
-      this.init_one();
     } else {
       this.setData({
-        array: this.data.arrayOs2
-      })
-      console.log("分服--------" + detail.key)
-      this.init();
-      this.init_one();
+        pickerShow: true
+      });
+      if (detail.key == 0) {
+        this.setData({
+          array: this.data.arrayCreate,
+        })
+        console.log("渠道--------" + detail.key)
+        this.init();
+      } else {
+        this.setData({
+          array: this.data.arrayClient
+        })
+        console.log("分服--------" + detail.key)
+        this.init();
+      }
     }
   },
-
+  // 具体CC
   bindPickerChange: function(e) {
     console.log("渠道/分服--------" + e.detail.value)
     this.setData({
       index: e.detail.value
     })
     this.init();
-    this.init_one();
   },
   //底部菜单
   gotoIndex: function() {
@@ -307,9 +266,11 @@ Page({
       method: "post",
       success: (e) => {
         if (e.data.success === true) {
-          this.setData({
-            listData: e.data.shareRetentionResultTypes,
-          })
+          if (e.data.shareRetentionList) {
+            this.setData({
+              retentionList: e.data.shareRetentionList,
+            })
+          }
         } else {
           wx.showToast({
             title: e.data.msg,

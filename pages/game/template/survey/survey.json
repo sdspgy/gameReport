@@ -17,6 +17,7 @@
     "i-cell-group": "../../../../dist/cell-group/index",
     "i-cell": "../../../../dist/cell/index",
     "i-icon": "../../../../dist/icon/index",
-    "table": "../../../../components/table/table"
+    "table": "../../../../components/table/table",
+    "ff-canvas": "../../../../f2-canvas/f2-canvas"
   }
 }

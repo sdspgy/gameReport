@@ -2,3 +2,29 @@
   width: 90%;
   margin: 0 auto;
 }
+
+.tabBar {
+  position: relative;
+  top: 5px;
+}
+
+ff-canvas {
+  /* width: 100%;
+  height: 100%; */
+}
+
+.system {
+  width: 100%;
+  height: 48px;
+  background-color: rgba(0, 0, 0, 0);
+  z-index: 2;
+}
+
+.os {
+  position: relative;
+  top: 7px;
+}
+
+.picker {
+  padding-top: 2px;
+}

@@ -11,11 +11,6 @@
   </i-row>
 </view>
 <view class='gameDaily'>
-  <i-tab-bar i-class='gameDailyIbutton' current="" color="#1655cc" bindchange="handleGameDaily">
-    <i-tab-bar-item key="5" current-icon="homepage_fill" title="游戏概况"></i-tab-bar-item>
-  </i-tab-bar>
-</view>
-<view class='system'>
   <i-tabs i-class='ibutton' current="{{sysType}}" color="#5cadff" bindchange="handleChangeSystem">
     <i-tab key="0" title="All"></i-tab>
     <i-tab key="1" title="ANDROID"></i-tab>
@@ -59,7 +54,7 @@
     <i-tab-bar-item key="30" icon="remind" current-icon="like_fill" title="30天"></i-tab-bar-item>
   </i-tab-bar>
 </view>
-<view class='os'>
+<view class='os ecstyle'>
   <view class="container">
     <view class='panels'>
       <i-panel title="">
@@ -71,7 +66,8 @@
         </i-radio-group>
       </i-panel>
     </view>
-    <ec-canvas id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
+    <!-- <ec-canvas id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas> -->
+    <ff-canvas id="mychart-dom-bar" canvas-id="mychart-bar" opts="{{ ec }}"></ff-canvas>
   </view>
 </view>
 
@@ -86,10 +82,10 @@
 </view>
 
 <view class='retentionData'>
-<table caption="详细数据" titles="{{conf.table.retentionTitles}}" data="{{retentionDataList}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
+  <table caption="留存数据" titles="{{conf.table.retentionTitles}}" data="{{retentionDataList}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
 </view>
 
-<!-- <view class='container'>
+<view class='container'>
   <view class='mychartRetention'>
     <view class="section">
       <picker mode="date" value="{{retentionDate}}" start="2015-09-01" end="2032-09-01" bindchange="bindDateChange">
@@ -100,7 +96,8 @@
     </view>
     <ec-canvas id="mychart-mychartRetention" canvas-id="mychart-retention" ec="{{ mychartRetention }}"></ec-canvas>
   </view>
-</view> -->
+</view>
+
 <!--底部-->
 <import src="../../../../template/nav" />
 <view class="flex fix_nav_wp">
