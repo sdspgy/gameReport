@@ -44,7 +44,7 @@
   </view>
 </view>
 
-<table caption="留存数据" titles="{{retentionTitles}}" data="{{retentionList}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
+<table caption="留存数据" titles="{{titles}}" data="{{retentionList}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
 
 <!------------底部-->
 <import src="../../../../template/nav" />

@@ -11,9 +11,60 @@ const titleType = {
 };
 const conf = {
   table: {
+    retentionTitles: {
+      ds: "日期",
+      os: "操作系统",
+      clientid: "服",
+      creative: "渠道",
+      oneRetentionPercentage: "1日留存",
+      twoRetentionPercentage: "2日留存",
+      threeRetentionPercentage: "3日留存",
+      fourRetentionPercentage: "4日留存",
+      fiveRetentionPercentage: "5日留存",
+      sixRetentionPercentage: "6日留存",
+      sevenRetentionPercentage: "7日留存",
+      eightRetentionPercentage: "8日留存",
+      nineRetentionPercentage: "9日留存",
+      tenRetentionPercentage: "10日留存",
+      elevenRetentionPercentage: "11日留存",
+      twelveRetentionPercentage: "12日留存",
+      thirteenRetentionPercentage: "13日留存",
+      fourteenRetentionPercentage: "14日留存",
+      fifteenRetentionPercentage: "15日留存",
+    },
     colWidth: 95,
+    tableOs: {
+      os: "操作系统"
+    }
   }
 }
+let retentionTitles = {
+    ds: "日期",
+    oneRetentionPercentage: "1日留存",
+    twoRetentionPercentage: "2日留存",
+    threeRetentionPercentage: "3日留存",
+    fourRetentionPercentage: "4日留存",
+    fiveRetentionPercentage: "5日留存",
+    sixRetentionPercentage: "6日留存",
+    sevenRetentionPercentage: "7日留存",
+    eightRetentionPercentage: "8日留存",
+    nineRetentionPercentage: "9日留存",
+    tenRetentionPercentage: "10日留存",
+    elevenRetentionPercentage: "11日留存",
+    twelveRetentionPercentage: "12日留存",
+    thirteenRetentionPercentage: "13日留存",
+    fourteenRetentionPercentage: "14日留存",
+    fifteenRetentionPercentage: "15日留存",
+  },
+  tableOs = {
+    os: "操作系统"
+  },
+  tableCreative = {
+    creative: "渠道"
+  },
+  tableClient = {
+    clientid: "服"
+  }
 
 Page({
 
@@ -58,40 +109,18 @@ Page({
     },
     retentionlist: [],
     gameid: "",
-    sysType: 0,
+    sysType: 3,
     isOs: 0,
-    indexStatu: 0,
+    indexStatu: 2,
     array: ['全渠道', '应用宝', '小米', '华为'],
     arrayCreate: ['全渠道', '应用宝', '小米', '华为'],
     arrayClient: ['全服', '1服', '2服', '3服'],
     index: 0,
     type: 0,
     conf: conf,
-    retentionTitles: {
-      ds: "日期",
-      os: "操作系统",
-      clientid: "服",
-      creative: "渠道",
-      oneRetentionPercentage: "1日留存",
-      twoRetentionPercentage: "2日留存",
-      threeRetentionPercentage: "3日留存",
-      fourRetentionPercentage: "4日留存",
-      fiveRetentionPercentage: "5日留存",
-      sixRetentionPercentage: "6日留存",
-      sevenRetentionPercentage: "7日留存",
-      eightRetentionPercentage: "8日留存",
-      nineRetentionPercentage: "9日留存",
-      tenRetentionPercentage: "10日留存",
-      elevenRetentionPercentage: "11日留存",
-      twelveRetentionPercentage: "12日留存",
-      thirteenRetentionPercentage: "13日留存",
-      fourteenRetentionPercentage: "14日留存",
-      fifteenRetentionPercentage: "15日留存",
-    },
-    tableOs: {
-      os: "操作系统",
-    },
-    pickerShow: true,
+    titles: retentionTitles,
+    os: tableOs,
+    pickerShow: false,
   },
 
   onLoad: function(options) {
@@ -137,11 +166,6 @@ Page({
         bType: this.data.bType
       })
     };
-    // $Message({
-    //   content: e.currentTarget.id == 0 ? "按用户" : "按设备",
-    //   type: "default",
-    //   duration: 1
-    // });
     this.init();
   },
 
@@ -177,6 +201,47 @@ Page({
   handleChangeSystem({
     detail
   }) {
+    if (detail.key != 3) {
+      if (this.data.indexStatu == 0) {
+        let obj = Object.assign({}, tableOs, tableCreative, retentionTitles);
+        this.setData({
+          titles: obj
+        })
+      }
+      if (this.data.indexStatu == 1) {
+        let obj = Object.assign({}, tableOs, tableClient, retentionTitles);
+        this.setData({
+          titles: obj
+        })
+      }
+      if (this.data.indexStatu == 2) {
+        let obj = Object.assign({}, tableOs, retentionTitles);
+        this.setData({
+          titles: obj
+        })
+      }
+
+    } else {
+      if (this.data.indexStatu == 0) {
+        let obj = Object.assign({}, tableCreative, retentionTitles);
+        this.setData({
+          titles: obj
+        })
+      }
+      if (this.data.indexStatu == 1) {
+        let obj = Object.assign({}, tableClient, retentionTitles);
+        this.setData({
+          titles: obj
+        })
+      }
+      if (this.data.indexStatu == 2) {
+        let obj = Object.assign({}, retentionTitles);
+        this.setData({
+          titles: obj
+        })
+      }
+
+    }
     this.setData({
       sysType: detail.key,
       isOs: detail.key == 3 ? 1 : 0,
@@ -190,24 +255,55 @@ Page({
   }) {
     this.setData({
       indexStatu: detail.key,
-      index: 0,
     });
     if (detail.key == 2) {
       this.setData({
-        pickerShow: false
+        pickerShow: false,
       })
+      if (this.data.sysType != 3) {
+        let obj = Object.assign({}, tableOs, retentionTitles)
+        this.setData({
+          titles: obj
+        })
+      } else {
+        this.setData({
+          titles: retentionTitles
+        })
+      }
       this.init();
     } else {
       this.setData({
         pickerShow: true
       });
       if (detail.key == 0) {
+        if (this.data.sysType == 3) {
+          let obj = Object.assign({}, tableCreative, retentionTitles)
+          this.setData({
+            titles: obj
+          })
+        } else {
+          let obj = Object.assign({}, tableOs, tableCreative, retentionTitles)
+          this.setData({
+            titles: obj
+          })
+        }
         this.setData({
           array: this.data.arrayCreate,
         })
         console.log("渠道--------" + detail.key)
         this.init();
       } else {
+        if (this.data.sysType == 3) {
+          let obj = Object.assign({}, tableClient, retentionTitles)
+          this.setData({
+            titles: obj
+          })
+        } else {
+          let obj = Object.assign({}, tableOs, tableClient, retentionTitles)
+          this.setData({
+            titles: obj
+          })
+        }
         this.setData({
           array: this.data.arrayClient
         })
@@ -261,7 +357,7 @@ Page({
         isOs: this.data.isOs,
         data: parseInt(this.data.data),
         ccType: parseInt(this.data.indexStatu),
-        ccNum: parseInt(this.data.index),
+        ccNum: this.data.index,
       },
       method: "post",
       success: (e) => {
