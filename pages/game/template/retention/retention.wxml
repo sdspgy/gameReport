@@ -39,7 +39,11 @@
       </view>
     </picker>
   </view>
-  <view class="containers">
+</view>
+
+<view class="chart">
+  <view class="chart-title">图标暂无数据</view>
+  <view class="chart-body">
     <ff-canvas id="retentionF2" canvas-id="retentionF2Canvas" opts="{{ optsRetentionF2 }}"></ff-canvas>
   </view>
 </view>

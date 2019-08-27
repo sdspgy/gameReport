@@ -1,30 +1,51 @@
-.boder {
+.chart-pane {
+  width: 100%;
+  height: 530rpx;
+}
+
+.chart {
+  margin-top: 15px;
+}
+
+.chart-body {
+  width: 100%;
+  height: 500rpx;
+}
+
+.chart-title {
+  width: 100%;
+  display: flex;
+  height: 20rpx;
+  flex-direction: column;
+  align-items: center;
+  color: #495060;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 20px;
+}
+
+.pop {
+  width: 100%;
+  padding-bottom: 1px;
+}
+
+.space {
   width: 90%;
   margin: 0 auto;
 }
 
-.tabBar {
+.space {
+  margin-top: 5px;
+}
+
+table {
   position: relative;
-  top: 5px;
 }
 
-ff-canvas {
-  /* width: 100%;
-  height: 100%; */
-}
-
-.system {
+.bottom {
+  position: absolute;
+  top: 135%;
   width: 100%;
-  height: 48px;
-  background-color: rgba(0, 0, 0, 0);
-  z-index: 2;
-}
-
-.os {
-  position: relative;
-  top: 7px;
-}
-
-.picker {
-  padding-top: 2px;
+  height: 200px;
 }

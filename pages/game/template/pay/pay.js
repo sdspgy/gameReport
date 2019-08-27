@@ -1,4 +1,3 @@
-
 import F2 from '../../../../f2-canvas/lib/f2';
 import url from "../../../../utils/util.js";
 // 全局提示
@@ -17,7 +16,7 @@ const conf = {
     all: "0",
     android: "1",
     ios: "2",
-    none: "none"
+    none: "-1"
   },
   timeArea: { //时间区间
     today: 0,
@@ -80,30 +79,14 @@ const conf = {
           key: 3,
           name: "应用宝"
         }
-
       ]
+    },
+    daily: {
+      val: "daily",
+      choice: []
     }
   },
   table: {
-    titles: {
-      ds: "日期",
-      installNum: "注册数",
-      dauNum: "活跃数",
-      payCount: "付费人数",
-      payAmount: "付费总额",
-      payRate: "付费率", // 付费人数/活跃数 *
-      ARPU: "ARPU", //付费总额/活跃数 *
-      ARPPU: "ARPPU", //付费总额/付费人数 *
-
-      payInstallRate: "注册付费率", //注册付费人数/注册人数*
-      payInstallCount: "注册付费人数",
-      payInstallAmount: "注册付费总额",
-      payInstallARPU: "注册付费ARPU", //注册付费总额/注册人数,*
-      payInstallARPPU: "注册付费ARPPU", //注册付费总额/注册付费人数*
-
-      payTimes: "付费次数",
-      payInstallTimes: "注册付费次数"
-    },
     colWidth: 95
   },
   navData: [{
@@ -137,7 +120,35 @@ const conf = {
     ico: 'task_fill',
     fn: 'gotoMine'
   }, ]
-}
+};
+let titles = {
+    ds: "日期",
+    installNum: "注册数",
+    dauNum: "活跃数",
+    payCount: "付费人数",
+    payAmount: "付费总额",
+    payRate: "付费率", // 付费人数/活跃数 *
+    ARPU: "ARPU", //付费总额/活跃数 *
+    ARPPU: "ARPPU", //付费总额/付费人数 *
+
+    payInstallRate: "注册付费率", //注册付费人数/注册人数*
+    payInstallCount: "注册付费人数",
+    payInstallAmount: "注册付费总额",
+    payInstallARPU: "注册付费ARPU", //注册付费总额/注册人数*
+    payInstallARPPU: "注册付费ARPPU", //注册付费总额/注册付费人数*
+
+    payTimes: "付费次数",
+    payInstallTimes: "注册付费次数"
+  },
+  tableOs = {
+    os: "操作系统"
+  },
+  tableCreative = {
+    creative: "渠道"
+  },
+  tableClient = {
+    clientid: "服"
+  }
 
 Page({
 
@@ -190,9 +201,10 @@ Page({
   data: {
     conf: conf,
     source: conf.source.user,
-    sourceCliCre: conf.sourceCliCre.creative.val,
+    sourceCliCre: conf.sourceCliCre.daily.val,
     sourceCliCreChoice: 0, //分服和分渠道的选择
     sourceCliCreChoices: conf.sourceCliCre.creative.choice, //分服和分渠道的选择列表
+    isShowVanTabs: false,
     os: conf.os.all,
     timeArea: conf.timeArea.today,
     tableData: [],
@@ -219,7 +231,8 @@ Page({
         name: '30天',
         value: 65
       }
-    ]
+    ],
+    payTitles: titles
   },
 
   /**
@@ -253,8 +266,56 @@ Page({
         sourceCliCreChoices: conf.sourceCliCre[detail.key].choice,
         sourceCliCreChoice: 0
       });
-      this.queryAndUpdate();
+      if (detail.key == conf.sourceCliCre.daily.val) {
+        this.setData({
+          isShowVanTabs: false
+        })
+      } else {
+        this.setData({
+          isShowVanTabs: true
+        })
+      }
+      if (detail.key == "daily") {
+        if (this.data.os == conf.os.android || this.data.os == conf.os.ios) {
+          let obj = Object.assign({}, tableOs, titles);
+          this.setData({
+            payTitles: obj
+          })
+        } else {
+          let obj = Object.assign({}, titles);
+          this.setData({
+            payTitles: obj
+          })
+        }
+      }
+      if (detail.key == "creative") {
+        if (this.data.os == -1) {
+          let obj = Object.assign({}, tableCreative, titles);
+          this.setData({
+            payTitles: obj
+          })
+        } else {
+          let obj = Object.assign({}, tableOs, tableCreative, titles);
+          this.setData({
+            payTitles: obj
+          })
+        }
+      }
+      if (detail.key == "client") {
+        if (this.data.os == -1) {
+          let obj = Object.assign({}, tableClient, titles);
+          this.setData({
+            payTitles: obj
+          })
+        } else {
+          let obj = Object.assign({}, tableOs, tableClient, titles);
+          this.setData({
+            payTitles: obj
+          })
+        }
+      }
     }
+    this.queryAndUpdate();
     console.log(this.data.sourceCliCreChoice);
   },
   sourceCliCreChoiceChange: function({
@@ -271,6 +332,52 @@ Page({
   osChange: function({
     detail
   }) {
+    if (detail.key == -1) {
+      if (this.data.sourceCliCre == "daily") {
+        let obj = Object.assign({}, titles);
+        this.setData({
+          payTitles: obj
+        })
+      };
+      if (this.data.sourceCliCre == "creative") {
+        let obj = Object.assign({}, tableCreative, titles);
+        this.setData({
+          payTitles: obj
+        })
+      };
+      if (this.data.sourceCliCre == "client") {
+        let obj = Object.assign({}, tableClient, titles);
+        this.setData({
+          payTitles: obj
+        })
+      }
+    } else {
+      if (this.data.sourceCliCre == "daily") {
+        if (detail.key == "0") {
+          let obj = Object.assign({}, titles);
+          this.setData({
+            payTitles: obj
+          })
+        } else {
+          let obj = Object.assign({}, tableOs, titles);
+          this.setData({
+            payTitles: obj
+          })
+        }
+      };
+      if (this.data.sourceCliCre == "creative") {
+        let obj = Object.assign({}, tableOs, tableCreative, titles);
+        this.setData({
+          payTitles: obj
+        })
+      };
+      if (this.data.sourceCliCre == "client") {
+        let obj = Object.assign({}, tableOs, tableClient, titles);
+        this.setData({
+          payTitles: obj
+        })
+      };
+    }
     if (this.data.os != detail.key) {
       this.setData({
         os: detail.key
@@ -431,7 +538,7 @@ Page({
   queryAndUpdate: function() {
     let clientid = this.data.sourceCliCre == conf.sourceCliCre.client.val ? conf.sourceCliCre.client.choice[this.data.sourceCliCreChoice].key : null;
     let creative = this.data.sourceCliCre == conf.sourceCliCre.creative.val ? conf.sourceCliCre.creative.choice[this.data.sourceCliCreChoice].key : null;
-    this.query(this.data.source, 1, this.data.timeArea, clientid, this.data.os, creative);
+    this.query(this.data.source, this.data.gameid, this.data.timeArea, clientid, this.data.os, creative);
   },
 
   //查询
@@ -471,10 +578,10 @@ Page({
 
   tableDataProcess: function(data) {
     data.forEach((item) => {
-      item.payRate = (item.payCount * 100 / item.dauNum).toFixed(2);
+      item.payRate = (item.payCount * 100 / item.dauNum).toFixed(2) + "%";
       item.ARPU = (item.payAmount / item.dauNum).toFixed(2);
       item.ARPPU = (item.payAmount / item.payCount).toFixed(2);
-      item.payInstallRate = (item.payInstallCount * 100 / item.installNum).toFixed(2);
+      item.payInstallRate = (item.payInstallCount * 100 / item.installNum).toFixed(2) + "%";
       item.payInstallARPU = (item.payInstallAmount / item.installNum).toFixed(2);
       item.payInstallARPPU = (item.payInstallAmount / item.payInstallCount).toFixed(2);
     })

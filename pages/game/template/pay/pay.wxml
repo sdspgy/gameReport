@@ -28,12 +28,13 @@
   <!-- 按渠道或者分服 -->
 
   <i-tab-bar i-class="space" current="{{ sourceCliCre }}" color="#5cadff" bindchange="sourceCliCreChange">
-    <i-tab-bar-item key="{{conf.sourceCliCre.creative.val}}" icon="computer" current-icon="computer_fill" title="分渠道"></i-tab-bar-item>
+      <i-tab-bar-item key="{{conf.sourceCliCre.daily.val}}" icon="computer" current-icon="computer_fill" title="概况"></i-tab-bar-item>
+    <i-tab-bar-item key="{{conf.sourceCliCre.creative.val}}" icon="computer" current-icon="computer_fill" title="渠道"></i-tab-bar-item>
     <i-tab-bar-item key="{{conf.sourceCliCre.client.val}}" icon="computer" current-icon="computer_fill" title="分服"></i-tab-bar-item>
   </i-tab-bar>
 
   <!-- 渠道或者服的列表  -->
-  <van-tabs i-class="space" color="#2d8cf0" active="{{sourceCliCreChoice}}" bind:click="sourceCliCreChoiceChange">
+  <van-tabs wx:if="{{isShowVanTabs}}" i-class="space" color="#2d8cf0" active="{{sourceCliCreChoice}}" bind:click="sourceCliCreChoiceChange">
     <van-tab wx:for="{{sourceCliCreChoices}}" title="{{item.name}}"></van-tab>
   </van-tabs>
 </view>
@@ -54,7 +55,7 @@
   </view>
 </view>
 
-<table caption="详细数据" titles="{{conf.table.titles}}" data="{{tableData}}" table-height="400" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
+<table caption="详细数据" titles="{{payTitles}}" data="{{tableData}}" table-height="400" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" />
 
 <view class='bottom'></view>
 

@@ -109,7 +109,7 @@ Page({
     },
     retentionlist: [],
     gameid: "",
-    sysType: 3,
+    sysType: 0,
     isOs: 0,
     indexStatu: 2,
     array: ['全渠道', '应用宝', '小米', '华为'],
@@ -220,6 +220,11 @@ Page({
           titles: obj
         })
       }
+      if (this.data.indexStatu == 2 && detail.key == 0) {
+        this.setData({
+          titles: retentionTitles
+        })
+      }
 
     } else {
       if (this.data.indexStatu == 0) {
@@ -260,7 +265,7 @@ Page({
       this.setData({
         pickerShow: false,
       })
-      if (this.data.sysType != 3) {
+      if (this.data.sysType == 1 || this.data.sysType == 2) {
         let obj = Object.assign({}, tableOs, retentionTitles)
         this.setData({
           titles: obj
