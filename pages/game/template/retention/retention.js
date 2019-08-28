@@ -121,6 +121,7 @@ Page({
     titles: retentionTitles,
     os: tableOs,
     pickerShow: false,
+    page: 1,
   },
 
   onLoad: function(options) {
@@ -166,6 +167,7 @@ Page({
         bType: this.data.bType
       })
     };
+    this.reset();
     this.init();
   },
 
@@ -185,6 +187,7 @@ Page({
       duration: 1
     });
     titleName = this.titleTypes(this.data.source);
+    this.reset();
     this.init();
   },
   // 日期
@@ -195,6 +198,7 @@ Page({
       data: detail.key
     });
     console.log("日期---------" + detail.key)
+    this.reset();
     this.init();
   },
   // OS
@@ -252,6 +256,7 @@ Page({
       isOs: detail.key == 3 ? 1 : 0,
     });
     console.log("设备--------" + detail.key)
+    this.reset();
     this.init();
   },
   //渠道/分服
@@ -260,6 +265,7 @@ Page({
   }) {
     this.setData({
       indexStatu: detail.key,
+      index: 0
     });
     if (detail.key == 2) {
       this.setData({
@@ -275,6 +281,7 @@ Page({
           titles: retentionTitles
         })
       }
+      this.reset();
       this.init();
     } else {
       this.setData({
@@ -296,6 +303,7 @@ Page({
           array: this.data.arrayCreate,
         })
         console.log("渠道--------" + detail.key)
+        this.reset();
         this.init();
       } else {
         if (this.data.sysType == 3) {
@@ -313,6 +321,7 @@ Page({
           array: this.data.arrayClient
         })
         console.log("分服--------" + detail.key)
+        this.reset();
         this.init();
       }
     }
@@ -323,8 +332,17 @@ Page({
     this.setData({
       index: e.detail.value
     })
+    this.reset();
     this.init();
   },
+
+  //滚动条底部事件
+  onBottomTap: function() {
+    this.data.page += 1;
+    console.log("加载第" + this.data.page + "页");
+    this.init();
+  },
+
   //底部菜单
   gotoIndex: function() {
     wx.redirectTo({
@@ -347,6 +365,14 @@ Page({
     });
   },
 
+  //切换条件，重置page,retentionList
+  reset: function() {
+    this.setData({
+      page: 1,
+      retentionList: []
+    })
+  },
+
   //数据初始化
   init: function() {
     wx.request({
@@ -363,14 +389,33 @@ Page({
         data: parseInt(this.data.data),
         ccType: parseInt(this.data.indexStatu),
         ccNum: this.data.index,
+        page: this.data.page,
       },
       method: "post",
       success: (e) => {
         if (e.data.success === true) {
           if (e.data.shareRetentionList) {
-            this.setData({
-              retentionList: e.data.shareRetentionList,
-            })
+            if (e.data.shareRetentionList.length != 0 && this.data.page != 1) {
+              wx.showToast({
+                title: "加载第" + this.data.page + "页",
+                icon: 'success',
+                duration: 1000
+              });
+            }
+            if (e.data.shareRetentionList.length == 0 && this.data.page != 1) {
+              wx.showToast({
+                title: "已经是最后一页数据",
+                icon: 'fail',
+                duration: 1000
+              });
+            }
+            if (e.data.shareRetentionList.length != 0) {
+              let retentionList = [];
+              retentionList = this.data.retentionList.concat(e.data.shareRetentionList);
+              this.setData({
+                retentionList: retentionList,
+              });
+            }
           }
         } else {
           wx.showToast({

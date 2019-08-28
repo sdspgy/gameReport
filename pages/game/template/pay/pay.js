@@ -577,14 +577,16 @@ Page({
   },
 
   tableDataProcess: function(data) {
-    data.forEach((item) => {
-      item.payRate = (item.payCount * 100 / item.dauNum).toFixed(2) + "%";
-      item.ARPU = (item.payAmount / item.dauNum).toFixed(2);
-      item.ARPPU = (item.payAmount / item.payCount).toFixed(2);
-      item.payInstallRate = (item.payInstallCount * 100 / item.installNum).toFixed(2) + "%";
-      item.payInstallARPU = (item.payInstallAmount / item.installNum).toFixed(2);
-      item.payInstallARPPU = (item.payInstallAmount / item.payInstallCount).toFixed(2);
-    })
+    if(data){
+      data.forEach((item) => {
+        item.payRate = (item.payCount * 100 / item.dauNum).toFixed(2) + "%";
+        item.ARPU = (item.payAmount / item.dauNum).toFixed(2);
+        item.ARPPU = (item.payAmount / item.payCount).toFixed(2);
+        item.payInstallRate = (item.payInstallCount * 100 / item.installNum).toFixed(2) + "%";
+        item.payInstallARPU = (item.payInstallAmount / item.installNum).toFixed(2);
+        item.payInstallARPPU = (item.payInstallAmount / item.payInstallCount).toFixed(2);
+      })
+    }
     return data;
   },
 

@@ -65,3 +65,8 @@ ff-canvas {
 .picker {
   padding-top: 2px;
 }
+
+.bottom {
+  position: absolute;
+  top: 140%;
+}

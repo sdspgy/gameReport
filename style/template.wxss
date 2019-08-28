@@ -9,7 +9,7 @@ page{font-size:26rpx;color:#666;}
 flex-direction: column;color:#999;position: relative;}
 .fix_nav_wp .tip_tip{position: absolute;right:25rpx;top:5rpx;min-width:28rpx;line-height:32rpx;
 height: 32rpx;padding:0 8rpx;color:#fff;background:#f00;border-radius:50em;border:1rpx solid #fff;}
-.fix_nav_wp .nav_link .iconfont{height:60rpx;font-size:56rpx;line-height: 80rpx;color: #c4c8cc;}
+.fix_nav_wp .nav_link .iconfont{height:30rpx;font-size:56rpx;line-height: 80rpx;color: #c4c8cc;}
 .fix_nav_wp .nav_link .plus_wp{width:120rpx;height:120rpx;margin-top: -45rpx;}
 .fix_nav_wp .nav_link  image{width:120rpx;height:120rpx;}
 .fix_nav_wp .nav_link .txt{height:50rpx;line-height:40rpx;color: #c4c8cc;}

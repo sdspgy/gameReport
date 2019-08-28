@@ -42,14 +42,16 @@
 </view>
 
 <view class="chart">
-  <view class="chart-title">图标暂无数据</view>
+  <view class="chart-title">图表暂无数据</view>
   <view class="chart-body">
     <ff-canvas id="retentionF2" canvas-id="retentionF2Canvas" opts="{{ optsRetentionF2 }}"></ff-canvas>
   </view>
 </view>
 
-<table caption="留存数据" titles="{{titles}}" data="{{retentionList}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
+<table caption="留存数据" titles="{{titles}}" data="{{retentionList}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" bind:bottomtap="onBottomTap"/>
 
+
+<view class='bottom' style='width:100%;height:50px'></view>
 <!------------底部-->
 <import src="../../../../template/nav" />
 <view class="flex fix_nav_wp">
