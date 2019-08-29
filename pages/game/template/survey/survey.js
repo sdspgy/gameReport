@@ -385,6 +385,11 @@ Page({
     });
     this.init();
   },
+
+  onPageScroll: function(e) {
+
+  },
+
   // 底部跳转
   gotoOldGoods: function() {
     wx.redirectTo({

@@ -217,7 +217,8 @@ Page({
         value: 65
       }
     ],
-    payTitles: titles
+    payTitles: titles,
+    handelInstallNum: [],
   },
 
   /**
@@ -502,7 +503,7 @@ Page({
         height,
         animate: true
       });
-      c2.source(data.reverse(), {
+      c2.source(this.data.handelInstallNum, {
         value: {
           tickCount: 10,
           formatter: function formatter(ivalue) {
@@ -510,9 +511,9 @@ Page({
           }
         }
       });
-      c2.line().position('i*value');
+      c2.line().position('time*value');
       c2.render();
-      chart2 = c2;
+      return c2;
     })
   },
 
@@ -532,12 +533,10 @@ Page({
       source: source,
       gameid: gameid,
       day: day,
+      os: os,
     }
     if (creative != null) {
       data.creative = creative;
-    }
-    if (os != conf.os.none) {
-      data.os = os;
     }
     if (clientid != null) {
       data.clientid = clientid;
@@ -553,12 +552,30 @@ Page({
       method: "post",
       success: (res) => {
         let tableData = res.data.msg;
+        let handelInstallNum = this.makeCavas(tableData);
         this.setData({
-          tableData: tableData
+          tableData: tableData,
+          handelInstallNum: handelInstallNum,
+          chartTitle2: handelInstallNum.length == 0 ? "图标暂无数据" : "图标数据"
         })
+        this.initChart2();
         console.log(tableData);
       }
     })
+  },
+
+  makeCavas: (data) => {
+    if (data) {
+      let handelInstallNum = [];
+      data.forEach((item, index) => {
+        let info = new Object();
+        info.time = index + 1;
+        info.value = item.installNum;
+        handelInstallNum.push(info);
+      });
+      console.log("---------payCount:" + JSON.stringify(handelInstallNum));
+      return handelInstallNum;
+    }
   },
 
   // 底部跳转

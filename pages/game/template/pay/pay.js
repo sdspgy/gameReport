@@ -232,7 +232,8 @@ Page({
         value: 65
       }
     ],
-    payTitles: titles
+    payTitles: titles,
+    handelPayCount: [],
   },
 
   /**
@@ -465,7 +466,7 @@ Page({
    */
 
   //初始化图表
-  initChart1: function(data) {
+  initChart1: function() {
     var that = this;
     /*在这里改变一下结构即可*/
     that.chartComponent = that.selectComponent('#chart1');
@@ -476,7 +477,7 @@ Page({
         height,
         animate: true
       });
-      c1.source(data, {
+      c1.source(this.data.handelPayCount, {
         value: {
           tickCount: 5,
           formatter: function formatter(value) {
@@ -500,13 +501,13 @@ Page({
         }
       });
 
-      c1.interval().position('name*value');
+      c1.interval().position('time*value');
       c1.render();
       chart1 = c1;
     })
   },
 
-  initChart2: function(data) {
+  initChart2: function() {
     /*在这里改变一下结构即可*/
     let that = this;
     that.chartComponent = that.selectComponent('#chart2');
@@ -517,7 +518,7 @@ Page({
         height,
         animate: true
       });
-      c2.source(data.reverse(), {
+      c2.source(this.data.handelPayCount, {
         value: {
           tickCount: 10,
           formatter: function formatter(ivalue) {
@@ -525,9 +526,9 @@ Page({
           }
         }
       });
-      c2.line().position('i*value');
+      c2.line().position('time*value');
       c2.render();
-      chart2 = c2;
+      return c2;
     })
   },
 
@@ -547,12 +548,10 @@ Page({
       source: source,
       gameid: gameid,
       day: day,
+      os: os,
     }
     if (creative != null) {
       data.creative = creative;
-    }
-    if (os != conf.os.none) {
-      data.os = os;
     }
     if (clientid != null) {
       data.clientid = clientid;
@@ -568,16 +567,20 @@ Page({
       method: "post",
       success: (res) => {
         let tableData = this.tableDataProcess(res.data.msg);
+        let handelPayCount = this.makeCavas(tableData);
         this.setData({
-          tableData: tableData
+          tableData: tableData,
+          handelPayCount: handelPayCount,
+          chartTitle2: handelPayCount.length == 0 ? "图标暂无数据" : "图标数据"
         })
+        this.initChart2();
         console.log(tableData);
       }
     })
   },
 
   tableDataProcess: function(data) {
-    if(data){
+    if (data) {
       data.forEach((item) => {
         item.payRate = (item.payCount * 100 / item.dauNum).toFixed(2) + "%";
         item.ARPU = (item.payAmount / item.dauNum).toFixed(2);
@@ -588,6 +591,20 @@ Page({
       })
     }
     return data;
+  },
+
+  makeCavas: (data) => {
+    if (data) {
+      let handelPayCount = [];
+      data.forEach((item, index) => {
+        let info = new Object();
+        info.time = index + 1;
+        info.value = item.payCount;
+        handelPayCount.push(info);
+      });
+      console.log("---------payCount:" + JSON.stringify(handelPayCount));
+      return handelPayCount;
+    }
   },
 
   //底部菜单

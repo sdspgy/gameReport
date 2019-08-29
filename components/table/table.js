@@ -112,7 +112,6 @@ Component({
     },
     //底部事件
     bottomEvent: function() {
-      console.log("---------" + "加载数据")
       this.triggerEvent('bottomtap', {
 
       }, {});

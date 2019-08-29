@@ -339,7 +339,6 @@ Page({
   //滚动条底部事件
   onBottomTap: function() {
     this.data.page += 1;
-    console.log("加载第" + this.data.page + "页");
     this.init();
   },
 
