@@ -219,6 +219,7 @@ Page({
     ],
     payTitles: titles,
     handelInstallNum: [],
+    page: 1,
   },
 
   /**
@@ -239,6 +240,7 @@ Page({
         source: button.dataset.source,
         type: type
       })
+      this.reset();
       this.queryAndUpdate();
     }
   },
@@ -301,6 +303,7 @@ Page({
         }
       }
     }
+    this.reset();
     this.queryAndUpdate();
     console.log(this.data.sourceCliCreChoice);
   },
@@ -311,6 +314,7 @@ Page({
       this.setData({
         sourceCliCreChoice: detail.index
       });
+      this.reset();
       this.queryAndUpdate();
     }
   },
@@ -368,6 +372,7 @@ Page({
       this.setData({
         os: detail.key
       });
+      this.reset();
       this.queryAndUpdate();
     }
   },
@@ -379,8 +384,21 @@ Page({
       this.setData({
         timeArea: detail.key
       })
+      this.reset();
       this.queryAndUpdate();
     }
+  },
+  //滚动条底部事件
+  onBottomTap: function() {
+    this.data.page += 1;
+    this.queryAndUpdate();
+  },
+  //切换条件，重置page,retentionList
+  reset: function() {
+    this.setData({
+      page: 1,
+      tableData: []
+    })
   },
   //表格横行被点击
   onRowTap: function({
@@ -524,16 +542,17 @@ Page({
   queryAndUpdate: function() {
     let clientid = this.data.sourceCliCre == conf.sourceCliCre.client.val ? conf.sourceCliCre.client.choice[this.data.sourceCliCreChoice].key : null;
     let creative = this.data.sourceCliCre == conf.sourceCliCre.creative.val ? conf.sourceCliCre.creative.choice[this.data.sourceCliCreChoice].key : null;
-    this.query(this.data.source, this.data.gameid, this.data.timeArea, clientid, this.data.os, creative);
+    this.query(this.data.source, this.data.gameid, this.data.timeArea, clientid, this.data.os, creative, this.data.page);
   },
 
   //查询
-  query: function(source, gameid, day, clientid, os, creative) {
+  query: function(source, gameid, day, clientid, os, creative, page) {
     let data = {
       source: source,
       gameid: gameid,
       day: day,
       os: os,
+      page: page,
     }
     if (creative != null) {
       data.creative = creative;
@@ -551,15 +570,34 @@ Page({
       data: data,
       method: "post",
       success: (res) => {
-        let tableData = res.data.msg;
-        let handelInstallNum = this.makeCavas(tableData);
+        if (res.data.msg.length != 0 && this.data.page != 1) {
+          wx.showToast({
+            title: "加载第" + this.data.page + "页",
+            icon: 'success',
+            duration: 1000
+          });
+        }
+        if (res.data.msg.length == 0 && this.data.page != 1) {
+          wx.showToast({
+            title: "已经是最后一页数据",
+            icon: 'fail',
+            duration: 1000
+          });
+        }
+        let tables = [];
+        if (this.data.tableData == null) {
+          tables = res.data.msg;
+        } else {
+          tables = this.data.tableData.concat(res.data.msg);
+        }
+        let handelInstallNum = this.makeCavas(tables);
         this.setData({
-          tableData: tableData,
+          tableData: tables,
           handelInstallNum: handelInstallNum,
           chartTitle2: handelInstallNum.length == 0 ? "图标暂无数据" : "图标数据"
         })
         this.initChart2();
-        console.log(tableData);
+        console.log(tables);
       }
     })
   },

@@ -122,6 +122,8 @@ Page({
     os: tableOs,
     pickerShow: false,
     page: 1,
+    handelRetentionOne: [],
+    chartTitle2: "图表暂无数据",
   },
 
   onLoad: function(options) {
@@ -142,17 +144,18 @@ Page({
         height,
         animate: true
       });
-      chart.source(this.data.datas, {
+      chart.source(this.data.handelRetentionOne, {
         value: {
           tickCount: 10,
           formatter: function formatter(ivalue) {
-            return ivalue;
+            let RTrimValue = parseInt(ivalue.replace("%", ""));
+            return RTrimValue;
           }
         }
       });
       chart.line().position('time*value');
       chart.render();
-      return chart;
+      // return chart;
     });
   },
   // 用户设备
@@ -408,13 +411,22 @@ Page({
                 duration: 1000
               });
             }
-            if (e.data.shareRetentionList.length != 0) {
-              let retentionList = [];
+            let retentionList = [];
+            if (this.data.retentionList == null) {
+              retentionList = e.data.shareRetentionList;
+            } else {
               retentionList = this.data.retentionList.concat(e.data.shareRetentionList);
-              this.setData({
-                retentionList: retentionList,
-              });
             }
+            this.setData({
+              retentionList: retentionList,
+            });
+            let handelRetentionOne = this.makeRetentionOne(retentionList);
+            console.log(handelRetentionOne)
+            this.setData({
+              handelRetentionOne: handelRetentionOne,
+              chartTitle2: handelRetentionOne.length == 0 ? "图表暂无数据" : "图标数据"
+            })
+            this.init_f2();
           }
         } else {
           wx.showToast({
@@ -429,4 +441,17 @@ Page({
       }
     })
   },
+  makeRetentionOne: function(data) {
+    if (data) {
+      let handelRetentionOne = [];
+      data.forEach((item, index) => {
+        let info = new Object();
+        info.time = index + 1;
+        info.value = item.oneRetentionPercentage;
+        handelRetentionOne.push(info);
+      });
+      console.log("---------handelRetentionOne:" + JSON.stringify(handelRetentionOne));
+      return handelRetentionOne;
+    }
+  }
 })

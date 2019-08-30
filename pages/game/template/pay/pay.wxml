@@ -55,7 +55,7 @@
   </view>
 </view>
 
-<table caption="详细数据" titles="{{payTitles}}" data="{{tableData}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" />
+<table caption="详细数据" titles="{{payTitles}}" data="{{tableData}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="onBottomTap"/>
 
 <view class='bottom'></view>
 

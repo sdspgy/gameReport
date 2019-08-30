@@ -14,7 +14,7 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
-const requestUrl = "http://10.2.10.41:8080";
+const requestUrl = "http://10.2.68.177:8080";
 
 module.exports = {
   formatTime: formatTime,

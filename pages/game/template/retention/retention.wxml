@@ -42,7 +42,7 @@
 </view>
 
 <view class="chart">
-  <view class="chart-title">图表暂无数据</view>
+  <view class="chart-title">{{chartTitle2}}</view>
   <view class="chart-body">
     <ff-canvas id="retentionF2" canvas-id="retentionF2Canvas" opts="{{ optsRetentionF2 }}"></ff-canvas>
   </view>
