@@ -15,6 +15,9 @@ Component({
     data: {
       type: Array
     },
+    type: {
+      type: Number
+    },
     titles: {
       type: Object
     },

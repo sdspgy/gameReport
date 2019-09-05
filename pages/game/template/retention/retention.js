@@ -39,7 +39,6 @@ const conf = {
   }
 }
 let retentionTitles = {
-    ds: "日期",
     oneRetentionPercentage: "1日留存",
     twoRetentionPercentage: "2日留存",
     threeRetentionPercentage: "3日留存",
@@ -55,6 +54,9 @@ let retentionTitles = {
     thirteenRetentionPercentage: "13日留存",
     fourteenRetentionPercentage: "14日留存",
     fifteenRetentionPercentage: "15日留存",
+  },
+  tableDs = {
+    ds: "日期"
   },
   tableOs = {
     os: "操作系统"
@@ -124,6 +126,11 @@ Page({
     page: 1,
     handelRetentionOne: [],
     chartTitle2: "图表暂无数据",
+    test: [{
+      ds: '2019-09-04',
+      oneRetentionPercentage: '26',
+      twoRetentionPercentage: 30
+    }]
   },
 
   onLoad: function(options) {
@@ -131,8 +138,15 @@ Page({
       gameid: options.gameId
     });
     console.log("--------游戏Id:" + options.gameId);
+    let obj = Object.assign({}, tableDs, retentionTitles);
+    this.setData({
+      titles: obj
+    })
+    this.setData({
+      retentionList: this.data.test
+    })
     //数据初始化
-    this.init();
+    // this.init();
   },
 
   init_f2: function() {
@@ -210,44 +224,45 @@ Page({
   }) {
     if (detail.key != 3) {
       if (this.data.indexStatu == 0) {
-        let obj = Object.assign({}, tableOs, tableCreative, retentionTitles);
+        let obj = Object.assign({}, tableDs, tableOs, tableCreative, retentionTitles);
         this.setData({
           titles: obj
         })
       }
       if (this.data.indexStatu == 1) {
-        let obj = Object.assign({}, tableOs, tableClient, retentionTitles);
+        let obj = Object.assign({}, tableDs, tableOs, tableClient, retentionTitles);
         this.setData({
           titles: obj
         })
       }
       if (this.data.indexStatu == 2) {
-        let obj = Object.assign({}, tableOs, retentionTitles);
+        let obj = Object.assign({}, tableDs, tableOs, retentionTitles);
         this.setData({
           titles: obj
         })
       }
       if (this.data.indexStatu == 2 && detail.key == 0) {
+        let obj = Object.assign({}, tableDs, retentionTitles);
         this.setData({
-          titles: retentionTitles
+          titles: obj
         })
       }
 
     } else {
       if (this.data.indexStatu == 0) {
-        let obj = Object.assign({}, tableCreative, retentionTitles);
+        let obj = Object.assign({}, tableDs, tableCreative, retentionTitles);
         this.setData({
           titles: obj
         })
       }
       if (this.data.indexStatu == 1) {
-        let obj = Object.assign({}, tableClient, retentionTitles);
+        let obj = Object.assign({}, tableDs, tableClient, retentionTitles);
         this.setData({
           titles: obj
         })
       }
       if (this.data.indexStatu == 2) {
-        let obj = Object.assign({}, retentionTitles);
+        let obj = Object.assign({}, tableDs, retentionTitles);
         this.setData({
           titles: obj
         })
@@ -275,7 +290,7 @@ Page({
         pickerShow: false,
       })
       if (this.data.sysType == 1 || this.data.sysType == 2) {
-        let obj = Object.assign({}, tableOs, retentionTitles)
+        let obj = Object.assign({}, tableDs, tableOs, retentionTitles)
         this.setData({
           titles: obj
         })
@@ -292,12 +307,12 @@ Page({
       });
       if (detail.key == 0) {
         if (this.data.sysType == 3) {
-          let obj = Object.assign({}, tableCreative, retentionTitles)
+          let obj = Object.assign({}, tableDs, tableCreative, retentionTitles)
           this.setData({
             titles: obj
           })
         } else {
-          let obj = Object.assign({}, tableOs, tableCreative, retentionTitles)
+          let obj = Object.assign({}, tableDs, tableOs, tableCreative, retentionTitles)
           this.setData({
             titles: obj
           })
@@ -310,12 +325,12 @@ Page({
         this.init();
       } else {
         if (this.data.sysType == 3) {
-          let obj = Object.assign({}, tableClient, retentionTitles)
+          let obj = Object.assign({}, tableDs, tableClient, retentionTitles)
           this.setData({
             titles: obj
           })
         } else {
-          let obj = Object.assign({}, tableOs, tableClient, retentionTitles)
+          let obj = Object.assign({}, tableDs, tableOs, tableClient, retentionTitles)
           this.setData({
             titles: obj
           })
@@ -337,6 +352,19 @@ Page({
     })
     this.reset();
     this.init();
+  },
+
+  //表格横行被点击
+  onRowTap: function({
+    detail
+  }) {
+    // console.log(detail.index + ":" + JSON.stringify(detail.data));
+    let handelRetentionOne = this.makeRetentionOne(detail.data);
+    this.setData({
+      handelRetentionOne: handelRetentionOne,
+      chartTitle2: handelRetentionOne.length == 0 ? "图表暂无数据" : "图标数据"
+    })
+    this.init_f2();
   },
 
   //滚动条底部事件
@@ -396,6 +424,7 @@ Page({
       method: "post",
       success: (e) => {
         if (e.data.success === true) {
+          console.log(e.data.shareRetentionList)
           if (e.data.shareRetentionList) {
             if (e.data.shareRetentionList.length != 0 && this.data.page != 1) {
               wx.showToast({
@@ -417,11 +446,11 @@ Page({
             } else {
               retentionList = this.data.retentionList.concat(e.data.shareRetentionList);
             }
+            retentionList = this.saturday(retentionList);
             this.setData({
               retentionList: retentionList,
             });
-            let handelRetentionOne = this.makeRetentionOne(retentionList);
-            console.log(handelRetentionOne)
+            let handelRetentionOne = this.makeRetentionOne(retentionList[0]);
             this.setData({
               handelRetentionOne: handelRetentionOne,
               chartTitle2: handelRetentionOne.length == 0 ? "图表暂无数据" : "图标数据"
@@ -441,17 +470,119 @@ Page({
       }
     })
   },
-  makeRetentionOne: function(data) {
+  saturday: function(data) {
     if (data) {
-      let handelRetentionOne = [];
       data.forEach((item, index) => {
-        let info = new Object();
-        info.time = index + 1;
-        info.value = item.oneRetentionPercentage;
-        handelRetentionOne.push(info);
-      });
-      console.log("---------handelRetentionOne:" + JSON.stringify(handelRetentionOne));
-      return handelRetentionOne;
+        let week = new Date(item.ds);
+        let dateweek = week.getDay();
+        let i = 7 - dateweek;
+        let saturdays = [];
+        switch (i) {
+          case 7:
+            saturdays = ['oneRetentionPercentage', 'eightRetentionPercentage', 'fifteenRetentionPercentage'];
+            break
+          case 1:
+            saturdays = ['sevenRetentionPercentage', 'fourteenRetentionPercentage'];
+            break
+          case 2:
+            saturdays = ['sixRetentionPercentage', 'thirteenRetentionPercentage'];
+            break
+          case 3:
+            saturdays = ['fiveRetentionPercentage', 'twelveRetentionPercentage'];
+            break
+          case 4:
+            saturdays = ['fourRetentionPercentage', 'elevenRetentionPercentage'];
+            break
+          case 5:
+            saturdays = ['threeRetentionPercentage', 'tenRetentionPercentage'];
+            break
+          case 6:
+            saturdays = ['twoRetentionPercentage', 'nineRetentionPercentage'];
+            break
+          default:
+        };
+        item.special = saturdays;
+        item.oneSpecial = saturdays[0];
+        item.twoSpecial = saturdays[1];
+      })
+      return data;
     }
+  },
+  makeRetentionOne: function(data) {
+    let handelRetentionOne = [];
+    // if (data) {
+    //   let handelRetentionOne = [];
+    //   data.forEach((item, index) => {
+    //     let info = new Object();
+    //     info.time = index + 1;
+    //     info.value = item.oneRetentionPercentage;
+    //     handelRetentionOne.push(info);
+    //   });
+    //   console.log("---------handelRetentionOne:" + JSON.stringify(handelRetentionOne));
+    //   return handelRetentionOne;
+    // }
+    if (data) {
+      let info1 = new Object();
+      info1.time = 1;
+      info1.value = data.oneRetentionPercentage;
+      handelRetentionOne.push(info1);
+      let info2 = new Object();
+      info2.time = 2;
+      info2.value = data.twoRetentionPercentage;
+      handelRetentionOne.push(info2);
+      let info3 = new Object();
+      info3.time = 3;
+      info3.value = data.threeRetentionPercentage;
+      handelRetentionOne.push(info3);
+      let info4 = new Object();
+      info4.time = 4;
+      info4.value = data.fourRetentionPercentage;
+      handelRetentionOne.push(info4);
+      let info5 = new Object();
+      info5.time = 5;
+      info5.value = data.fiveRetentionPercentage;
+      handelRetentionOne.push(info5);
+      let info6 = new Object();
+      info6.time = 6;
+      info6.value = data.sixRetentionPercentage;
+      handelRetentionOne.push(info6);
+      let info7 = new Object();
+      info7.time = 7;
+      info7.value = data.sevenRetentionPercentage;
+      handelRetentionOne.push(info7);
+      let info8 = new Object();
+      info8.time = 8;
+      info8.value = data.eightRetentionPercentage;
+      handelRetentionOne.push(info8);
+      let info9 = new Object();
+      info9.time = 9;
+      info9.value = data.nineRetentionPercentage;
+      handelRetentionOne.push(info9);
+      let info10 = new Object();
+      info10.time = 10;
+      info10.value = data.tenRetentionPercentage;
+      handelRetentionOne.push(info10);
+      let info11 = new Object();
+      info11.time = 11;
+      info11.value = data.elevenRetentionPercentage;
+      handelRetentionOne.push(info11);
+      let info12 = new Object();
+      info12.time = 12;
+      info12.value = data.twelveRetentionPercentage;
+      handelRetentionOne.push(info12);
+      let info13 = new Object();
+      info13.time = 13;
+      info13.value = data.thirteenRetentionPercentage;
+      handelRetentionOne.push(info13);
+      let info14 = new Object();
+      info14.time = 14;
+      info14.value = data.fourteenRetentionPercentage;
+      handelRetentionOne.push(info14);
+      let info15 = new Object();
+      info15.time = 15;
+      info15.value = data.fifteenRetentionPercentage;
+      handelRetentionOne.push(info15);
+    }
+    return handelRetentionOne;
   }
 })

@@ -122,7 +122,6 @@ const conf = {
   }, ]
 };
 let titles = {
-    ds: "日期",
     installNum: "注册数",
     dauNum: "活跃数",
     payCount: "付费人数",
@@ -139,6 +138,9 @@ let titles = {
 
     payTimes: "付费次数",
     payInstallTimes: "注册付费次数"
+  },
+  tableDs = {
+    ds: "日期"
   },
   tableOs = {
     os: "操作系统"
@@ -162,6 +164,10 @@ Page({
       gameid: options.gameId
     });
     console.log("---------" + options.gameId);
+    let obj = Object.assign({}, tableDs, titles);
+    this.setData({
+      payTitles: obj
+    })
     this.initChart2([]);
     this.queryAndUpdate();
   },
@@ -280,12 +286,12 @@ Page({
       }
       if (detail.key == "daily") {
         if (this.data.os == conf.os.android || this.data.os == conf.os.ios) {
-          let obj = Object.assign({}, tableOs, titles);
+          let obj = Object.assign({}, tableDs, tableOs, titles);
           this.setData({
             payTitles: obj
           })
         } else {
-          let obj = Object.assign({}, titles);
+          let obj = Object.assign({}, tableDs, titles);
           this.setData({
             payTitles: obj
           })
@@ -293,12 +299,12 @@ Page({
       }
       if (detail.key == "creative") {
         if (this.data.os == -1) {
-          let obj = Object.assign({}, tableCreative, titles);
+          let obj = Object.assign({}, tableDs, tableCreative, titles);
           this.setData({
             payTitles: obj
           })
         } else {
-          let obj = Object.assign({}, tableOs, tableCreative, titles);
+          let obj = Object.assign({}, tableDs, tableOs, tableCreative, titles);
           this.setData({
             payTitles: obj
           })
@@ -306,12 +312,12 @@ Page({
       }
       if (detail.key == "client") {
         if (this.data.os == -1) {
-          let obj = Object.assign({}, tableClient, titles);
+          let obj = Object.assign({}, tableDs, tableClient, titles);
           this.setData({
             payTitles: obj
           })
         } else {
-          let obj = Object.assign({}, tableOs, tableClient, titles);
+          let obj = Object.assign({}, tableDs, tableOs, tableClient, titles);
           this.setData({
             payTitles: obj
           })
@@ -339,19 +345,19 @@ Page({
   }) {
     if (detail.key == -1) {
       if (this.data.sourceCliCre == "daily") {
-        let obj = Object.assign({}, titles);
+        let obj = Object.assign({}, tableDs, titles);
         this.setData({
           payTitles: obj
         })
       };
       if (this.data.sourceCliCre == "creative") {
-        let obj = Object.assign({}, tableCreative, titles);
+        let obj = Object.assign({}, tableDs, tableCreative, titles);
         this.setData({
           payTitles: obj
         })
       };
       if (this.data.sourceCliCre == "client") {
-        let obj = Object.assign({}, tableClient, titles);
+        let obj = Object.assign({}, tableDs, tableClient, titles);
         this.setData({
           payTitles: obj
         })
@@ -359,25 +365,25 @@ Page({
     } else {
       if (this.data.sourceCliCre == "daily") {
         if (detail.key == "0") {
-          let obj = Object.assign({}, titles);
+          let obj = Object.assign({}, tableDs, titles);
           this.setData({
             payTitles: obj
           })
         } else {
-          let obj = Object.assign({}, tableOs, titles);
+          let obj = Object.assign({}, tableDs, tableOs, titles);
           this.setData({
             payTitles: obj
           })
         }
       };
       if (this.data.sourceCliCre == "creative") {
-        let obj = Object.assign({}, tableOs, tableCreative, titles);
+        let obj = Object.assign({}, tableDs, tableOs, tableCreative, titles);
         this.setData({
           payTitles: obj
         })
       };
       if (this.data.sourceCliCre == "client") {
-        let obj = Object.assign({}, tableOs, tableClient, titles);
+        let obj = Object.assign({}, tableDs, tableOs, tableClient, titles);
         this.setData({
           payTitles: obj
         })

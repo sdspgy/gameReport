@@ -4,6 +4,7 @@
 */
 
 /* 整个表格布局 */
+
 .table-pane {
   width: 100%;
   display: flex;
@@ -13,6 +14,7 @@
 }
 
 /* 表格 */
+
 .table {
   display: flex;
   flex-direction: column;
@@ -22,6 +24,7 @@
 }
 
 /* 表格标题 */
+
 .caption {
   color: #495060;
   font-size: 14px;
@@ -33,6 +36,7 @@
 }
 
 /* 表格行 */
+
 .tr {
   display: flex;
   flex-direction: row;
@@ -42,6 +46,7 @@
 }
 
 /* 单元格默认75px 35px 文字居中 */
+
 .td, .th {
   width: 75px;
   height: 35px;
@@ -52,17 +57,34 @@
 }
 
 /* 表头字体加粗 */
+
 .th {
   font-weight: bold;
 }
 
 /* row 灰色 */
+
 .bg-g {
   background-color: #fafafa;
 }
 
 /* 被选中的颜色 */
+
 .selected {
   background-color: #5badff;
   color: white;
+}
+
+.moderate {
+  background-color: #aaf;
+  color: white;
+}
+
+.special {
+  background-color: #4a4aff;
+  color: white;
+}
+
+.text {
+  color: #FF5151
 }
