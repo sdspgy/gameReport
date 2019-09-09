@@ -538,7 +538,15 @@ Page({
           }
         }
       });
-      c2.line().position('time*value');
+      //设置图列居中显示
+      c2.legend({
+        align: 'center',
+        itemWidth: null
+      });
+      c2.tooltip({
+        showCrosshairs: true
+      });
+      c2.line().position('time*value').color('type');
       c2.render();
       return c2;
     })
@@ -644,10 +652,36 @@ Page({
     if (data) {
       let handelPayCount = [];
       data.forEach((item, index) => {
-        let info = new Object();
-        info.time = index + 1;
-        info.value = item.payCount;
-        handelPayCount.push(info);
+        let infopayCount = new Object();
+        infopayCount.time = index + 1;
+        infopayCount.value = item.payCount;
+        infopayCount.type = '付费人数';
+        handelPayCount.push(infopayCount);
+        let infopayAmount = new Object();
+        infopayAmount.time = index + 1;
+        infopayAmount.value = item.payAmount;
+        infopayAmount.type = '付费金额';
+        handelPayCount.push(infopayAmount);
+        let infopayTimes = new Object();
+        infopayTimes.time = index + 1;
+        infopayTimes.value = item.payTimes;
+        infopayTimes.type = '付费次数';
+        handelPayCount.push(infopayTimes);
+        let infopayInstallCount = new Object();
+        infopayInstallCount.time = index + 1;
+        infopayInstallCount.value = item.payInstallCount;
+        infopayInstallCount.type = '安装付费人数';
+        handelPayCount.push(infopayInstallCount);
+        let infopayInstallAmount = new Object();
+        infopayInstallAmount.time = index + 1;
+        infopayInstallAmount.value = item.payInstallAmount;
+        infopayInstallAmount.type = '安装付费金额';
+        handelPayCount.push(infopayInstallAmount);
+        let infoPayInstallTimes = new Object();
+        infoPayInstallTimes.time = index + 1;
+        infoPayInstallTimes.value = item.payInstallTimes;
+        infoPayInstallTimes.type = '安装付费次数';
+        handelPayCount.push(infoPayInstallTimes);
       });
       console.log("---------payCount:" + JSON.stringify(handelPayCount));
       return handelPayCount;

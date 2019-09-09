@@ -142,11 +142,11 @@ Page({
     this.setData({
       titles: obj
     })
-    this.setData({
-      retentionList: this.data.test
-    })
-    //数据初始化
-    // this.init();
+    // this.setData({
+    //   retentionList: this.data.test
+    // })
+    // 数据初始化
+    this.init();
   },
 
   init_f2: function() {

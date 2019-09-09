@@ -82,7 +82,7 @@
 </view>
 
 <view class='retentionData'>
-  <table caption="留存数据" titles="{{conf.table.retentionTitles}}" data="{{retentionDataList}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
+  <table caption="留存数据" type="1" titles="{{conf.table.retentionTitles}}" data="{{retentionDataList}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
 </view>
 
 <view class='container'>

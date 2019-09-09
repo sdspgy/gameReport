@@ -436,7 +436,7 @@ Page({
             datas: this.f2DI(e.data.dauNumOrInstallNumList),
             payList: e.data.payList,
             retentionEcharts: e.data.echartsRetentions,
-            retentionDataList: e.data.shareRetentionList
+            retentionDataList: this.saturday(e.data.shareRetentionList)
           });
           this.init_one();
         } else {
@@ -449,6 +449,45 @@ Page({
       },
       error: function(e) {}
     })
+  },
+
+  saturday: function (data) {
+    if (data) {
+      data.forEach((item, index) => {
+        let week = new Date(item.ds);
+        let dateweek = week.getDay();
+        let i = 7 - dateweek;
+        let saturdays = [];
+        switch (i) {
+          case 7:
+            saturdays = ['oneRetentionPercentage', 'eightRetentionPercentage', 'fifteenRetentionPercentage'];
+            break
+          case 1:
+            saturdays = ['sevenRetentionPercentage', 'fourteenRetentionPercentage'];
+            break
+          case 2:
+            saturdays = ['sixRetentionPercentage', 'thirteenRetentionPercentage'];
+            break
+          case 3:
+            saturdays = ['fiveRetentionPercentage', 'twelveRetentionPercentage'];
+            break
+          case 4:
+            saturdays = ['fourRetentionPercentage', 'elevenRetentionPercentage'];
+            break
+          case 5:
+            saturdays = ['threeRetentionPercentage', 'tenRetentionPercentage'];
+            break
+          case 6:
+            saturdays = ['twoRetentionPercentage', 'nineRetentionPercentage'];
+            break
+          default:
+        };
+        item.special = saturdays;
+        item.oneSpecial = saturdays[0];
+        item.twoSpecial = saturdays[1];
+      })
+      return data;
+    }
   },
 
   f2DI: function(data) {
