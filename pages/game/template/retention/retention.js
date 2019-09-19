@@ -115,8 +115,8 @@ Page({
     isOs: 0,
     indexStatu: 2,
     array: ['全渠道', '应用宝', '小米', '华为'],
-    arrayCreate: ['全渠道', '应用宝', '小米', '华为'],
-    arrayClient: ['全服', '1服', '2服', '3服'],
+    arrayCreate: ['全渠道', 'moegoApp', 'huawei', 'm360', 'meizu', 'oppo', 'sougou', 'vivo', 'xiaomi', 'yyb', 'AppStore', 'TL10', 'aliyun', 'lenovo'],
+    arrayClient: ['全服', '1服', '2服', '3服', '4服', '5服', '6服', '7服', '8服', '9服'],
     index: 0,
     type: 0,
     conf: conf,
@@ -162,7 +162,7 @@ Page({
         value: {
           tickCount: 10,
           formatter: function formatter(ivalue) {
-            let RTrimValue = parseInt(ivalue.replace("%", ""));
+            let RTrimValue = ivalue;
             return RTrimValue;
           }
         }
@@ -358,7 +358,7 @@ Page({
   onRowTap: function({
     detail
   }) {
-    // console.log(detail.index + ":" + JSON.stringify(detail.data));
+    console.log(detail.index + ":" + JSON.stringify(detail.data));
     let handelRetentionOne = this.makeRetentionOne(detail.data);
     this.setData({
       handelRetentionOne: handelRetentionOne,
@@ -524,63 +524,63 @@ Page({
     if (data) {
       let info1 = new Object();
       info1.time = 1;
-      info1.value = data.oneRetentionPercentage;
+      info1.value = parseFloat(data.oneRetentionPercentage);
       handelRetentionOne.push(info1);
       let info2 = new Object();
       info2.time = 2;
-      info2.value = data.twoRetentionPercentage;
+      info2.value = parseFloat(data.twoRetentionPercentage);
       handelRetentionOne.push(info2);
       let info3 = new Object();
       info3.time = 3;
-      info3.value = data.threeRetentionPercentage;
+      info3.value = parseFloat(data.threeRetentionPercentage);
       handelRetentionOne.push(info3);
       let info4 = new Object();
       info4.time = 4;
-      info4.value = data.fourRetentionPercentage;
+      info4.value = parseFloat(data.fourRetentionPercentage);
       handelRetentionOne.push(info4);
       let info5 = new Object();
       info5.time = 5;
-      info5.value = data.fiveRetentionPercentage;
+      info5.value = parseFloat(data.fiveRetentionPercentage);
       handelRetentionOne.push(info5);
       let info6 = new Object();
       info6.time = 6;
-      info6.value = data.sixRetentionPercentage;
+      info6.value = parseFloat(data.sixRetentionPercentage);
       handelRetentionOne.push(info6);
       let info7 = new Object();
       info7.time = 7;
-      info7.value = data.sevenRetentionPercentage;
+      info7.value = parseFloat(data.sevenRetentionPercentage);
       handelRetentionOne.push(info7);
       let info8 = new Object();
       info8.time = 8;
-      info8.value = data.eightRetentionPercentage;
+      info8.value = parseFloat(data.eightRetentionPercentage);
       handelRetentionOne.push(info8);
       let info9 = new Object();
       info9.time = 9;
-      info9.value = data.nineRetentionPercentage;
+      info9.value = parseFloat(data.nineRetentionPercentage);
       handelRetentionOne.push(info9);
       let info10 = new Object();
       info10.time = 10;
-      info10.value = data.tenRetentionPercentage;
+      info10.value = parseFloat(data.tenRetentionPercentage);
       handelRetentionOne.push(info10);
       let info11 = new Object();
       info11.time = 11;
-      info11.value = data.elevenRetentionPercentage;
+      info11.value = parseFloat(data.elevenRetentionPercentage);
       handelRetentionOne.push(info11);
       let info12 = new Object();
       info12.time = 12;
-      info12.value = data.twelveRetentionPercentage;
+      info12.value = parseFloat(data.twelveRetentionPercentage);
       handelRetentionOne.push(info12);
       let info13 = new Object();
       info13.time = 13;
-      info13.value = data.thirteenRetentionPercentage;
+      info13.value = parseFloat(data.thirteenRetentionPercentage);
       handelRetentionOne.push(info13);
       let info14 = new Object();
       info14.time = 14;
-      info14.value = data.fourteenRetentionPercentage;
+      info14.value = parseFloat(data.fourteenRetentionPercentage);
       handelRetentionOne.push(info14);
       let info15 = new Object();
       info15.time = 15;
-      info15.value = data.fifteenRetentionPercentage;
+      info15.value = parseFloat(data.fifteenRetentionPercentage);
       handelRetentionOne.push(info15);
     }
     return handelRetentionOne;

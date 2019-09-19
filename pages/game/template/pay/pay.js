@@ -59,26 +59,74 @@ const conf = {
           key: 8,
           name: "8服"
         },
+        {
+          key: 9,
+          name: "9服"
+        },
+        {
+          key: 10,
+          name: "10服"
+        },
       ]
     },
     creative: {
       val: "creative",
       choice: [{
-          key: "all",
-          name: "所有渠道"
+          key: 0,
+          name: "全渠道"
         },
         {
           key: 1,
-          name: "华为"
+          name: "moegoApp"
         },
         {
           key: 2,
-          name: "小米"
+          name: "huawei"
         },
         {
           key: 3,
-          name: "应用宝"
-        }
+          name: "m360"
+        },
+        {
+          key: 4,
+          name: "meizu"
+        },
+        {
+          key: 5,
+          name: "oppo"
+        },
+        {
+          key: 6,
+          name: "sougou"
+        },
+        {
+          key: 7,
+          name: "vivo"
+        },
+        {
+          key: 8,
+          name: "xiaomi"
+        },
+        {
+          key: 9,
+          name: "yyb"
+        },
+        {
+          key: 10,
+          name: "AppStore"
+        },
+        {
+          key: 11,
+          name: "TL10"
+        },
+        {
+          key: 12,
+          name: "aliyun"
+        },
+        {
+          key: 13,
+          name: "lenovo"
+        },
       ]
     },
     daily: {

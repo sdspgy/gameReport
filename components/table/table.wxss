@@ -43,6 +43,7 @@
   align-content: center;
   background: white;
   color: #495060;
+  margin-top: 1px;
 }
 
 /* 单元格默认75px 35px 文字居中 */
@@ -81,10 +82,10 @@
 }
 
 .special {
-  background-color: #4a4aff;
+  background-color: #7575ce;
   color: white;
 }
 
 .text {
-  color: #FF5151
+  color: rgb(81, 235, 255)
 }
