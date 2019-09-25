@@ -1,5 +1,6 @@
 import url from "../../../../utils/util.js";
 import F2 from '../../../../f2-canvas/lib/f2';
+var gameid = require('../../../../app.js');
 // 全局提示
 const {
   $Message
@@ -71,6 +72,9 @@ let retentionTitles = {
 Page({
 
   data: {
+    backData: {
+      event: 'back'
+    },
     navData: [{
       name: "概况", //文本
       currentMenu: 0, //是否是当前页，0不是  1是
@@ -135,9 +139,8 @@ Page({
 
   onLoad: function(options) {
     this.setData({
-      gameid: options.gameId
+      gameid: gameid
     });
-    console.log("--------游戏Id:" + options.gameId);
     let obj = Object.assign({}, tableDs, retentionTitles);
     this.setData({
       titles: obj
@@ -295,8 +298,9 @@ Page({
           titles: obj
         })
       } else {
+        let obj = Object.assign({}, tableDs, retentionTitles)
         this.setData({
-          titles: retentionTitles
+          titles: obj
         })
       }
       this.reset();
@@ -400,6 +404,12 @@ Page({
     this.setData({
       page: 1,
       retentionList: []
+    })
+  },
+
+  back: function() {
+    wx.redirectTo({
+      url: '../../../index/index',
     })
   },
 

@@ -1,8 +1,9 @@
 import url from "./utils/util.js"
+var gameid = [1];
 App({
   onLaunch: function() {
     // 登录
-    this.login();
+    // this.login();
     // 获取用户信息
   },
 
@@ -83,7 +84,13 @@ App({
     })
   },
 
+  gameidEvent: function(info) {
+    gameid[0] = info;
+    console.log(gameid[0]);
+  },
+
   globalData: {
     userInfo: null
   }
 })
+module.exports = gameid;

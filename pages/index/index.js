@@ -1,7 +1,6 @@
 import url from "../../utils/util.js"
 //获取应用实例
 const app = getApp()
-
 Page({
   data: {
     message: "",
@@ -84,6 +83,15 @@ Page({
       error: function(e) {
         debugger;
       }
+    })
+  },
+
+  gameUrl: function(e) {
+    const gameidUrl = e.currentTarget.id;
+    const gameid = gameidUrl.substr(gameidUrl.length - 1, 1);
+    app.gameidEvent(gameid);
+    wx.switchTab({
+      url: e.currentTarget.id,
     })
   },
 

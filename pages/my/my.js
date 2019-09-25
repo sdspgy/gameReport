@@ -1,4 +1,5 @@
 import url from "../../utils/util.js"
+var gameid = require('../index/index.js');
 //获取应用实例
 const app = getApp()
 Page({
@@ -16,7 +17,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
+    console.log(gameid)
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -43,10 +44,10 @@ Page({
         }
       })
     };
-    this.init();
+    // this.init();
   },
 
-  init: function () {
+  init: function() {
     wx.request({
       url: url.requestUrl + '/api/druidText',
       header: {
@@ -56,7 +57,7 @@ Page({
       method: "get",
       success: (e) => {
         if (e.data.success === true) {
-          
+
         } else {
           wx.showToast({
             title: e.data.msg,
@@ -65,7 +66,7 @@ Page({
           })
         }
       },
-      error: function (e) {
+      error: function(e) {
 
       }
     })

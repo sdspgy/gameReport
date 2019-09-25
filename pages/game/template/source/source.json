@@ -11,6 +11,7 @@
     "i-icon": "../../../../dist/icon/index",
     "ff-canvas": "../../../../f2-canvas/f2-canvas",
     "table": "../../../../components/table/table",
+    "back":"../../../../components/back/back",
     "van-tabs": "../../../../dist/vant/tabs/index",
     "van-tab": "../../../../dist/vant/tab/index",
     "van-collapse": "../../../../dist/vant/collapse/index",

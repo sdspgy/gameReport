@@ -1,0 +1,1 @@
+<van-icon custom-class="back" name="arrow-left" bind:click='back' info="返回" color='#B0E2FF' size='30px' />

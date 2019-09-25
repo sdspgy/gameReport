@@ -1,6 +1,7 @@
 import url from "../../../../utils/util.js";
 import F2 from '../../../../f2-canvas/lib/f2';
 import * as echarts from '../../../../ec-canvas/echarts';
+var gameid = require('../../../../app.js');
 // 全局提示
 const {
   $Message
@@ -142,7 +143,7 @@ Page({
   },
   onLoad: function(e) {
     this.setData({
-      gameid: e.gameId
+      gameid: gameid
     })
     console.log("gameId-----" + this.data.gameid)
     //数据初始化
@@ -390,6 +391,12 @@ Page({
 
   },
 
+  back: function() {
+    wx.redirectTo({
+      url: '../../../index/index',
+    })
+  },
+
   // 底部跳转
   gotoOldGoods: function() {
     wx.redirectTo({
@@ -451,7 +458,7 @@ Page({
     })
   },
 
-  saturday: function (data) {
+  saturday: function(data) {
     if (data) {
       data.forEach((item, index) => {
         let week = new Date(item.ds);

@@ -1,5 +1,6 @@
 import F2 from '../../../../f2-canvas/lib/f2';
 import url from "../../../../utils/util.js";
+var gameid = require('../../../../app.js');
 // 全局提示
 const {
   $Message
@@ -209,9 +210,8 @@ Page({
   onLoad: function(options) {
     // 页面创建时执行
     this.setData({
-      gameid: options.gameId
+      gameid: gameid
     });
-    console.log("---------" + options.gameId);
     let obj = Object.assign({}, tableDs, titles);
     this.setData({
       payTitles: obj
@@ -260,7 +260,7 @@ Page({
     sourceCliCreChoices: conf.sourceCliCre.creative.choice, //分服和分渠道的选择列表
     isShowVanTabs: false,
     os: conf.os.all,
-    timeArea: conf.timeArea.today,
+    timeArea: conf.timeArea.week,
     tableData: [],
     chartTitle2: "图表暂无数据",
     navData: conf.navData,
@@ -614,6 +614,12 @@ Page({
   onBottomTap: function() {
     this.data.page += 1;
     this.queryAndUpdate();
+  },
+
+  back: function () {
+    wx.redirectTo({
+      url: '../../../index/index',
+    })
   },
 
   //查询

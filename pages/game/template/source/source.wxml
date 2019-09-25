@@ -55,14 +55,16 @@
   </view>
 </view>
 
-<table caption="详细数据" titles="{{payTitles}}" data="{{tableData}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="onBottomTap"/>
+<table caption="详细数据" titles="{{payTitles}}" data="{{tableData}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="onBottomTap" />
+
+<back bind:back="back" />
 
 <view class='bottom'></view>
 
 <!--底部-->
-<import src="../../../../template/nav" />
+<!-- <import src="../../../../template/nav" />
 <view class="flex fix_nav_wp">
   <block wx:for="{{navData}}" wx:key="">
     <template is="nav" data="{{...item}}" />
   </block>
-</view>
+</view> -->

@@ -1,6 +1,6 @@
 <view>
   <i-notice-bar icon="systemprompt" speed="2000" loop>
-    一怒红颜，焚神灭天！
+    龙脉觉醒，天命将至！
   </i-notice-bar>
 </view>
 
@@ -18,7 +18,7 @@
 <!-- 游戏列表 -->
 <view wx:key="{{item.id}}" wx:for="{{games}}">
   <i-cell-group>
-    <i-cell title="{{item.name}}" label="{{item.state}}" value="{{item.type}}" only-tap-footer is-link url="{{item.url}}"></i-cell>
+    <i-cell title="{{item.name}}" bind:click="gameUrl" id="{{item.url}}" label="{{item.state}}" value="{{item.type}}" only-tap-footer></i-cell>
   </i-cell-group>
 </view>
 

@@ -2,3 +2,5 @@
 <i-message id="message" />
 
 <view class='boder'>----</view>
+
+<van-icon name="arrow-left" bind:click='back' />

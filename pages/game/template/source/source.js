@@ -1,5 +1,6 @@
 import F2 from '../../../../f2-canvas/lib/f2';
 import url from "../../../../utils/util.js";
+var gameid = require('../../../../app.js');
 // 全局提示
 const {
   $Message
@@ -28,105 +29,105 @@ const conf = {
     client: {
       val: "client",
       choice: [{
-        key: -1,
-        name: "所有服",
-      },
-      {
-        key: 1,
-        name: "1服"
-      }, {
-        key: 2,
-        name: "2服"
-      }, {
-        key: 3,
-        name: "3服"
-      }, {
-        key: 4,
-        name: "4服"
-      }, {
-        key: 5,
-        name: "5服"
-      },
-      {
-        key: 6,
-        name: "6服"
-      },
-      {
-        key: 7,
-        name: "7服"
-      },
-      {
-        key: 8,
-        name: "8服"
-      },
-      {
-        key: 9,
-        name: "9服"
-      },
-      {
-        key: 10,
-        name: "10服"
-      },
+          key: -1,
+          name: "所有服",
+        },
+        {
+          key: 1,
+          name: "1服"
+        }, {
+          key: 2,
+          name: "2服"
+        }, {
+          key: 3,
+          name: "3服"
+        }, {
+          key: 4,
+          name: "4服"
+        }, {
+          key: 5,
+          name: "5服"
+        },
+        {
+          key: 6,
+          name: "6服"
+        },
+        {
+          key: 7,
+          name: "7服"
+        },
+        {
+          key: 8,
+          name: "8服"
+        },
+        {
+          key: 9,
+          name: "9服"
+        },
+        {
+          key: 10,
+          name: "10服"
+        },
       ]
     },
     creative: {
       val: "creative",
       choice: [{
-        key: 0,
-        name: "全渠道"
-      },
-      {
-        key: 1,
-        name: "moegoApp"
-      },
-      {
-        key: 2,
-        name: "huawei"
-      },
-      {
-        key: 3,
-        name: "m360"
-      },
-      {
-        key: 4,
-        name: "meizu"
-      },
-      {
-        key: 5,
-        name: "oppo"
-      },
-      {
-        key: 6,
-        name: "sougou"
-      },
-      {
-        key: 7,
-        name: "vivo"
-      },
-      {
-        key: 8,
-        name: "xiaomi"
-      },
-      {
-        key: 9,
-        name: "yyb"
-      },
-      {
-        key: 10,
-        name: "AppStore"
-      },
-      {
-        key: 11,
-        name: "TL10"
-      },
-      {
-        key: 12,
-        name: "aliyun"
-      },
-      {
-        key: 13,
-        name: "lenovo"
-      },
+          key: 0,
+          name: "全渠道"
+        },
+        {
+          key: 1,
+          name: "moegoApp"
+        },
+        {
+          key: 2,
+          name: "huawei"
+        },
+        {
+          key: 3,
+          name: "m360"
+        },
+        {
+          key: 4,
+          name: "meizu"
+        },
+        {
+          key: 5,
+          name: "oppo"
+        },
+        {
+          key: 6,
+          name: "sougou"
+        },
+        {
+          key: 7,
+          name: "vivo"
+        },
+        {
+          key: 8,
+          name: "xiaomi"
+        },
+        {
+          key: 9,
+          name: "yyb"
+        },
+        {
+          key: 10,
+          name: "AppStore"
+        },
+        {
+          key: 11,
+          name: "TL10"
+        },
+        {
+          key: 12,
+          name: "aliyun"
+        },
+        {
+          key: 13,
+          name: "lenovo"
+        },
       ]
     },
     daily: {
@@ -135,7 +136,7 @@ const conf = {
     }
   },
   table: {
-    colWidth: 195
+    colWidth: 400
   },
   navData: [{
     name: "概况", //文本
@@ -194,9 +195,8 @@ Page({
   onLoad: function(options) {
     // 页面创建时执行
     this.setData({
-      gameid: options.gameId
+      gameid: gameid
     });
-    console.log("---------" + options.gameId);
     let obj = Object.assign({}, tableDs, titles);
     this.setData({
       payTitles: obj
@@ -245,7 +245,7 @@ Page({
     sourceCliCreChoices: conf.sourceCliCre.creative.choice, //分服和分渠道的选择列表
     isShowVanTabs: false,
     os: conf.os.all,
-    timeArea: conf.timeArea.today,
+    timeArea: conf.timeArea.week,
     tableData: [],
     chartTitle2: "图表暂无数据",
     navData: conf.navData,
@@ -515,6 +515,12 @@ Page({
       data[index] = d;
     })
     this.updateChart2Data(data);
+  },
+
+  back: function() {
+    wx.redirectTo({
+      url: '../../../index/index',
+    })
   },
 
   /**

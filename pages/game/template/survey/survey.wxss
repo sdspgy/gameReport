@@ -3,6 +3,17 @@
   margin: 0 auto;
 }
 
+.survey {
+  /* overflow-x: hidden; */
+}
+
+view.back.van-icon.vant-icon-index--van-icon.van-icon-arrow-left.vant-icon-index--van-icon-arrow-left {
+  position: fixed;
+  left: 0;
+  top: 35%;
+  z-index: 999;
+}
+
 .header {
   background-color: #fff;
   margin: 0 auto;
@@ -227,13 +238,24 @@ i-radio > view > i-cell > view > .i-cell {
   width: 128%;
   height: 95%;
   position: relative;
-  top: 140%;
+  top: 150%;
 }
 
-.mychartRetention .section {
+.pk_text {
+  position: relative;
+  bottom: -72px;
+  color: #495060;
+  font-size: 14px;
+  font-weight: bold;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+}
+
+.section {
   width: 100%;
-  position: absolute;
-  top: 8%;
-  left: 15%;
+  position: relative;
+  top: 148%;
+  left: 5%;
   z-index: 7;
 }

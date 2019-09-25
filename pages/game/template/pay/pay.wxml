@@ -28,7 +28,7 @@
   <!-- 按渠道或者分服 -->
 
   <i-tab-bar i-class="space" current="{{ sourceCliCre }}" color="#5cadff" bindchange="sourceCliCreChange">
-      <i-tab-bar-item key="{{conf.sourceCliCre.daily.val}}" icon="computer" current-icon="computer_fill" title="概况"></i-tab-bar-item>
+    <i-tab-bar-item key="{{conf.sourceCliCre.daily.val}}" icon="computer" current-icon="computer_fill" title="概况"></i-tab-bar-item>
     <i-tab-bar-item key="{{conf.sourceCliCre.creative.val}}" icon="computer" current-icon="computer_fill" title="渠道"></i-tab-bar-item>
     <i-tab-bar-item key="{{conf.sourceCliCre.client.val}}" icon="computer" current-icon="computer_fill" title="分服"></i-tab-bar-item>
   </i-tab-bar>
@@ -55,14 +55,15 @@
   </view>
 </view>
 
-<table caption="详细数据" titles="{{payTitles}}" data="{{tableData}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="onBottomTap"/>
+<table caption="详细数据" titles="{{payTitles}}" data="{{tableData}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="onBottomTap" />
 
+<back bind:back="back" />
 <view class='bottom'></view>
 
 <!--底部-->
-<import src="../../../../template/nav" />
+<!-- <import src="../../../../template/nav" />
 <view class="flex fix_nav_wp">
   <block wx:for="{{navData}}" wx:key="">
     <template is="nav" data="{{...item}}" />
   </block>
-</view>
+</view> -->

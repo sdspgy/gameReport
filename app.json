@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/start/start",
     "pages/login/login",
     "pages/index/index",
     "pages/logs/logs",
@@ -22,13 +21,52 @@
     "pages/resource/resource_edit",
     "pages/resource/resource_manager",
     "pages/game/template/survey/survey",
-    "pages/game/template/retention/retention"
+    "pages/game/template/retention/retention",
+    "pages/game/template/source/source",
+    "pages/game/template/portrait/portrait",
+    "pages/game/template/behavior/behavior"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "互爱科技",
     "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "selectedColor": "green",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/game/template/survey/survey",
+        "text": "概况",
+        "iconPath": "images/menu/menu1.jpg",
+        "selectedIconPath": "images/menu/menu1.jpg"
+      },
+      {
+        "pagePath": "pages/game/template/source/source",
+        "text": "新进",
+        "iconPath": "images/menu/menu1.jpg",
+        "selectedIconPath": "images/menu/menu1.jpg"
+      },
+      {
+        "pagePath": "pages/game/template/retention/retention",
+        "text": "留存",
+        "iconPath": "images/menu/menu1.jpg",
+        "selectedIconPath": "images/menu/menu1.jpg"
+      },
+      {
+        "pagePath": "pages/game/template/pay/pay",
+        "text": "付费",
+        "iconPath": "images/menu/menu1.jpg",
+        "selectedIconPath": "images/menu/menu1.jpg"
+      },
+      {
+        "pagePath": "pages/game/template/portrait/portrait",
+        "text": "其他",
+        "iconPath": "images/menu/menu1.jpg",
+        "selectedIconPath": "images/menu/menu1.jpg"
+      }
+    ]
   },
   "sitemapLocation": "sitemap.json"
 }
