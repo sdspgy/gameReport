@@ -14,8 +14,8 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
-const requestUrl = "https://report.nuojuekeji.com/report";
-//  const requestUrl = "http://10.2.64.47:8081";
+// const requestUrl = "https://report.nuojuekeji.com/report";
+ const requestUrl = "http://10.2.10.41:8081";
 module.exports = {
   formatTime: formatTime,
 
