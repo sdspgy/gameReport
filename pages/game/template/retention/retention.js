@@ -415,6 +415,10 @@ Page({
 
   //数据初始化
   init: function() {
+    wx.showLoading({
+      title: "数据加载中",
+      mask: true
+    });
     wx.request({
       url: url.requestUrl + '/api/retention',
       header: {
@@ -433,6 +437,9 @@ Page({
       },
       method: "post",
       success: (e) => {
+        setTimeout(() => {
+          wx.hideLoading();
+        }, 100);
         if (e.data.success === true) {
           console.log(e.data.shareRetentionList)
           if (e.data.shareRetentionList) {

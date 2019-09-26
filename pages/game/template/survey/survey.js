@@ -421,6 +421,10 @@ Page({
 
   //数据初始化
   init: function() {
+    wx.showLoading({
+      title: "数据加载中",
+      mask: true
+    });
     wx.request({
       url: url.requestUrl + '/api/daily',
       header: {
@@ -437,6 +441,9 @@ Page({
       },
       method: "post",
       success: (e) => {
+        setTimeout(() => {
+          wx.hideLoading();
+        }, 100);
         if (e.data.success === true) {
           this.setData({
             listData: this.tableDataProcess(e.data.shareDailyResultTypes),

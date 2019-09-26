@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/start/start",
     "pages/login/login",
     "pages/index/index",
     "pages/logs/logs",
@@ -33,7 +34,7 @@
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "selectedColor": "green",
+    "selectedColor": "#87CEFF",
     "borderStyle": "white",
     "list": [
       {

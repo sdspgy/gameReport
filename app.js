@@ -3,7 +3,7 @@ var gameid = [1];
 App({
   onLaunch: function() {
     // 登录
-    // this.login();
+    this.login();
     // 获取用户信息
   },
 

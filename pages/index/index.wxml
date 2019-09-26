@@ -17,8 +17,8 @@
 
 <!-- 游戏列表 -->
 <view wx:key="{{item.id}}" wx:for="{{games}}">
-  <i-cell-group>
-    <i-cell title="{{item.name}}" bind:click="gameUrl" id="{{item.url}}" label="{{item.state}}" value="{{item.type}}" only-tap-footer></i-cell>
+  <i-cell-group bindtap="gameUrl" id="{{item.url}}">
+    <i-cell title="{{item.name}}" label="{{item.state}}" value="{{item.type}}" only-tap-footer></i-cell>
   </i-cell-group>
 </view>
 
