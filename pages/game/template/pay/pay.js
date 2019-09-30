@@ -1,6 +1,7 @@
 import F2 from '../../../../f2-canvas/lib/f2';
 import url from "../../../../utils/util.js";
 var gameid = require('../../../../app.js');
+var common = require("../../../../utils/util.js");
 // 全局提示
 const {
   $Message
@@ -616,7 +617,7 @@ Page({
     this.queryAndUpdate();
   },
 
-  back: function () {
+  back: function() {
     wx.redirectTo({
       url: '../../../index/index',
     })
@@ -692,11 +693,14 @@ Page({
     if (data) {
       data.forEach((item) => {
         item.payRate = (item.payCount * 100 / item.dauNum).toFixed(2) + "%";
+        item.payAmount = item.payAmount / 100;
         item.ARPU = (item.payAmount / item.dauNum).toFixed(2);
         item.ARPPU = (item.payAmount / item.payCount).toFixed(2);
         item.payInstallRate = (item.payInstallCount * 100 / item.installNum).toFixed(2) + "%";
+        item.payInstallAmount = item.payInstallAmount / 100;
         item.payInstallARPU = (item.payInstallAmount / item.installNum).toFixed(2);
         item.payInstallARPPU = (item.payInstallAmount / item.payInstallCount).toFixed(2);
+        item.ds = common.week(item.ds);
       })
     }
     return data;

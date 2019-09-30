@@ -5,9 +5,10 @@ Page({
   data: {
     message: "",
     imgUrls: [
-      'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
-      'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640',
-      'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640'
+      '../../images/menu/three.jpeg',
+      '../../images/menu/one.jpeg',
+      '../../images/menu/two.jpeg',
+      '../../images/menu/four.jpeg',
     ],
     indicatorDots: true,
     autoplay: true,
@@ -18,7 +19,7 @@ Page({
 
     resources: [],
     index: {},
-
+    moreGame: true,
   },
 
   //事件处理函数
@@ -28,9 +29,28 @@ Page({
     })
   },
   onLoad: function() {
-    this.getReourceType();
-    this.init();
+    if (app.globalData.userInfo) {
+      this.getReourceType();
+      this.init();
+      this.setData({
+        moreGame: false
+      })
+    } else {
+      app.userInfoReadyCallback = res => {
+        if (res.userInfo) {
+          this.getReourceType();
+          this.init();
+          this.setData({
+            moreGame: false
+          })
+        }
+      }
+    }
+  },
 
+  moreGame: function() {
+    app.login();
+    this.onLoad();
   },
 
   init: function() {

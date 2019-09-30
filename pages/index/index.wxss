@@ -106,6 +106,10 @@ page {
   position: relative;
 }
 
+swiper {
+  height: 180px;
+}
+
 .fix_nav_wp .tip_tip {
   position: absolute;
   right: 25rpx;

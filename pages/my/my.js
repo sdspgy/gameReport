@@ -11,17 +11,27 @@ Page({
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    message: "请登录",
+    loginShow: true,
+  },
+
+  bindGetUserInfo: function(e) {
+    if (e.detail.userInfo) {
+      app.login();
+    } else {
+      console.log("fail")
+    }
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log(gameid)
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
-        hasUserInfo: true
+        hasUserInfo: true,
+        loginShow: false,
       })
     } else if (this.data.canIUse) {
       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回

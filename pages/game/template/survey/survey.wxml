@@ -91,7 +91,7 @@
     <table caption="留存数据" type="1" titles="{{conf.table.retentionTitles}}" data="{{retentionDataList}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
   </view>
 
-  <view class='container'>
+  <!-- <view class='container'>
     <view class="section">
       <view class='pk_text'>漏斗图数据</view>
       <picker mode="date" value="{{retentionDate}}" start="2015-09-01" end="2032-09-01" bindchange="bindDateChange">
@@ -103,7 +103,7 @@
     <view class='mychartRetention'>
       <ec-canvas id="mychart-mychartRetention" canvas-id="mychart-retention" ec="{{ mychartRetention }}"></ec-canvas>
     </view>
-  </view>
+  </view> -->
 </view>
 <!--底部-->
 <!-- <import src="../../../../template/nav" />

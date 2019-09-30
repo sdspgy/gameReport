@@ -1,3 +1,9 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "van-button": "../../dist/vant/button/index",
+    "i-cell-group": "../../dist/cell-group/index",
+    "i-cell": "../../dist/cell/index",
+    "i-spin": "../../dist/spin/index",
+    "i-load-more": "../../dist/load-more/index"
+  }
 }

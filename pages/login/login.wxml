@@ -1,5 +1,15 @@
 <view class="container">
   <view class="userinfo">
-    <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo"> {{message}} </button>
+    <i-cell-group wx:if="{{!hasUserInfo}}" bindtap="" id="">
+      <i-cell title="" label="不想登录,点击左上角返回继续体验Demo" value="" only-tap-footer></i-cell>
+    </i-cell-group>
+
+    <van-button plain hairline type="info" wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">请授权登录</van-button>
+
+    <block wx:else>
+      <image bindtap="toggleRight1" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+    <van-button plain hairline type="info" wx:if="{{hasUserInfo}}" bindtap="back">返回主页</van-button>
   </view>
 </view>

@@ -293,48 +293,48 @@ Page({
       chart.setOption(option);
       return chart;
     });
-    this.retentionComponent = this.selectComponent('#mychart-mychartRetention');
-    this.retentionComponent.init((canvas, width, height) => {
-      const chart = echarts.init(canvas, null, {
-        width: width,
-        height: height
-      });
-      canvas.setChart(chart);
-      var option = {
-        title: {
-          text: '',
-          subtext: ''
-        },
-        tooltip: {
-          trigger: 'item',
-          formatter: "{b} : {c}%",
-          position: [150, 200]
-        },
-        legend: {
-          data: [],
-          textStyle: {
-            fontSize: 10
-          }
-        },
-        calculable: true,
-        series: [{
-          name: '',
-          type: 'funnel',
-          width: '65%',
-          itemStyle: {
-            normal: {
-              label: {
-                show: false,
-                position: 'inside'
-              },
-            }
-          },
-          data: this.data.retentionEcharts
-        }]
-      };
-      chart.setOption(option);
-      return chart;
-    });
+    // this.retentionComponent = this.selectComponent('#mychart-mychartRetention');
+    // this.retentionComponent.init((canvas, width, height) => {
+    //   const chart = echarts.init(canvas, null, {
+    //     width: width,
+    //     height: height
+    //   });
+    //   canvas.setChart(chart);
+    //   var option = {
+    //     title: {
+    //       text: '',
+    //       subtext: ''
+    //     },
+    //     tooltip: {
+    //       trigger: 'item',
+    //       formatter: "{b} : {c}%",
+    //       position: [150, 200]
+    //     },
+    //     legend: {
+    //       data: [],
+    //       textStyle: {
+    //         fontSize: 10
+    //       }
+    //     },
+    //     calculable: true,
+    //     series: [{
+    //       name: '',
+    //       type: 'funnel',
+    //       width: '65%',
+    //       itemStyle: {
+    //         normal: {
+    //           label: {
+    //             show: false,
+    //             position: 'inside'
+    //           },
+    //         }
+    //       },
+    //       data: this.data.retentionEcharts
+    //     }]
+    //   };
+    //   chart.setOption(option);
+    //   return chart;
+    // });
   },
   handleClick: function(e) {
     if (e.currentTarget.id != parseInt(this.data.type)) {
@@ -475,24 +475,31 @@ Page({
         switch (i) {
           case 7:
             saturdays = ['oneRetentionPercentage', 'eightRetentionPercentage', 'fifteenRetentionPercentage'];
+            item.ds = item.ds + "(七)";
             break
           case 1:
             saturdays = ['sevenRetentionPercentage', 'fourteenRetentionPercentage'];
+            item.ds = item.ds + "(六)";
             break
           case 2:
             saturdays = ['sixRetentionPercentage', 'thirteenRetentionPercentage'];
+            item.ds = item.ds + "(五)";
             break
           case 3:
             saturdays = ['fiveRetentionPercentage', 'twelveRetentionPercentage'];
+            item.ds = item.ds + "(四)";
             break
           case 4:
             saturdays = ['fourRetentionPercentage', 'elevenRetentionPercentage'];
+            item.ds = item.ds + "(三)";
             break
           case 5:
             saturdays = ['threeRetentionPercentage', 'tenRetentionPercentage'];
+            item.ds = item.ds + "(二)";
             break
           case 6:
             saturdays = ['twoRetentionPercentage', 'nineRetentionPercentage'];
+            item.ds = item.ds + "(一)";
             break
           default:
         };
@@ -518,9 +525,12 @@ Page({
   tableDataProcess: function(data) {
     if (data) {
       data.forEach((item) => {
+        item.ds = weekFunction(item.ds);
+        item.payAmount = item.payAmount / 100;
         item.payRate = (item.payCount * 100 / item.dauNum).toFixed(2) + '%';
         item.ARPU = (item.payAmount / item.dauNum).toFixed(2);
         item.ARPPU = (item.payAmount / item.payCount).toFixed(2);
+        item.payInstallAmount = item.payInstallAmount / 100;
         item.payInstallRate = (item.payInstallCount * 100 / item.installNum).toFixed(2) + '%';
         item.payInstallARPU = (item.payInstallAmount / item.installNum).toFixed(2);
         item.payInstallARPPU = (item.payInstallAmount / item.payInstallCount).toFixed(2);
@@ -530,3 +540,38 @@ Page({
   },
 
 })
+
+var weekFunction = function(ds) {
+  let week = new Date(ds);
+  let dateweek = week.getDay();
+  let i = 7 - dateweek;
+  switch (i) {
+    case 7:
+      ds = ds + "(七)";
+      break
+    case 1:
+      ds = ds + "(六)";
+      break
+    case 2:
+      ds = ds + "(五)";
+      break
+    case 3:
+      ds = ds + "(四)";
+      break
+    case 4:
+      ds = ds + "(三)";
+      break
+    case 5:
+      ds = ds + "(二)";
+      break
+    case 6:
+      ds = ds + "(一)";
+      break
+    default:
+  }
+  return ds;
+}
+
+module.exports = {
+  week: weekFunction
+};

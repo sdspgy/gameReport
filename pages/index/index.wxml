@@ -16,11 +16,17 @@
 <view style='text-align: center;'>{{message}}</view>
 
 <!-- 游戏列表 -->
+<i-cell-group wx:if="{{moreGame}}" bindtap="gameUrl" id="../game/template/survey/survey?gameId=1">
+  <i-cell title="体验Demo" label="体验版" value="" only-tap-footer></i-cell>
+</i-cell-group>
 <view wx:key="{{item.id}}" wx:for="{{games}}">
   <i-cell-group bindtap="gameUrl" id="{{item.url}}">
     <i-cell title="{{item.name}}" label="{{item.state}}" value="{{item.type}}" only-tap-footer></i-cell>
   </i-cell-group>
 </view>
+<i-cell-group wx:if="{{moreGame}}" bindtap="moreGame" id="">
+  <i-cell title="" label="更多游戏请点此登录..." value="" only-tap-footer></i-cell>
+</i-cell-group>
 
 <view class="flex fix_nav_wp">
   <view class="nav_link" bindtap='gotoCompanyIndex' wx:key="{{item.id}}" wx:for="{{resources}}" wx:for-index="index">

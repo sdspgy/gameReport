@@ -1,6 +1,7 @@
 import F2 from '../../../../f2-canvas/lib/f2';
 import url from "../../../../utils/util.js";
 var gameid = require('../../../../app.js');
+var common = require("../../../../utils/util.js");
 // 全局提示
 const {
   $Message
@@ -136,7 +137,7 @@ const conf = {
     }
   },
   table: {
-    colWidth: 400
+    colWidth: 110
   },
   navData: [{
     name: "概况", //文本
@@ -171,7 +172,13 @@ const conf = {
   }, ]
 };
 let titles = {
-    installNum: "注册数"
+    installNum: "注册数",
+    payInstallRate: "新付费率", //注册付费人数/注册人数*
+    payInstallARPU: "新付费ARPU", //注册付费总额/注册人数*
+    payInstallARPPU: "新付费ARPPU", //注册付费总额/注册付费人数*
+    payInstallCount: "新付费人数",
+    payInstallAmount: "新付费总额",
+    payInstallTimes: "新付费次数"
   },
   tableDs = {
     ds: "日期"
@@ -630,6 +637,7 @@ Page({
       data: data,
       method: "post",
       success: (res) => {
+        let tableData = this.maketable(res.data.msg);
         if (res.data.msg.length != 0 && this.data.page != 1) {
           wx.showToast({
             title: "加载第" + this.data.page + "页",
@@ -646,9 +654,9 @@ Page({
         }
         let tables = [];
         if (this.data.tableData == null) {
-          tables = res.data.msg;
+          tables = tableData;
         } else {
-          tables = this.data.tableData.concat(res.data.msg);
+          tables = this.data.tableData.concat(tableData);
         }
         let handelInstallNum = this.makeCavas(tables);
         this.setData({
@@ -660,6 +668,19 @@ Page({
         console.log(tables);
       }
     })
+  },
+
+  maketable: function(data) {
+    if (data) {
+      data.forEach((item) => {
+        item.payInstallRate = (item.payInstallCount * 100 / item.installNum).toFixed(2) + "%";
+        item.payInstallAmount = item.payInstallAmount / 100;
+        item.payInstallARPU = (item.payInstallAmount / item.installNum).toFixed(2);
+        item.payInstallARPPU = (item.payInstallAmount / item.payInstallCount).toFixed(2);
+        item.ds = common.week(item.ds);
+      })
+    }
+    return data;
   },
 
   makeCavas: (data) => {

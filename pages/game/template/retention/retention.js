@@ -1,6 +1,7 @@
 import url from "../../../../utils/util.js";
 import F2 from '../../../../f2-canvas/lib/f2';
 var gameid = require('../../../../app.js');
+var common = require("../../../../utils/util.js");
 // 全局提示
 const {
   $Message
@@ -458,12 +459,12 @@ Page({
               });
             }
             let retentionList = [];
+            retentionList = this.saturday(e.data.shareRetentionList);
             if (this.data.retentionList == null) {
-              retentionList = e.data.shareRetentionList;
+              retentionList = retentionList;
             } else {
-              retentionList = this.data.retentionList.concat(e.data.shareRetentionList);
+              retentionList = this.data.retentionList.concat(retentionList);
             }
-            retentionList = this.saturday(retentionList);
             this.setData({
               retentionList: retentionList,
             });
@@ -521,6 +522,7 @@ Page({
         item.special = saturdays;
         item.oneSpecial = saturdays[0];
         item.twoSpecial = saturdays[1];
+        item.ds = common.week(item.ds);
       })
       return data;
     }

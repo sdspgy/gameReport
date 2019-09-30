@@ -52,7 +52,7 @@
 
 
 <back bind:back="back" />
-<view class='bottom' style='width:100%;height:50px'></view>
+<!-- <view class='bottom' style='width:100%;height:50px'></view> -->
 <!------------底部-->
 <!-- <import src="../../../../template/nav" />
 <view class="flex fix_nav_wp">
