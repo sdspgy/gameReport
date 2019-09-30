@@ -33,7 +33,7 @@ Component({
     },
     colWidth: {
       type: Number,
-      value: 75
+      value: 90
     }
   },
 
@@ -49,6 +49,10 @@ Component({
   observers: {
     //数据发生变化触发外部绑定的事件
     "data": function(data) {
+      let keys = Object.keys(this.data.titles);
+      this.setData({
+        tableWidth: keys.length * this.properties.colWidth
+      });
       if (this.data.crtRow > -1) {
         this.triggerEvent('rowtap', {
           data: data[this.data.crtRow],

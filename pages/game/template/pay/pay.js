@@ -137,7 +137,7 @@ const conf = {
     }
   },
   table: {
-    colWidth: 95
+    colWidth: 90
   },
   navData: [{
     name: "概况", //文本

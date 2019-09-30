@@ -45,8 +45,8 @@ var weekFunction = function (ds) {
   return ds;
 }
 
-const requestUrl = "https://report.nuojuekeji.com/report";
-//  const requestUrl = "http://10.2.64.47:8081";
+// const requestUrl = "https://report.nuojuekeji.com/report";
+ const requestUrl = "http://10.2.64.47:8081";
 module.exports = {
   formatTime: formatTime,
   week: weekFunction,

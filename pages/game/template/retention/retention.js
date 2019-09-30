@@ -34,7 +34,7 @@ const conf = {
       fourteenRetentionPercentage: "14日留存",
       fifteenRetentionPercentage: "15日留存",
     },
-    colWidth: 95,
+    colWidth: 90,
     tableOs: {
       os: "操作系统"
     }
