@@ -1,6 +1,6 @@
 .chart-pane {
   width: 100%;
-  height: 530rpx;
+  height: 450rpx;
 }
 
 .chart {
@@ -9,7 +9,8 @@
 
 .chart-body {
   width: 100%;
-  height: 500rpx;
+  height: 450rpx;
+  margin-bottom: 10px;
 }
 
 .chart-title {

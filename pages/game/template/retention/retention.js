@@ -14,7 +14,7 @@ const titleType = {
 const conf = {
   table: {
     retentionTitles: {
-      ds: "日期",
+      ds: "日期（星期）",
       os: "操作系统",
       clientid: "服",
       creative: "渠道",
@@ -41,24 +41,24 @@ const conf = {
   }
 }
 let retentionTitles = {
-    oneRetentionPercentage: "1日留存",
-    twoRetentionPercentage: "2日留存",
-    threeRetentionPercentage: "3日留存",
-    fourRetentionPercentage: "4日留存",
-    fiveRetentionPercentage: "5日留存",
-    sixRetentionPercentage: "6日留存",
-    sevenRetentionPercentage: "7日留存",
-    eightRetentionPercentage: "8日留存",
-    nineRetentionPercentage: "9日留存",
-    tenRetentionPercentage: "10日留存",
-    elevenRetentionPercentage: "11日留存",
-    twelveRetentionPercentage: "12日留存",
-    thirteenRetentionPercentage: "13日留存",
-    fourteenRetentionPercentage: "14日留存",
-    fifteenRetentionPercentage: "15日留存",
+    oneRetentionPercentage: "1日",
+    twoRetentionPercentage: "2日",
+    threeRetentionPercentage: "3日",
+    fourRetentionPercentage: "4日",
+    fiveRetentionPercentage: "5日",
+    sixRetentionPercentage: "6日",
+    sevenRetentionPercentage: "7日",
+    eightRetentionPercentage: "8日",
+    nineRetentionPercentage: "9日",
+    tenRetentionPercentage: "10日",
+    elevenRetentionPercentage: "11日",
+    twelveRetentionPercentage: "12日",
+    thirteenRetentionPercentage: "13日",
+    fourteenRetentionPercentage: "14日",
+    fifteenRetentionPercentage: "15日",
   },
   tableDs = {
-    ds: "日期"
+    ds: "日期(星期)"
   },
   tableOs = {
     os: "操作系统"
@@ -164,14 +164,33 @@ Page({
       });
       chart.source(this.data.handelRetentionOne, {
         value: {
-          tickCount: 10,
+          tickCount: 4,
           formatter: function formatter(ivalue) {
             let RTrimValue = ivalue;
-            return RTrimValue;
-          }
+            return RTrimValue + '%';
+          },
+        },
+        time: {
+          range: [0, 1],
+          min: 1,
+          max: 15,
         }
       });
-      chart.line().position('time*value');
+      chart.tooltip({
+        showCrosshairs: true,
+        showItemMarker: false,
+        onShow: function onShow(ev) {
+          var items = ev.items;
+          items[0].name = items[0].title + '日留存率';
+          items[0].value = items[0].value;
+        }
+      });
+      chart.line().position('time*value').shape('smooth').color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
+      chart.point().position('time*value').shape('smooth').style({
+        stroke: '#fff',
+        lineWidth: 1
+      }).color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
+      chart.area().position('time*value').shape('smooth').color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
       chart.render();
       // return chart;
     });
@@ -218,7 +237,7 @@ Page({
     this.setData({
       data: detail.key
     });
-    console.log("日期---------" + detail.key)
+    // console.log("日期---------" + detail.key)
     this.reset();
     this.init();
   },
@@ -277,7 +296,7 @@ Page({
       sysType: detail.key,
       isOs: detail.key == 3 ? 1 : 0,
     });
-    console.log("设备--------" + detail.key)
+    // console.log("设备--------" + detail.key)
     this.reset();
     this.init();
   },
@@ -325,7 +344,7 @@ Page({
         this.setData({
           array: this.data.arrayCreate,
         })
-        console.log("渠道--------" + detail.key)
+        // console.log("渠道--------" + detail.key)
         this.reset();
         this.init();
       } else {
@@ -343,7 +362,7 @@ Page({
         this.setData({
           array: this.data.arrayClient
         })
-        console.log("分服--------" + detail.key)
+        // console.log("分服--------" + detail.key)
         this.reset();
         this.init();
       }
@@ -351,7 +370,7 @@ Page({
   },
   // 具体CC
   bindPickerChange: function(e) {
-    console.log("渠道/分服--------" + e.detail.value)
+    // console.log("渠道/分服--------" + e.detail.value)
     this.setData({
       index: e.detail.value
     })
@@ -363,7 +382,7 @@ Page({
   onRowTap: function({
     detail
   }) {
-    console.log(detail.index + ":" + JSON.stringify(detail.data));
+    // console.log(detail.index + ":" + JSON.stringify(detail.data));
     let handelRetentionOne = this.makeRetentionOne(detail.data);
     this.setData({
       handelRetentionOne: handelRetentionOne,
@@ -442,7 +461,7 @@ Page({
           wx.hideLoading();
         }, 100);
         if (e.data.success === true) {
-          console.log(e.data.shareRetentionList)
+          // console.log(e.data.shareRetentionList)
           if (e.data.shareRetentionList) {
             if (e.data.shareRetentionList.length != 0 && this.data.page != 1) {
               wx.showToast({

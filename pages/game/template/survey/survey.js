@@ -10,7 +10,7 @@ var cavasName = '活跃';
 const conf = {
   table: {
     titles: {
-      ds: "日期",
+      ds: "日期（星期）",
       installNum: "注册数",
       dauNum: "活跃数",
       payCount: "付费人数",
@@ -22,29 +22,29 @@ const conf = {
       payInstallRate: "注册付费率", //注册付费人数/注册人数*
       payInstallCount: "注册付费人数",
       payInstallAmount: "注册付费总额",
-      payInstallARPU: "注册付费ARPU", //注册付费总额/注册人数,*
-      payInstallARPPU: "注册付费ARPPU", //注册付费总额/注册付费人数*
+      payInstallARPU: "注付ARPU", //注册付费总额/注册人数,*
+      payInstallARPPU: "注付ARPPU", //注册付费总额/注册付费人数*
 
       payTimes: "付费次数",
       payInstallTimes: "注册付费次数"
     },
     retentionTitles: {
-      ds: "日期",
-      oneRetentionPercentage: "1日留存",
-      twoRetentionPercentage: "2日留存",
-      threeRetentionPercentage: "3日留存",
-      fourRetentionPercentage: "4日留存",
-      fiveRetentionPercentage: "5日留存",
-      sixRetentionPercentage: "6日留存",
-      sevenRetentionPercentage: "7日留存",
-      eightRetentionPercentage: "8日留存",
-      nineRetentionPercentage: "9日留存",
-      tenRetentionPercentage: "10日留存",
-      elevenRetentionPercentage: "11日留存",
-      twelveRetentionPercentage: "12日留存",
-      thirteenRetentionPercentage: "13日留存",
-      fourteenRetentionPercentage: "14日留存",
-      fifteenRetentionPercentage: "15日留存",
+      ds: "日期（星期）",
+      oneRetentionPercentage: "1日",
+      twoRetentionPercentage: "2日",
+      threeRetentionPercentage: "3日",
+      fourRetentionPercentage: "4日",
+      fiveRetentionPercentage: "5日",
+      sixRetentionPercentage: "6日",
+      sevenRetentionPercentage: "7日",
+      eightRetentionPercentage: "8日",
+      nineRetentionPercentage: "9日",
+      tenRetentionPercentage: "10日",
+      elevenRetentionPercentage: "11日",
+      twelveRetentionPercentage: "12日",
+      thirteenRetentionPercentage: "13日",
+      fourteenRetentionPercentage: "14日",
+      fifteenRetentionPercentage: "15日",
     },
     colWidth: 90
   }
@@ -145,7 +145,7 @@ Page({
     this.setData({
       gameid: gameid
     })
-    console.log("gameId-----" + this.data.gameid)
+    // console.log("gameId-----" + this.data.gameid)
     //数据初始化
     this.init();
   },
@@ -161,13 +161,26 @@ Page({
       });
       chart.source(this.data.datas, {
         value: {
-          tickCount: 10,
+          tickCount: 5,
           formatter: function formatter(ivalue) {
             return ivalue;
-          }
+          },
+          alias: this.data.current + '人数',
+        },
+        time: {
+
         }
       });
-      chart.line().position('time*value');
+      chart.tooltip({
+        showCrosshairs: true, //纵坐标线
+        showItemMarker: false, //去小原点
+      });
+      chart.line().position('time*value').shape('smooth').color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
+      chart.point().position('time*value').shape('smooth').style({
+        stroke: '#fff',
+        lineWidth: 1
+      }).color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
+      chart.area().position('time*value').shape('smooth').color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
       chart.render();
       return chart;
 
@@ -353,7 +366,7 @@ Page({
     this.setData({
       sysType: detail.key
     });
-    console.log("设备--------" + detail.key);
+    // console.log("设备--------" + detail.key);
     this.init();
   },
 
@@ -363,7 +376,7 @@ Page({
     this.setData({
       data: detail.key
     });
-    console.log("时间--------" + detail.key);
+    // console.log("时间--------" + detail.key);
     this.init();
   },
 
@@ -375,12 +388,12 @@ Page({
       currentIndex: detail.value == '活跃' ? 0 : 1
     });
     cavasName = detail.value;
-    console.log("活跃/新增--------" + this.data.currentIndex);
+    // console.log("活跃/新增--------" + this.data.currentIndex);
     this.init();
   },
 
   bindDateChange: function(e) {
-    console.log('rentention时间--------' + e.detail.value)
+    // console.log('rentention时间--------' + e.detail.value)
     this.setData({
       retentionDate: e.detail.value
     });
@@ -527,13 +540,13 @@ Page({
       data.forEach((item) => {
         item.ds = weekFunction(item.ds);
         item.payAmount = item.payAmount / 100;
-        item.payRate = (item.payCount * 100 / item.dauNum).toFixed(2) + '%';
-        item.ARPU = (item.payAmount / item.dauNum).toFixed(2);
-        item.ARPPU = (item.payAmount / item.payCount).toFixed(2);
+        item.payRate = item.dauNum == 0 ? 0 : (item.payCount * 100 / item.dauNum).toFixed(2) + '%';
+        item.ARPU = item.dauNum == 0 ? 0 : (item.payAmount / item.dauNum).toFixed(2);
+        item.ARPPU = item.payCount == 0 ? 0 : (item.payAmount / item.payCount).toFixed(2);
         item.payInstallAmount = item.payInstallAmount / 100;
-        item.payInstallRate = (item.payInstallCount * 100 / item.installNum).toFixed(2) + '%';
-        item.payInstallARPU = (item.payInstallAmount / item.installNum).toFixed(2);
-        item.payInstallARPPU = (item.payInstallAmount / item.payInstallCount).toFixed(2);
+        item.payInstallRate = item.installNum == 0 ? 0 : (item.payInstallCount * 100 / item.installNum).toFixed(2) + '%';
+        item.payInstallARPU = item.installNum == 0 ? 0 : (item.payInstallAmount / item.installNum).toFixed(2);
+        item.payInstallARPPU = item.payInstallCount == 0 ? 0 : (item.payInstallAmount / item.payInstallCount).toFixed(2);
       })
     }
     return data;

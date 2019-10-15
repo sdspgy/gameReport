@@ -1,6 +1,6 @@
 .chart-pane {
   width: 100%;
-  height: 530rpx;
+  height: 350rpx;
 }
 
 .chart {
@@ -9,7 +9,13 @@
 
 .chart-body {
   width: 100%;
-  height: 500rpx;
+  height: 350rpx;
+  margin-bottom: 10px;
+}
+
+.tableSourceCC {
+  position: absolute;
+  top: 150%;
 }
 
 .chart-title {

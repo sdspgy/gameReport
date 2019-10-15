@@ -72,8 +72,10 @@
           </i-radio-group>
         </i-panel>
       </view>
-      <!-- <ec-canvas id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas> -->
-      <ff-canvas id="mychart-dom-bar" canvas-id="mychart-bar" opts="{{ ec }}"></ff-canvas>
+      <view class="chart-body">
+        <!-- <ec-canvas id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas> -->
+        <ff-canvas id="mychart-dom-bar" canvas-id="mychart-bar" opts="{{ ec }}"></ff-canvas>
+      </view>
     </view>
   </view>
 
@@ -82,7 +84,10 @@
   <view class='os'>
     <view class='container'>
       <view class='mychartPay'>
-        <ec-canvas id="mychart-pay" canvas-id="mychart-pay" ec="{{ mychartPay }}"></ec-canvas>
+        <view class="caption">付费数据</view>
+        <view class="chart-body">
+          <ec-canvas id="mychart-pay" canvas-id="mychart-pay" ec="{{ mychartPay }}"></ec-canvas>
+        </view>
       </view>
     </view>
   </view>

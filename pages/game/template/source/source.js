@@ -178,10 +178,10 @@ let titles = {
     payInstallARPPU: "新付费ARPPU", //注册付费总额/注册付费人数*
     payInstallCount: "新付费人数",
     payInstallAmount: "新付费总额",
-    payInstallTimes: "新付费次数"
+    payInstallTimes: "新付费次数",
   },
   tableDs = {
-    ds: "日期"
+    ds: "日期（星期）",
   },
   tableOs = {
     os: "操作系统"
@@ -191,7 +191,8 @@ let titles = {
   },
   tableClient = {
     clientid: "服"
-  }
+  };
+let titlesCC = {};
 
 Page({
 
@@ -205,8 +206,10 @@ Page({
       gameid: gameid
     });
     let obj = Object.assign({}, tableDs, titles);
+    let payTitlesCC = Object.assign({}, tableDs, tableOs, titles);
     this.setData({
-      payTitles: obj
+      payTitles: obj,
+      payTitlesCC: payTitlesCC
     })
     this.initChart2([]);
     this.queryAndUpdate();
@@ -254,6 +257,7 @@ Page({
     os: conf.os.all,
     timeArea: conf.timeArea.week,
     tableData: [],
+    tableDataCC: [],
     chartTitle2: "图表暂无数据",
     navData: conf.navData,
     gameid: '',
@@ -279,8 +283,10 @@ Page({
       }
     ],
     payTitles: titles,
+    payTitlesCC: titlesCC,
     handelInstallNum: [],
     page: 1,
+    showTable: true,
   },
 
   /**
@@ -290,7 +296,7 @@ Page({
 
   // 按用户和按设备change
   sourceChange: function(event) {
-    console.log(event);
+    // console.log(event);
     let button = event.currentTarget;
     let sourcet = button.dataset.source;
     if (this.data.source != sourcet) {
@@ -333,7 +339,7 @@ Page({
         } else {
           let obj = Object.assign({}, tableDs, titles);
           this.setData({
-            payTitles: obj
+            payTitles: obj,
           })
         }
       }
@@ -366,7 +372,7 @@ Page({
     }
     this.reset();
     this.queryAndUpdate();
-    console.log(this.data.sourceCliCreChoice);
+    // console.log(this.data.sourceCliCreChoice);
   },
   sourceCliCreChoiceChange: function({
     detail
@@ -407,7 +413,7 @@ Page({
         if (detail.key == "0") {
           let obj = Object.assign({}, tableDs, titles);
           this.setData({
-            payTitles: obj
+            payTitles: obj,
           })
         } else {
           let obj = Object.assign({}, tableDs, tableOs, titles);
@@ -417,13 +423,13 @@ Page({
         }
       };
       if (this.data.sourceCliCre == "creative") {
-        let obj = Object.assign({}, tableOs, tableCreative, titles);
+        let obj = Object.assign({}, tableDs, tableOs, tableCreative, titles);
         this.setData({
           payTitles: obj
         })
       };
       if (this.data.sourceCliCre == "client") {
-        let obj = Object.assign({}, tableOs, tableClient, titles);
+        let obj = Object.assign({}, tableDs, tableOs, tableClient, titles);
         this.setData({
           payTitles: obj
         })
@@ -465,13 +471,13 @@ Page({
   onRowTap: function({
     detail
   }) {
-    console.log(detail.index + ":" + JSON.stringify(detail.data));
+    // console.log(detail.index + ":" + JSON.stringify(detail.data));
   },
   //表格竖行被点击
   onColTap: function({
     detail
   }) {
-    console.log(detail.col + ":" + JSON.stringify(detail.data));
+    // console.log(detail.col + ":" + JSON.stringify(detail.data));
     let len = detail.data.length - 1;
     let data = [];
     //chart title设置
@@ -560,6 +566,7 @@ Page({
 
       });
       c1.tooltip({
+        showCrosshairs: true,
         showItemMarker: false,
         onShow(ev) {
           const {
@@ -571,7 +578,12 @@ Page({
         }
       });
 
-      c1.interval().position('name*value');
+      c1.line().position('name*value').shape('smooth').color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
+      c1.point().position('name*value').shape('smooth').style({
+        stroke: '#fff',
+        lineWidth: 1
+      }).color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
+      c1.area().position('name*value').shape('smooth').color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
       c1.render();
       chart1 = c1;
     })
@@ -590,13 +602,32 @@ Page({
       });
       c2.source(this.data.handelInstallNum, {
         value: {
-          tickCount: 10,
+          tickCount: 4,
           formatter: function formatter(ivalue) {
             return ivalue;
-          }
+          },
+          alias: '注册数',
+        },
+        time: {
+          type: "timeCat",
+          mask: 'MM/DD',
+          tickCount: 7,
         }
       });
-      c2.line().position('time*value');
+      c2.tooltip({
+        showCrosshairs: true, //纵坐标线
+        showItemMarker: false, //去小原点
+      });
+      // 坐标轴文本旋转
+      c2.axis('time', {
+        label: {
+          rotate: -Math.PI / 2.5,
+          textAlign: 'end',
+          textBaseline: 'middle'
+        }
+      });
+      c2.line().position('time*value').shape('smooth').color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
+      c2.area().position('time*value').shape('smooth').color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
       c2.render();
       return c2;
     })
@@ -609,6 +640,15 @@ Page({
   queryAndUpdate: function() {
     let clientid = this.data.sourceCliCre == conf.sourceCliCre.client.val ? conf.sourceCliCre.client.choice[this.data.sourceCliCreChoice].key : null;
     let creative = this.data.sourceCliCre == conf.sourceCliCre.creative.val ? conf.sourceCliCre.creative.choice[this.data.sourceCliCreChoice].key : null;
+    if (this.data.os == "0" && this.data.sourceCliCre == "daily") {
+      this.setData({
+        showTable: true,
+      })
+    } else {
+      this.setData({
+        showTable: false,
+      })
+    };
     this.query(this.data.source, this.data.gameid, this.data.timeArea, clientid, this.data.os, creative, this.data.page);
   },
 
@@ -627,7 +667,7 @@ Page({
     if (clientid != null) {
       data.clientid = clientid;
     }
-    console.log(JSON.stringify(data));
+    // console.log(JSON.stringify(data));
     wx.request({
       url: url.requestUrl + "/api/pay/query",
       header: {
@@ -638,6 +678,10 @@ Page({
       method: "post",
       success: (res) => {
         let tableData = this.maketable(res.data.msg);
+        let tableDataCC = [];
+        if (res.data.sharePayResultTypesCC) {
+          tableDataCC = this.maketable(res.data.sharePayResultTypesCC);
+        };
         if (res.data.msg.length != 0 && this.data.page != 1) {
           wx.showToast({
             title: "加载第" + this.data.page + "页",
@@ -662,10 +706,11 @@ Page({
         this.setData({
           tableData: tables,
           handelInstallNum: handelInstallNum,
-          chartTitle2: handelInstallNum.length == 0 ? "图标暂无数据" : "图标数据"
+          chartTitle2: handelInstallNum.length == 0 ? "图标暂无数据" : "图标数据",
+          tableDataCC: tableDataCC
         })
         this.initChart2();
-        console.log(tables);
+        // console.log(tables);
       }
     })
   },
@@ -673,10 +718,10 @@ Page({
   maketable: function(data) {
     if (data) {
       data.forEach((item) => {
-        item.payInstallRate = (item.payInstallCount * 100 / item.installNum).toFixed(2) + "%";
+        item.payInstallRate = item.installNum == 0 ? 0 : (item.payInstallCount * 100 / item.installNum).toFixed(2) + "%";
         item.payInstallAmount = item.payInstallAmount / 100;
-        item.payInstallARPU = (item.payInstallAmount / item.installNum).toFixed(2);
-        item.payInstallARPPU = (item.payInstallAmount / item.payInstallCount).toFixed(2);
+        item.payInstallARPU = item.installNum == 0 ? 0 : (item.payInstallAmount / item.installNum).toFixed(2);
+        item.payInstallARPPU = item.payInstallCount == 0 ? 0 : (item.payInstallAmount / item.payInstallCount).toFixed(2);
         item.ds = common.week(item.ds);
       })
     }
@@ -688,11 +733,11 @@ Page({
       let handelInstallNum = [];
       data.forEach((item, index) => {
         let info = new Object();
-        info.time = index + 1;
+        info.time = (item.ds).substr(0, 10);
         info.value = item.installNum;
         handelInstallNum.push(info);
       });
-      console.log("---------payCount:" + JSON.stringify(handelInstallNum));
+      // console.log("---------payCount:" + JSON.stringify(handelInstallNum));
       return handelInstallNum;
     }
   },

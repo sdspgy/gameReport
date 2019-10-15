@@ -183,14 +183,14 @@ let titles = {
     payInstallRate: "注册付费率", //注册付费人数/注册人数*
     payInstallCount: "注册付费人数",
     payInstallAmount: "注册付费总额",
-    payInstallARPU: "注册付费ARPU", //注册付费总额/注册人数*
-    payInstallARPPU: "注册付费ARPPU", //注册付费总额/注册付费人数*
+    payInstallARPU: "注付ARPU", //注册付费总额/注册人数*
+    payInstallARPPU: "注付ARPPU", //注册付费总额/注册付费人数*
 
     payTimes: "付费次数",
     payInstallTimes: "注册付费次数"
   },
   tableDs = {
-    ds: "日期"
+    ds: "日期（星期）",
   },
   tableOs = {
     os: "操作系统"
@@ -299,7 +299,7 @@ Page({
 
   // 按用户和按设备change
   sourceChange: function(event) {
-    console.log(event);
+    // console.log(event);
     let button = event.currentTarget;
     let sourcet = button.dataset.source;
     if (this.data.source != sourcet) {
@@ -375,7 +375,7 @@ Page({
     }
     this.reset();
     this.queryAndUpdate();
-    console.log(this.data.sourceCliCreChoice);
+    // console.log(this.data.sourceCliCreChoice);
   },
   sourceCliCreChoiceChange: function({
     detail
@@ -462,13 +462,13 @@ Page({
   onRowTap: function({
     detail
   }) {
-    console.log(detail.index + ":" + JSON.stringify(detail.data));
+    // console.log(detail.index + ":" + JSON.stringify(detail.data));
   },
   //表格竖行被点击
   onColTap: function({
     detail
   }) {
-    console.log(detail.col + ":" + JSON.stringify(detail.data));
+    // console.log(detail.col + ":" + JSON.stringify(detail.data));
     let len = detail.data.length - 1;
     let data = [];
     //chart title设置
@@ -562,7 +562,8 @@ Page({
         }
       });
 
-      c1.interval().position('time*value');
+      c1.interval().position('time*value').shape('smooth').color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
+      c1.area().position('year*age').shape('smooth').color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
       c1.render();
       chart1 = c1;
     })
@@ -581,21 +582,37 @@ Page({
       });
       c2.source(this.data.handelPayCount, {
         value: {
-          tickCount: 10,
+          tickCount: 5,
           formatter: function formatter(ivalue) {
             return ivalue;
           }
+        },
+        time: {
+          type: "timeCat",
+          mask: 'MM/DD',
+          tickCount: 7,
         }
       });
       //设置图列居中显示
       c2.legend({
-        align: 'center',
+        position: 'top', //图列位置
+        align: 'center', //图例的对齐方式
         itemWidth: null
       });
       c2.tooltip({
-        showCrosshairs: true
+        showCrosshairs: true, //纵坐标线
+        showItemMarker: false, //去小原点
       });
-      c2.line().position('time*value').color('type');
+      // 坐标轴文本旋转
+      c2.axis('time', {
+        label: {
+          rotate: -Math.PI / 2.5,
+          textAlign: 'end',
+          textBaseline: 'middle'
+        }
+      });
+      c2.line().position('time*value').shape('smooth').color('type');
+
       c2.render();
       return c2;
     })
@@ -638,7 +655,7 @@ Page({
     if (clientid != null) {
       data.clientid = clientid;
     }
-    console.log(JSON.stringify(data));
+    // console.log(JSON.stringify(data));
     wx.request({
       url: url.requestUrl + "/api/pay/query",
       header: {
@@ -676,7 +693,7 @@ Page({
           chartTitle2: handelPayCount.length == 0 ? "图标暂无数据" : "图标数据"
         })
         this.initChart2();
-        console.log(tables);
+        // console.log(tables);
       }
     })
   },
@@ -692,14 +709,14 @@ Page({
   tableDataProcess: function(data) {
     if (data) {
       data.forEach((item) => {
-        item.payRate = (item.payCount * 100 / item.dauNum).toFixed(2) + "%";
+        item.payRate = item.dauNum == 0 ? 0 : (item.payCount * 100 / item.dauNum).toFixed(2) + "%";
         item.payAmount = item.payAmount / 100;
-        item.ARPU = (item.payAmount / item.dauNum).toFixed(2);
-        item.ARPPU = (item.payAmount / item.payCount).toFixed(2);
-        item.payInstallRate = (item.payInstallCount * 100 / item.installNum).toFixed(2) + "%";
+        item.ARPU = item.dauNum == 0 ? 0 : (item.payAmount / item.dauNum).toFixed(2);
+        item.ARPPU = item.payCount == 0 ? 0 : (item.payAmount / item.payCount).toFixed(2);
+        item.payInstallRate = item.installNum == 0 ? 0 : (item.payInstallCount * 100 / item.installNum).toFixed(2) + "%";
         item.payInstallAmount = item.payInstallAmount / 100;
-        item.payInstallARPU = (item.payInstallAmount / item.installNum).toFixed(2);
-        item.payInstallARPPU = (item.payInstallAmount / item.payInstallCount).toFixed(2);
+        item.payInstallARPU = item.installNum == 0 ? 0 : (item.payInstallAmount / item.installNum).toFixed(2);
+        item.payInstallARPPU = item.payInstallCount == 0 ? 0 : (item.payInstallAmount / item.payInstallCount).toFixed(2);
         item.ds = common.week(item.ds);
       })
     }
@@ -711,37 +728,37 @@ Page({
       let handelPayCount = [];
       data.forEach((item, index) => {
         let infopayCount = new Object();
-        infopayCount.time = index + 1;
+        infopayCount.time = (item.ds).substr(0, 10);
         infopayCount.value = item.payCount;
         infopayCount.type = '付费人数';
         handelPayCount.push(infopayCount);
         let infopayAmount = new Object();
-        infopayAmount.time = index + 1;
+        infopayAmount.time = (item.ds).substr(0, 10);
         infopayAmount.value = item.payAmount;
         infopayAmount.type = '付费金额';
         handelPayCount.push(infopayAmount);
         let infopayTimes = new Object();
-        infopayTimes.time = index + 1;
+        infopayTimes.time = (item.ds).substr(0, 10);
         infopayTimes.value = item.payTimes;
         infopayTimes.type = '付费次数';
         handelPayCount.push(infopayTimes);
         let infopayInstallCount = new Object();
-        infopayInstallCount.time = index + 1;
+        infopayInstallCount.time = (item.ds).substr(0, 10);
         infopayInstallCount.value = item.payInstallCount;
         infopayInstallCount.type = '安装付费人数';
         handelPayCount.push(infopayInstallCount);
         let infopayInstallAmount = new Object();
-        infopayInstallAmount.time = index + 1;
+        infopayInstallAmount.time = (item.ds).substr(0, 10);
         infopayInstallAmount.value = item.payInstallAmount;
         infopayInstallAmount.type = '安装付费金额';
         handelPayCount.push(infopayInstallAmount);
         let infoPayInstallTimes = new Object();
-        infoPayInstallTimes.time = index + 1;
+        infoPayInstallTimes.time = (item.ds).substr(0, 10);
         infoPayInstallTimes.value = item.payInstallTimes;
         infoPayInstallTimes.type = '安装付费次数';
         handelPayCount.push(infoPayInstallTimes);
       });
-      console.log("---------payCount:" + JSON.stringify(handelPayCount));
+      // console.log("---------payCount:" + JSON.stringify(handelPayCount));
       return handelPayCount;
     }
   },

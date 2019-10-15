@@ -54,11 +54,11 @@
     </view>
   </view>
 </view>
-
 <table caption="详细数据" titles="{{payTitles}}" data="{{tableData}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="onBottomTap" />
+<i-divider lineColor="#2d8cf0" height="5px"></i-divider>
+<table wx:if="{{showTable}}" caption="android-ios" titles="{{payTitlesCC}}" data="{{tableDataCC}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="" />
 
 <back bind:back="back" />
-
 <view class='bottom'></view>
 
 <!--底部-->

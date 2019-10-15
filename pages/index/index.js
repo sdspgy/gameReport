@@ -101,7 +101,7 @@ Page({
         }
       },
       error: function(e) {
-        debugger;
+
       }
     })
   },
