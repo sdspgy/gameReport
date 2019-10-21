@@ -39,13 +39,6 @@
   </van-tabs>
 </view>
 
-<!-- 图表展示 -->
-<!-- <view class="chat-pane">
-  <view class="chart">
-    <ff-canvas id="chart1"></ff-canvas>
-  </view>
-</view> -->
-
 <view class="chart">
   <view class="chart-title">{{chartTitle2}}</view>
   <view class="chat-pane">
@@ -54,17 +47,9 @@
     </view>
   </view>
 </view>
-<table caption="详细数据" titles="{{payTitles}}" data="{{tableData}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="onBottomTap" />
-<i-divider lineColor="#2d8cf0" height="5px"></i-divider>
-<table wx:if="{{showTable}}" caption="android-ios" titles="{{payTitlesCC}}" data="{{tableDataCC}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="" />
+
+<table caption="新进数据" titles="{{payTitles}}" data="{{tableData}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="onBottomTap" />
+
+<table wx:if="{{showTable}}" caption="android-ios" titles="{{payTitlesCC}}" data="{{tableDataCC}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="" />
 
 <back bind:back="back" />
-<view class='bottom'></view>
-
-<!--底部-->
-<!-- <import src="../../../../template/nav" />
-<view class="flex fix_nav_wp">
-  <block wx:for="{{navData}}" wx:key="">
-    <template is="nav" data="{{...item}}" />
-  </block>
-</view> -->

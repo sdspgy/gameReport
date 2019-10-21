@@ -139,37 +139,6 @@ const conf = {
   table: {
     colWidth: 90
   },
-  navData: [{
-    name: "概况", //文本
-    currentMenu: 0, //是否是当前页，0不是  1是
-    style: 0, //样式
-    ico: 'dynamic_fill', //不同图标
-    fn: 'gotoIndex' //对应处理函数
-  }, {
-    name: "新进",
-    currentMenu: 1,
-    style: 0,
-    ico: 'mine_fill',
-    fn: 'gotoOldGoods'
-  }, {
-    name: "留存",
-    currentMenu: 0,
-    style: 0,
-    ico: 'picture_fill',
-    fn: 'gotoPublish'
-  }, {
-    name: "付费",
-    currentMenu: 0,
-    style: 0,
-    ico: 'redpacket_fill',
-    fn: 'gotoRecruit'
-  }, {
-    name: "其他",
-    currentMenu: 0,
-    style: 0,
-    ico: 'task_fill',
-    fn: 'gotoMine'
-  }, ]
 };
 let titles = {
     installNum: "注册数",
@@ -191,6 +160,9 @@ let titles = {
   },
   tableClient = {
     clientid: "服"
+  },
+  tableDayHour = {
+    dayOfHour: '～时'
   };
 let titlesCC = {};
 
@@ -541,54 +513,6 @@ Page({
    * -------------------------------------------------------------------------------------------
    */
 
-  //初始化图表
-  initChart1: function(data) {
-    var that = this;
-    /*在这里改变一下结构即可*/
-    that.chartComponent = that.selectComponent('#chart1');
-    that.chartComponent.init((canvas, width, height) => {
-      const c1 = new F2.Chart({
-        el: canvas,
-        width,
-        height,
-        animate: true
-      });
-      c1.source(data, {
-        value: {
-          tickCount: 5,
-          formatter: function formatter(value) {
-            return value;
-          }
-        },
-        name: {
-
-        }
-
-      });
-      c1.tooltip({
-        showCrosshairs: true,
-        showItemMarker: false,
-        onShow(ev) {
-          const {
-            items
-          } = ev;
-          items[0].name = null;
-          items[0].name = items[0].title;
-          items[0].value = items[0].value;
-        }
-      });
-
-      c1.line().position('name*value').shape('smooth').color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
-      c1.point().position('name*value').shape('smooth').style({
-        stroke: '#fff',
-        lineWidth: 1
-      }).color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
-      c1.area().position('name*value').shape('smooth').color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
-      c1.render();
-      chart1 = c1;
-    })
-  },
-
   initChart2: function(data) {
     /*在这里改变一下结构即可*/
     let that = this;
@@ -609,8 +533,8 @@ Page({
           alias: '注册数',
         },
         time: {
-          type: "timeCat",
-          mask: 'MM/DD',
+          // type: "timeCat",
+          // mask: 'MM/DD',
           tickCount: 7,
         }
       });
@@ -641,6 +565,19 @@ Page({
     let clientid = this.data.sourceCliCre == conf.sourceCliCre.client.val ? conf.sourceCliCre.client.choice[this.data.sourceCliCreChoice].key : null;
     let creative = this.data.sourceCliCre == conf.sourceCliCre.creative.val ? conf.sourceCliCre.creative.choice[this.data.sourceCliCreChoice].key : null;
     if (this.data.os == "0" && this.data.sourceCliCre == "daily") {
+      let titleAI = Object.assign({}, tableDayHour, this.data.payTitlesCC);
+      delete titleAI.ds;
+      let newTitle = Object.assign({}, tableDs, titleAI);
+      this.setData({
+        showTable: true,
+        payTitlesCC: newTitle,
+      })
+      if (this.data.timeArea == conf.timeArea.week || this.data.timeArea == conf.timeArea.month) {
+        delete newTitle.dayOfHour;
+        this.setData({
+          payTitlesCC: newTitle
+        })
+      }
       this.setData({
         showTable: true,
       })
@@ -649,6 +586,20 @@ Page({
         showTable: false,
       })
     };
+
+    let titleAdd = Object.assign({}, tableDayHour, this.data.payTitles);
+    delete titleAdd.ds;
+    let newTitle = Object.assign({}, tableDs, titleAdd);
+    this.setData({
+      payTitles: newTitle
+    })
+
+    if (this.data.timeArea == conf.timeArea.week || this.data.timeArea == conf.timeArea.month) {
+      delete newTitle.dayOfHour;
+      this.setData({
+        payTitles: newTitle
+      })
+    }
     this.query(this.data.source, this.data.gameid, this.data.timeArea, clientid, this.data.os, creative, this.data.page);
   },
 
@@ -702,11 +653,15 @@ Page({
         } else {
           tables = this.data.tableData.concat(tableData);
         }
-        let handelInstallNum = this.makeCavas(tables);
+        let handelInstallNum = this.makeCavas(tables, this.data.timeArea);
+        if (this.data.timeArea != conf.timeArea.week && this.data.timeArea != conf.timeArea.month) {
+          tables.reverse();
+          tableDataCC.reverse();
+        }
         this.setData({
           tableData: tables,
           handelInstallNum: handelInstallNum,
-          chartTitle2: handelInstallNum.length == 0 ? "图标暂无数据" : "图标数据",
+          chartTitle2: handelInstallNum.length == 0 ? "图标暂无数据" : "新进趋势",
           tableDataCC: tableDataCC
         })
         this.initChart2();
@@ -728,40 +683,21 @@ Page({
     return data;
   },
 
-  makeCavas: (data) => {
+  makeCavas: (data, date) => {
     if (data) {
       let handelInstallNum = [];
       data.forEach((item, index) => {
         let info = new Object();
-        info.time = (item.ds).substr(0, 10);
+        info.time = (date != conf.timeArea.week && date != conf.timeArea.month) ? (item.dayOfHour + '时') : (item.ds).substr(0, 10);
         info.value = item.installNum;
         handelInstallNum.push(info);
       });
+      if (date == conf.timeArea.week || date == conf.timeArea.month) {
+        handelInstallNum.reverse();
+      }
       // console.log("---------payCount:" + JSON.stringify(handelInstallNum));
       return handelInstallNum;
     }
-  },
-
-  // 底部跳转
-  gotoIndex: function() {
-    wx.redirectTo({
-      url: '../survey/survey?gameId=' + this.data.gameid,
-    });
-  },
-  gotoPublish: function() {
-    wx.redirectTo({
-      url: '../retention/retention?gameId=' + this.data.gameid,
-    });
-  },
-  gotoRecruit: function() {
-    wx.redirectTo({
-      url: '../pay/pay?gameId=' + this.data.gameid,
-    });
-  },
-  gotoMine: function() {
-    wx.redirectTo({
-      url: '../portrait/portrait?gameId=' + this.data.gameid,
-    });
   },
 
 })

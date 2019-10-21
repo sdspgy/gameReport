@@ -139,37 +139,6 @@ const conf = {
   table: {
     colWidth: 90
   },
-  navData: [{
-    name: "概况", //文本
-    currentMenu: 0, //是否是当前页，0不是  1是
-    style: 0, //样式
-    ico: 'dynamic_fill', //不同图标
-    fn: 'gotoIndex' //对应处理函数
-  }, {
-    name: "新进",
-    currentMenu: 0,
-    style: 0,
-    ico: 'mine_fill',
-    fn: 'gotoOldGoods'
-  }, {
-    name: "留存",
-    currentMenu: 0,
-    style: 0,
-    ico: 'picture_fill',
-    fn: 'gotoPublish'
-  }, {
-    name: "付费",
-    currentMenu: 1,
-    style: 0,
-    ico: 'redpacket_fill',
-    fn: 'gotoRecruit'
-  }, {
-    name: "其他",
-    currentMenu: 0,
-    style: 0,
-    ico: 'task_fill',
-    fn: 'gotoMine'
-  }, ]
 };
 let titles = {
     installNum: "注册数",
@@ -200,6 +169,9 @@ let titles = {
   },
   tableClient = {
     clientid: "服"
+  },
+  tableDayHour = {
+    dayOfHour: '～时'
   }
 
 Page({
@@ -214,8 +186,10 @@ Page({
       gameid: gameid
     });
     let obj = Object.assign({}, tableDs, titles);
+    let payTitlesCC = Object.assign({}, tableDs, tableOs, titles);
     this.setData({
-      payTitles: obj
+      payTitles: obj,
+      payTitlesCC: payTitlesCC
     })
     this.initChart2([]);
     this.queryAndUpdate();
@@ -290,6 +264,9 @@ Page({
     payTitles: titles,
     handelPayCount: [],
     page: 1,
+    payTitlesCC: [],
+    showTable: true,
+    tableDataCC: [],
   },
 
   /**
@@ -588,8 +565,8 @@ Page({
           }
         },
         time: {
-          type: "timeCat",
-          mask: 'MM/DD',
+          // type: "timeCat",
+          // mask: 'MM/DD',
           tickCount: 7,
         }
       });
@@ -625,6 +602,39 @@ Page({
   queryAndUpdate: function() {
     let clientid = this.data.sourceCliCre == conf.sourceCliCre.client.val ? conf.sourceCliCre.client.choice[this.data.sourceCliCreChoice].key : null;
     let creative = this.data.sourceCliCre == conf.sourceCliCre.creative.val ? conf.sourceCliCre.creative.choice[this.data.sourceCliCreChoice].key : null;
+    if (this.data.os == "0" && this.data.sourceCliCre == "daily") {
+      let titleAI = Object.assign({}, tableDayHour, this.data.payTitlesCC);
+      delete titleAI.ds;
+      let newTitle = Object.assign({}, tableDs, titleAI);
+      this.setData({
+        showTable: true,
+        payTitlesCC: newTitle,
+      })
+      if (this.data.timeArea == conf.timeArea.week || this.data.timeArea == conf.timeArea.month) {
+        delete newTitle.dayOfHour;
+        this.setData({
+          payTitlesCC: newTitle
+        })
+      }
+    } else {
+      this.setData({
+        showTable: false,
+      })
+    };
+    let titleAdd = Object.assign({}, tableDayHour, this.data.payTitles);
+    delete titleAdd.ds;
+    let newTitle = Object.assign({}, tableDs, titleAdd);
+    this.setData({
+      payTitles: newTitle
+    })
+
+    if (this.data.timeArea == conf.timeArea.week || this.data.timeArea == conf.timeArea.month) {
+      delete newTitle.dayOfHour;
+      this.setData({
+        payTitles: newTitle
+      })
+    }
+
     this.query(this.data.source, this.data.gameid, this.data.timeArea, clientid, this.data.os, creative, this.data.page);
   },
 
@@ -666,6 +676,10 @@ Page({
       method: "post",
       success: (res) => {
         let tableData = this.tableDataProcess(res.data.msg);
+        let tableDataCC = [];
+        if (res.data.sharePayResultTypesCC) {
+          tableDataCC = this.tableDataProcess(res.data.sharePayResultTypesCC);
+        };
         if (res.data.msg.length != 0 && this.data.page != 1) {
           wx.showToast({
             title: "加载第" + this.data.page + "页",
@@ -686,11 +700,16 @@ Page({
         } else {
           tables = this.data.tableData.concat(tableData);
         }
-        let handelPayCount = this.makeCavas(tables);
+        let handelPayCount = this.makeCavas(tables, this.data.timeArea);
+        if (this.data.timeArea != conf.timeArea.week && this.data.timeArea != conf.timeArea.month) {
+          tables.reverse();
+          tableDataCC.reverse();
+        }
         this.setData({
           tableData: tables,
           handelPayCount: handelPayCount,
-          chartTitle2: handelPayCount.length == 0 ? "图标暂无数据" : "图标数据"
+          chartTitle2: handelPayCount.length == 0 ? "图标暂无数据" : "付费趋势",
+          tableDataCC: tableDataCC
         })
         this.initChart2();
         // console.log(tables);
@@ -723,66 +742,71 @@ Page({
     return data;
   },
 
-  makeCavas: (data) => {
+  makeCavas: (data, date) => {
     if (data) {
       let handelPayCount = [];
       data.forEach((item, index) => {
         let infopayCount = new Object();
-        infopayCount.time = (item.ds).substr(0, 10);
+        if (date != conf.timeArea.week && date != conf.timeArea.month) {
+          infopayCount.time = item.dayOfHour + '时';
+        } else {
+          infopayCount.time = (item.ds).substr(0, 10);
+        }
         infopayCount.value = item.payCount;
         infopayCount.type = '付费人数';
         handelPayCount.push(infopayCount);
         let infopayAmount = new Object();
-        infopayAmount.time = (item.ds).substr(0, 10);
+        if (date != conf.timeArea.week && date != conf.timeArea.month) {
+          infopayAmount.time = item.dayOfHour + '时';
+        } else {
+          infopayAmount.time = (item.ds).substr(0, 10);
+        }
         infopayAmount.value = item.payAmount;
         infopayAmount.type = '付费金额';
         handelPayCount.push(infopayAmount);
         let infopayTimes = new Object();
-        infopayTimes.time = (item.ds).substr(0, 10);
+        if (date != conf.timeArea.week && date != conf.timeArea.month) {
+          infopayTimes.time = item.dayOfHour + '时';
+        } else {
+          infopayTimes.time = (item.ds).substr(0, 10);
+        }
         infopayTimes.value = item.payTimes;
         infopayTimes.type = '付费次数';
         handelPayCount.push(infopayTimes);
         let infopayInstallCount = new Object();
-        infopayInstallCount.time = (item.ds).substr(0, 10);
+        if (date != conf.timeArea.week && date != conf.timeArea.month) {
+          infopayInstallCount.time = item.dayOfHour + '时';
+        } else {
+          infopayInstallCount.time = (item.ds).substr(0, 10);
+        }
         infopayInstallCount.value = item.payInstallCount;
         infopayInstallCount.type = '安装付费人数';
         handelPayCount.push(infopayInstallCount);
         let infopayInstallAmount = new Object();
-        infopayInstallAmount.time = (item.ds).substr(0, 10);
+        if (date != conf.timeArea.week && date != conf.timeArea.month) {
+          infopayInstallAmount.time = item.dayOfHour + '时';
+        } else {
+          infopayInstallAmount.time = (item.ds).substr(0, 10);
+        }
         infopayInstallAmount.value = item.payInstallAmount;
         infopayInstallAmount.type = '安装付费金额';
         handelPayCount.push(infopayInstallAmount);
         let infoPayInstallTimes = new Object();
-        infoPayInstallTimes.time = (item.ds).substr(0, 10);
+        if (date != conf.timeArea.week && date != conf.timeArea.month) {
+          infoPayInstallTimes.time = item.dayOfHour + '时';
+        } else {
+          infoPayInstallTimes.time = (item.ds).substr(0, 10);
+        }
         infoPayInstallTimes.value = item.payInstallTimes;
         infoPayInstallTimes.type = '安装付费次数';
         handelPayCount.push(infoPayInstallTimes);
       });
+      if (date == conf.timeArea.week || date == conf.timeArea.month) {
+        handelPayCount.reverse();
+      }
       // console.log("---------payCount:" + JSON.stringify(handelPayCount));
       return handelPayCount;
     }
-  },
-
-  //底部菜单
-  gotoIndex: function() {
-    wx.redirectTo({
-      url: '../survey/survey?gameId=' + this.data.gameid,
-    });
-  },
-  gotoOldGoods: function() {
-    wx.redirectTo({
-      url: '../source/source?gameId=' + this.data.gameid,
-    });
-  },
-  gotoPublish: function() {
-    wx.redirectTo({
-      url: '../retention/retention?gameId=' + this.data.gameid,
-    });
-  },
-  gotoMine: function() {
-    wx.redirectTo({
-      url: '../portrait/portrait?gameId=' + this.data.gameid,
-    });
   },
 
 })

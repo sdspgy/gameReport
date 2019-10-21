@@ -18,11 +18,6 @@ i-tabs {
   height: 350rpx;
 }
 
-ff-canvas {
-  /* width: 100%;
-  height: 100%; */
-}
-
 .chart-pane {
   width: 100%;
   height: 350rpx;

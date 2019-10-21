@@ -48,10 +48,3 @@
 table {
   position: relative;
 }
-
-.bottom {
-  /* position: absolute;
-  top: 135%;
-  width: 100%;
-  height: 200px; */
-}

@@ -49,11 +49,11 @@ App({
                   code: code,
                 },
                 success: function(data) {
-                  wx.showToast({
-                    title: '登录成功',
-                    icon: 'success',
-                    duration: 2000
-                  })
+                  // wx.showToast({
+                  //   title: '登录成功',
+                  //   icon: 'success',
+                  //   duration: 2000
+                  // })
                   if (data.data.success === true) {
                     wx.setStorageSync("token", data.data.token);
                     // wx.reLaunch({

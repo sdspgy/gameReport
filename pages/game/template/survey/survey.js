@@ -8,106 +8,73 @@ const {
 } = require('../../../../dist/base/index');
 var cavasName = '活跃';
 const conf = {
-  table: {
-    titles: {
-      ds: "日期（星期）",
-      installNum: "注册数",
-      dauNum: "活跃数",
-      payCount: "付费人数",
-      payAmount: "付费总额",
-      payRate: "付费率", // 付费人数/活跃数 *
-      ARPU: "ARPU", //付费总额/活跃数 *
-      ARPPU: "ARPPU", //付费总额/付费人数 *
+    table: {
+      retentionTitles: {
+        ds: "日期（星期）",
+        oneRetentionPercentage: "1日",
+        twoRetentionPercentage: "2日",
+        threeRetentionPercentage: "3日",
+        fourRetentionPercentage: "4日",
+        fiveRetentionPercentage: "5日",
+        sixRetentionPercentage: "6日",
+        sevenRetentionPercentage: "7日",
+        eightRetentionPercentage: "8日",
+        nineRetentionPercentage: "9日",
+        tenRetentionPercentage: "10日",
+        elevenRetentionPercentage: "11日",
+        twelveRetentionPercentage: "12日",
+        thirteenRetentionPercentage: "13日",
+        fourteenRetentionPercentage: "14日",
+        fifteenRetentionPercentage: "15日",
+        sixteenRetentionPercentage: "16日",
+        seventeenRetentionPercentage: "17日",
+        eighteenRetentionPercentage: "18日",
+        nineteenRetentionPercentage: "19日",
+        twentyteenRetentionPercentage: "20日",
+        twentyOneteenRetentionPercentage: "21日",
+        twentyTwoRetentionPercentage: "22日",
+        twentyThreeRetentionPercentage: "23日",
+        twentyFourRetentionPercentage: "24日",
+        twentyFiveRetentionPercentage: "25日",
+        twentySixRetentionPercentage: "26日",
+        twentySevenRetentionPercentage: "27日",
+        twentyEightRetentionPercentage: "28日",
+        twentyNineRetentionPercentage: "29日",
+        thirtyRetentionPercentage: "30日",
+      },
+      colWidth: 90
+    }
+  },
+  titles = {
+    installNum: "注册数",
+    dauNum: "活跃数",
+    payCount: "付费人数",
+    payAmount: "付费总额",
+    payRate: "付费率", // 付费人数/活跃数 *
+    ARPU: "ARPU", //付费总额/活跃数 *
+    ARPPU: "ARPPU", //付费总额/付费人数 *
 
-      payInstallRate: "注册付费率", //注册付费人数/注册人数*
-      payInstallCount: "注册付费人数",
-      payInstallAmount: "注册付费总额",
-      payInstallARPU: "注付ARPU", //注册付费总额/注册人数,*
-      payInstallARPPU: "注付ARPPU", //注册付费总额/注册付费人数*
+    payInstallRate: "注册付费率", //注册付费人数/注册人数*
+    payInstallCount: "注册付费人数",
+    payInstallAmount: "注册付费总额",
+    payInstallARPU: "注付ARPU", //注册付费总额/注册人数,*
+    payInstallARPPU: "注付ARPPU", //注册付费总额/注册付费人数*
 
-      payTimes: "付费次数",
-      payInstallTimes: "注册付费次数"
-    },
-    retentionTitles: {
-      ds: "日期（星期）",
-      oneRetentionPercentage: "1日",
-      twoRetentionPercentage: "2日",
-      threeRetentionPercentage: "3日",
-      fourRetentionPercentage: "4日",
-      fiveRetentionPercentage: "5日",
-      sixRetentionPercentage: "6日",
-      sevenRetentionPercentage: "7日",
-      eightRetentionPercentage: "8日",
-      nineRetentionPercentage: "9日",
-      tenRetentionPercentage: "10日",
-      elevenRetentionPercentage: "11日",
-      twelveRetentionPercentage: "12日",
-      thirteenRetentionPercentage: "13日",
-      fourteenRetentionPercentage: "14日",
-      fifteenRetentionPercentage: "15日",
-    },
-    colWidth: 90
+    payTimes: "付费次数",
+    payInstallTimes: "注册付费次数"
+  },
+  titleDs = {
+    ds: "日期（星期）",
   }
-}
 Page({
   data: {
-    navData: [{
-      name: "概况", //文本
-      currentMenu: 1, //是否是当前页，0不是  1是
-      style: 0, //样式
-      ico: 'dynamic_fill', //不同图标
-      fn: 'gotoIndex' //对应处理函数
-    }, {
-      name: "新进",
-      currentMenu: 0,
-      style: 0,
-      ico: 'mine_fill',
-      fn: 'gotoOldGoods'
-    }, {
-      name: "留存",
-      currentMenu: 0,
-      style: 1,
-      ico: 'picture_fill',
-      fn: 'gotoPublish'
-    }, {
-      name: "付费",
-      currentMenu: 0,
-      style: 0,
-      ico: 'redpacket_fill',
-      fn: 'gotoRecruit'
-    }, {
-      name: "其他",
-      currentMenu: 0,
-      style: 0,
-      ico: 'task_fill',
-      fn: 'gotoMine'
-    }, ],
     gameid: "",
     bType: ['info', 'ghost'],
     conf: conf,
-    swiperView: [{
-        title1: '访问人数',
-        num1: '0',
-        time1: '昨日：0',
-        title2: '新用户',
-        num2: '0',
-        time2: '昨日：0',
-        title3: '活跃数',
-        num3: '0',
-        time3: '昨日：0'
-      },
-      {
-        title1: '访问次数',
-        num1: '0',
-        time1: '昨日：0',
-        title2: '次均停留时长',
-        num2: '0',
-        time2: '昨日：0',
-        title3: '跳出率',
-        num3: '0',
-        time3: '昨日：0'
-      }
-    ],
+    titles: titles,
+    tableDayHour: {
+      dayOfHour: '～时',
+    },
     indicatorDots: false,
     autoplay: true,
     interval: 5000,
@@ -140,12 +107,23 @@ Page({
     position: 'left',
     retentionDate: '昨日',
     retentionEcharts: [],
+    realtimeStatis: [{
+        title: '活跃',
+        value: 0
+      },
+      {
+        title: '新增',
+        value: 0
+      },
+    ],
+    isShowRealtime: false,
+    handelPayCount: null,
+    proportions: [],
   },
   onLoad: function(e) {
     this.setData({
-      gameid: gameid
+      gameid: gameid,
     })
-    // console.log("gameId-----" + this.data.gameid)
     //数据初始化
     this.init();
   },
@@ -168,7 +146,7 @@ Page({
           alias: this.data.current + '人数',
         },
         time: {
-
+          tickCount: 6,
         }
       });
       chart.tooltip({
@@ -183,172 +161,56 @@ Page({
       chart.area().position('time*value').shape('smooth').color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
       chart.render();
       return chart;
-
-      // const chart = echarts.init(canvas, null, {
-      //   width: width,
-      //   height: height
-      // });
-      // canvas.setChart(chart);
-      // var option = {
-      //   title: {
-      //     text: '',
-      //     // subtext: cavasName + "数"
-      //   },
-      //   tooltip: {
-      //     trigger: 'axis',
-      //     axisPointer: {
-      //       type: 'cross',
-      //       label: {
-      //         backgroundColor: '#b6a2de'
-      //       }
-      //     },
-      //     formatter: "{c}",
-      //   },
-      //   legend: {
-      //     // left: 'left',
-      //     data: [],
-      //     textStyle: {
-      //       fontSize: 10
-      //     }
-      //   },
-      //   grid: {
-      //     left: '3%',
-      //     right: '5%',
-      //     bottom: '10%',
-      //     containLabel: true
-      //   },
-      //   xAxis: [{
-      //     type: 'category',
-      //     boundaryGap: false,
-      //     data: ['1日', '2日', '3日', '4日', '5日', '6日', '7日']
-      //   }],
-      //   yAxis: [{
-      //     type: 'value'
-      //   }],
-      //   color: '#5cadff',
-      //   series: [{
-      //     name: '',
-      //     type: 'line',
-      //     stack: '总量',
-      //     label: {
-      //       normal: {
-      //         show: true,
-      //         position: 'top',
-      //         fontSize: 15,
-      //         rich: {}
-      //       }
-      //     },
-      //     areaStyle: {
-      //       normal: {}
-      //     },
-      //     data: this.data.datas
-      //   }]
-      // };
-      // chart.setOption(option);
-      // return chart;
     });
-    this.payComponent = this.selectComponent('#mychart-pay');
-    this.payComponent.init((canvas, width, height) => {
-      const chart = echarts.init(canvas, null, {
-        width: width,
-        height: height
+
+    /*在这里改变一下结构即可*/
+    let that = this;
+    that.chartComponent = that.selectComponent('#chart2');
+    that.chartComponent.init((canvas, width, height) => {
+      const c2 = new F2.Chart({
+        el: canvas,
+        width,
+        height,
+        animate: true
       });
-      canvas.setChart(chart);
-      var option = {
-        tooltip: {
-          trigger: 'axis',
-          align: 'center',
-          axisPointer: {
-            type: 'cross',
-            label: {
-              backgroundColor: '#b6a2de'
-            }
-          },
-          formatter: "",
-          padding: [
-            0, // 上
-            0, // 右
-            0, // 下
-            0, // 左
-          ],
-          position: ['90%', '5%'],
-        },
-        legend: {
-          left: 'left',
-          data: ['付费人数', '付费金额', '付费次数', '安装付费人数', '安装付费金额', '安装付费次数'],
-          textStyle: {
-            fontSize: 10
+      c2.source(this.data.handelPayCount, {
+        value: {
+          tickCount: 5,
+          formatter: function formatter(ivalue) {
+            return ivalue;
           }
         },
-        grid: {
-          left: '3%',
-          right: '5%',
-          bottom: '10%',
-          containLabel: true
-        },
-        xAxis: [{
-          type: 'category',
-          boundaryGap: false,
-          data: ['1日', '2日', '3日', '4日', '5日', '6日', '7日']
-        }],
-        yAxis: [{
-          // axisLabel: {
-          //   show: true,
-          //   textStyle: {
-          //     color: '#5ab1ef',
-          //     fontSize: 10
-          //   }
-          // },
-          type: 'value'
-        }],
-        series: this.data.payList
-      };
-      chart.setOption(option);
-      return chart;
-    });
-    // this.retentionComponent = this.selectComponent('#mychart-mychartRetention');
-    // this.retentionComponent.init((canvas, width, height) => {
-    //   const chart = echarts.init(canvas, null, {
-    //     width: width,
-    //     height: height
-    //   });
-    //   canvas.setChart(chart);
-    //   var option = {
-    //     title: {
-    //       text: '',
-    //       subtext: ''
-    //     },
-    //     tooltip: {
-    //       trigger: 'item',
-    //       formatter: "{b} : {c}%",
-    //       position: [150, 200]
-    //     },
-    //     legend: {
-    //       data: [],
-    //       textStyle: {
-    //         fontSize: 10
-    //       }
-    //     },
-    //     calculable: true,
-    //     series: [{
-    //       name: '',
-    //       type: 'funnel',
-    //       width: '65%',
-    //       itemStyle: {
-    //         normal: {
-    //           label: {
-    //             show: false,
-    //             position: 'inside'
-    //           },
-    //         }
-    //       },
-    //       data: this.data.retentionEcharts
-    //     }]
-    //   };
-    //   chart.setOption(option);
-    //   return chart;
-    // });
+        time: {
+          // type: "timeCat",
+          // mask: 'MM/DD',
+          tickCount: 7,
+        }
+      });
+      //设置图列居中显示
+      c2.legend({
+        position: 'top', //图列位置
+        align: 'center', //图例的对齐方式
+        itemWidth: null
+      });
+      c2.tooltip({
+        showCrosshairs: true, //纵坐标线
+        showItemMarker: false, //去小原点
+      });
+      // 坐标轴文本旋转
+      c2.axis('time', {
+        label: {
+          rotate: -Math.PI / 2.5,
+          textAlign: 'end',
+          textBaseline: 'middle'
+        }
+      });
+      c2.line().position('time*value').shape('smooth').color('type');
+
+      c2.render();
+      return c2;
+    })
   },
+
   handleClick: function(e) {
     if (e.currentTarget.id != parseInt(this.data.type)) {
       this.data.bType[0] = [this.data.bType[1], this.data.bType[1] = this.data.bType[0]][0];
@@ -410,30 +272,21 @@ Page({
     })
   },
 
-  // 底部跳转
-  gotoOldGoods: function() {
-    wx.redirectTo({
-      url: '../source/source?gameId=' + this.data.gameid,
-    });
-  },
-  gotoPublish: function() {
-    wx.redirectTo({
-      url: '../retention/retention?gameId=' + this.data.gameid,
-    });
-  },
-  gotoRecruit: function() {
-    wx.redirectTo({
-      url: '../pay/pay?gameId=' + this.data.gameid,
-    });
-  },
-  gotoMine: function() {
-    wx.redirectTo({
-      url: '../portrait/portrait?gameId=' + this.data.gameid,
-    });
-  },
-
   //数据初始化
   init: function() {
+    //实时和昨日的单独处理下表头
+    if (this.data.data == 0 || this.data.data == 1) {
+      let tablesDayHour = Object.assign({}, titleDs, this.data.tableDayHour, titles);
+      this.setData({
+        titles: tablesDayHour,
+        isShowRealtime: true,
+      });
+    } else {
+      this.setData({
+        titles: Object.assign({}, titleDs, titles),
+        isShowRealtime: false,
+      });
+    }
     wx.showLoading({
       title: "数据加载中",
       mask: true
@@ -459,12 +312,15 @@ Page({
         }, 100);
         if (e.data.success === true) {
           this.setData({
-            listData: this.tableDataProcess(e.data.shareDailyResultTypes),
-            datas: this.f2DI(e.data.dauNumOrInstallNumList),
+            listData: this.tableDataProcess(e.data.shareDailyResultTypes, this.androidIosProportions(e.data.androidIosProportions)),
+            datas: this.f2DI(e.data.dauNumOrInstallNumList, this.data.data),
             payList: e.data.payList,
-            retentionEcharts: e.data.echartsRetentions,
-            retentionDataList: this.saturday(e.data.shareRetentionList)
+            retentionDataList: this.saturday(e.data.shareRetentionList),
           });
+          let handelPayCount = this.makeCavas(this.data.listData, this.data.data);
+          this.setData({
+            handelPayCount: handelPayCount,
+          })
           this.init_one();
         } else {
           wx.showToast({
@@ -476,6 +332,102 @@ Page({
       },
       error: function(e) {}
     })
+  },
+
+  androidIosProportions: (data) => {
+    if (data) {
+      let dauNumSum = 0,
+        installNumSum = 0,
+        androidDauNum = 0,
+        androidInstallNum = 0,
+        iosDauNum = 0,
+        iosInstallNum = 0,
+        info = [];
+      data.forEach((item) => {
+        dauNumSum += item.dauNum;
+        installNumSum += item.installNum;
+        if (item.os == 'android') {
+          androidDauNum = item.dauNum;
+          androidInstallNum = item.installNum;
+        }
+        if (item.os == 'iOS') {
+          iosDauNum = item.dauNum;
+          iosInstallNum = item.installNum;
+        }
+      })
+      info.push(((androidDauNum / dauNumSum).toFixed(2) * 100) + '%');
+      info.push(((iosDauNum / dauNumSum).toFixed(2) * 100) + '%');
+      info.push(((androidInstallNum / installNumSum).toFixed(2) * 100) + '%');
+      info.push(((iosInstallNum / installNumSum).toFixed(2) * 100) + '%');
+      return info;
+    }
+  },
+
+  makeCavas: (data, date) => {
+    if (data) {
+      let handelPayCount = [];
+      data.forEach((item, index) => {
+        let infopayCount = new Object();
+        if (date != 7 && date != 30) {
+          infopayCount.time = item.dayOfHour + '时';
+        } else {
+          infopayCount.time = (item.ds).substr(0, 10);
+        }
+        infopayCount.value = item.payCount;
+        infopayCount.type = '付费人数';
+        handelPayCount.push(infopayCount);
+        let infopayAmount = new Object();
+        if (date != 7 && date != 30) {
+          infopayAmount.time = item.dayOfHour + '时';
+        } else {
+          infopayAmount.time = (item.ds).substr(0, 10);
+        }
+        infopayAmount.value = item.payAmount;
+        infopayAmount.type = '付费金额';
+        handelPayCount.push(infopayAmount);
+        let infopayTimes = new Object();
+        if (date != 7 && date != 30) {
+          infopayTimes.time = item.dayOfHour + '时';
+        } else {
+          infopayTimes.time = (item.ds).substr(0, 10);
+        }
+        infopayTimes.value = item.payTimes;
+        infopayTimes.type = '付费次数';
+        handelPayCount.push(infopayTimes);
+        let infopayInstallCount = new Object();
+        if (date != 7 && date != 30) {
+          infopayInstallCount.time = item.dayOfHour + '时';
+        } else {
+          infopayInstallCount.time = (item.ds).substr(0, 10);
+        }
+        infopayInstallCount.value = item.payInstallCount;
+        infopayInstallCount.type = '安装付费人数';
+        handelPayCount.push(infopayInstallCount);
+        let infopayInstallAmount = new Object();
+        if (date != 7 && date != 30) {
+          infopayInstallAmount.time = item.dayOfHour + '时';
+        } else {
+          infopayInstallAmount.time = (item.ds).substr(0, 10);
+        }
+        infopayInstallAmount.value = item.payInstallAmount;
+        infopayInstallAmount.type = '安装付费金额';
+        handelPayCount.push(infopayInstallAmount);
+        let infoPayInstallTimes = new Object();
+        if (date != 7 && date != 30) {
+          infoPayInstallTimes.time = item.dayOfHour + '时';
+        } else {
+          infoPayInstallTimes.time = (item.ds).substr(0, 10);
+        }
+        infoPayInstallTimes.value = item.payInstallTimes;
+        infoPayInstallTimes.type = '安装付费次数';
+        handelPayCount.push(infoPayInstallTimes);
+      });
+      if (date == 7 || date == 30) {
+        handelPayCount.reverse();
+      }
+      // console.log("---------payCount:" + JSON.stringify(handelPayCount));
+      return handelPayCount;
+    }
   },
 
   saturday: function(data) {
@@ -524,20 +476,38 @@ Page({
     }
   },
 
-  f2DI: function(data) {
+  f2DI: function(data, date) {
     let datas = [];
+    if (date == 0) {
+      //该方法会改变原来的数组，而不会创建新的数组
+      data.reverse();
+    }
     data.forEach((item, index) => {
       let info = new Object();
-      info.time = index + 1;
+      if (date == 0 || date == 1) {
+        info.time = index + '时';
+      } else {
+        info.time = (index + 1) + '';
+      }
       info.value = item;
       datas.push(info);
     });
     return datas;
   },
 
-  tableDataProcess: function(data) {
+  tableDataProcess: function(data, info) {
     if (data) {
+      let activeNum = 0,
+        newIntall = 0,
+        payTotal = 0,
+        payCount = 0;
+
       data.forEach((item) => {
+        activeNum += item.dauNum;
+        newIntall += item.installNum;
+        payTotal += item.payAmount;
+        payCount += item.payCount;
+
         item.ds = weekFunction(item.ds);
         item.payAmount = item.payAmount / 100;
         item.payRate = item.dauNum == 0 ? 0 : (item.payCount * 100 / item.dauNum).toFixed(2) + '%';
@@ -547,7 +517,32 @@ Page({
         item.payInstallRate = item.installNum == 0 ? 0 : (item.payInstallCount * 100 / item.installNum).toFixed(2) + '%';
         item.payInstallARPU = item.installNum == 0 ? 0 : (item.payInstallAmount / item.installNum).toFixed(2);
         item.payInstallARPPU = item.payInstallCount == 0 ? 0 : (item.payInstallAmount / item.payInstallCount).toFixed(2);
-      })
+      });
+
+      let realtimeArray = [];
+      let realtimeObject1 = new Object();
+      realtimeObject1.title = '活跃';
+      realtimeObject1.value = activeNum;
+      realtimeObject1.payRate = 'Android：' + info[0];
+      realtimeObject1.payARPU = 'iOS：' + info[1];
+      let realtimeObject2 = new Object();
+      realtimeObject2.title = '新增';
+      realtimeObject2.payRate = 'Android：' + info[2];
+      realtimeObject2.payARPU = 'iOS：' + info[3];
+      realtimeObject2.value = newIntall;
+      let realtimeObject3 = new Object();
+      realtimeObject3.title = '付费';
+      realtimeObject3.value = '总额：' + payTotal / 100;
+      realtimeObject3.payRate = '付费率：' + (activeNum == 0 ? 0 : (payCount * 100 / activeNum).toFixed(2) + '%');
+      realtimeObject3.payARPU = 'ARPU：' + (activeNum == 0 ? 0 : (payTotal / 100 / activeNum).toFixed(2));
+      realtimeObject3.payARPPU = 'ARPPU：' + (payCount == 0 ? 0 : (payTotal / 100 / payCount).toFixed(2));
+
+      realtimeArray.push(realtimeObject1);
+      realtimeArray.push(realtimeObject2);
+      realtimeArray.push(realtimeObject3);
+      this.setData({
+        realtimeStatis: realtimeArray,
+      });
     }
     return data;
   },
