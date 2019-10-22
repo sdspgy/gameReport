@@ -28,7 +28,7 @@ Page({
       url: '../table/table'
     })
   },
-  onLoad: function() {
+  onLoad: function(options) {
     if (app.globalData.userInfo) {
       this.getReourceType();
       this.init();
@@ -48,7 +48,7 @@ Page({
     }
   },
 
-  onReady: function () {
+  onReady: function() {
     // 页面首次渲染完毕时执行
     this.isAuthor();
   },

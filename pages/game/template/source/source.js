@@ -654,9 +654,10 @@ Page({
           tables = this.data.tableData.concat(tableData);
         }
         let handelInstallNum = this.makeCavas(tables, this.data.timeArea);
-        if (this.data.timeArea != conf.timeArea.week && this.data.timeArea != conf.timeArea.month) {
-          tables.reverse();
-          tableDataCC.reverse();
+        if (this.data.timeArea == conf.timeArea.today) {
+          // tables.reverse();
+          // tableDataCC.reverse();
+          // handelInstallNum.reverse();
         }
         this.setData({
           tableData: tables,

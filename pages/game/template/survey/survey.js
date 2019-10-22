@@ -183,7 +183,7 @@ Page({
         time: {
           // type: "timeCat",
           // mask: 'MM/DD',
-          tickCount: 7,
+          tickCount: 6,
         }
       });
       //设置图列居中显示
@@ -355,10 +355,10 @@ Page({
           iosInstallNum = item.installNum;
         }
       })
-      info.push(((androidDauNum / dauNumSum).toFixed(2) * 100) + '%');
-      info.push(((iosDauNum / dauNumSum).toFixed(2) * 100) + '%');
-      info.push(((androidInstallNum / installNumSum).toFixed(2) * 100) + '%');
-      info.push(((iosInstallNum / installNumSum).toFixed(2) * 100) + '%');
+      info.push(((androidDauNum / dauNumSum * 100).toFixed(2)) + '%');
+      info.push(((iosDauNum / dauNumSum * 100).toFixed(2)) + '%');
+      info.push(((androidInstallNum / installNumSum * 100).toFixed(2)) + '%');
+      info.push(((iosInstallNum / installNumSum * 100).toFixed(2)) + '%');
       return info;
     }
   },
@@ -478,21 +478,28 @@ Page({
 
   f2DI: function(data, date) {
     let datas = [];
-    if (date == 0) {
-      //该方法会改变原来的数组，而不会创建新的数组
-      data.reverse();
-    }
     data.forEach((item, index) => {
       let info = new Object();
       if (date == 0 || date == 1) {
         info.time = index + '时';
       } else {
-        info.time = (index + 1) + '';
+        info.time = this.getTime(index);
       }
       info.value = item;
       datas.push(info);
     });
+    if (date == "7" || date == "30") {
+      //该方法会改变原来的数组，而不会创建新的数组
+      datas.reverse();
+    }
     return datas;
+  },
+
+  getTime: function(index) {
+    let myDate = new Date();
+    myDate.setTime(myDate.getTime() - 24 * 60 * 60 * 1000 * (index + 1));
+    let dateTime = (myDate.getMonth() + 1) + "-" + myDate.getDate();
+    return dateTime;
   },
 
   tableDataProcess: function(data, info) {
