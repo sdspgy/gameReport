@@ -693,7 +693,7 @@ Page({
         info.value = item.installNum;
         handelInstallNum.push(info);
       });
-      if (date == conf.timeArea.week || date == conf.timeArea.month) {
+      if (date == conf.timeArea.week || date == conf.timeArea.month || date == conf.timeArea.today) {
         handelInstallNum.reverse();
       }
       // console.log("---------payCount:" + JSON.stringify(handelInstallNum));

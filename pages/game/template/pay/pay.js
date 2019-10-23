@@ -802,7 +802,7 @@ Page({
         infoPayInstallTimes.type = '安装付费次数';
         handelPayCount.push(infoPayInstallTimes);
       });
-      if (date == conf.timeArea.week || date == conf.timeArea.month) {
+      if (date == conf.timeArea.week || date == conf.timeArea.month || date == conf.timeArea.today) {
         handelPayCount.reverse();
       }
       // console.log("---------payCount:" + JSON.stringify(handelPayCount));

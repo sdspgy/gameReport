@@ -430,7 +430,7 @@ Page({
         infoPayInstallTimes.type = '安装付费次数';
         handelPayCount.push(infoPayInstallTimes);
       });
-      if (date == 7 || date == 30) {
+      if (date == 7 || date == 30 || date == 0) {
         handelPayCount.reverse();
       }
       // console.log("---------payCount:" + JSON.stringify(handelPayCount));
@@ -486,9 +486,9 @@ Page({
 
   f2DI: function(data, date) {
     let datas = [];
-    // if (date == "0") {
-    //   data.reverse();
-    // }
+    if (date == "0") {
+      data.reverse();
+    }
     data.forEach((item, index) => {
       let info = new Object();
       if (date == 0 || date == 1) {
