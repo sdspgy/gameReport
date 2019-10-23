@@ -311,7 +311,7 @@ i-radio > view > i-cell > view > .i-cell {
   background-color: #fff;
   text-align: center;
   font-size: 10px;
-  line-height: 1rem;
+  line-height: 0.9rem;
   border-radius: 30px;
   font-weight: bold;
 }

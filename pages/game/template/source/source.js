@@ -656,7 +656,7 @@ Page({
         let handelInstallNum = this.makeCavas(tables, this.data.timeArea);
         if (this.data.timeArea == conf.timeArea.today) {
           // tables.reverse();
-          // tableDataCC.reverse();
+          tableDataCC.reverse();
           // handelInstallNum.reverse();
         }
         this.setData({
@@ -689,7 +689,7 @@ Page({
       let handelInstallNum = [];
       data.forEach((item, index) => {
         let info = new Object();
-        info.time = (date != conf.timeArea.week && date != conf.timeArea.month) ? (item.dayOfHour + '时') : (item.ds).substr(0, 10);
+        info.time = (date != conf.timeArea.week && date != conf.timeArea.month) ? (item.dayOfHour + '时') : (item.ds).substr(5, 5);
         info.value = item.installNum;
         handelInstallNum.push(info);
       });

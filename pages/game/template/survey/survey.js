@@ -153,6 +153,14 @@ Page({
         showCrosshairs: true, //纵坐标线
         showItemMarker: false, //去小原点
       });
+      // 坐标轴文本旋转
+      chart.axis('time', {
+        label: {
+          rotate: -Math.PI / 2.5,
+          textAlign: 'end',
+          textBaseline: 'middle'
+        }
+      });
       chart.line().position('time*value').shape('smooth').color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
       chart.point().position('time*value').shape('smooth').style({
         stroke: '#fff',
@@ -371,7 +379,7 @@ Page({
         if (date != 7 && date != 30) {
           infopayCount.time = item.dayOfHour + '时';
         } else {
-          infopayCount.time = (item.ds).substr(0, 10);
+          infopayCount.time = (item.ds).substr(5, 5);
         }
         infopayCount.value = item.payCount;
         infopayCount.type = '付费人数';
@@ -380,7 +388,7 @@ Page({
         if (date != 7 && date != 30) {
           infopayAmount.time = item.dayOfHour + '时';
         } else {
-          infopayAmount.time = (item.ds).substr(0, 10);
+          infopayAmount.time = (item.ds).substr(5, 5);
         }
         infopayAmount.value = item.payAmount;
         infopayAmount.type = '付费金额';
@@ -389,7 +397,7 @@ Page({
         if (date != 7 && date != 30) {
           infopayTimes.time = item.dayOfHour + '时';
         } else {
-          infopayTimes.time = (item.ds).substr(0, 10);
+          infopayTimes.time = (item.ds).substr(5, 5);
         }
         infopayTimes.value = item.payTimes;
         infopayTimes.type = '付费次数';
@@ -398,7 +406,7 @@ Page({
         if (date != 7 && date != 30) {
           infopayInstallCount.time = item.dayOfHour + '时';
         } else {
-          infopayInstallCount.time = (item.ds).substr(0, 10);
+          infopayInstallCount.time = (item.ds).substr(5, 5);
         }
         infopayInstallCount.value = item.payInstallCount;
         infopayInstallCount.type = '安装付费人数';
@@ -407,7 +415,7 @@ Page({
         if (date != 7 && date != 30) {
           infopayInstallAmount.time = item.dayOfHour + '时';
         } else {
-          infopayInstallAmount.time = (item.ds).substr(0, 10);
+          infopayInstallAmount.time = (item.ds).substr(5, 5);
         }
         infopayInstallAmount.value = item.payInstallAmount;
         infopayInstallAmount.type = '安装付费金额';
@@ -416,7 +424,7 @@ Page({
         if (date != 7 && date != 30) {
           infoPayInstallTimes.time = item.dayOfHour + '时';
         } else {
-          infoPayInstallTimes.time = (item.ds).substr(0, 10);
+          infoPayInstallTimes.time = (item.ds).substr(5, 5);
         }
         infoPayInstallTimes.value = item.payInstallTimes;
         infoPayInstallTimes.type = '安装付费次数';
@@ -478,6 +486,9 @@ Page({
 
   f2DI: function(data, date) {
     let datas = [];
+    // if (date == "0") {
+    //   data.reverse();
+    // }
     data.forEach((item, index) => {
       let info = new Object();
       if (date == 0 || date == 1) {

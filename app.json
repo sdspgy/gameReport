@@ -57,12 +57,6 @@
         "text": "付费",
         "iconPath": "images/menu/menus1.png",
         "selectedIconPath": "images/menu/menu6.png"
-      },
-      {
-        "pagePath": "pages/game/template/portrait/portrait",
-        "text": "其他",
-        "iconPath": "images/menu/menu2.png",
-        "selectedIconPath": "images/menu/menu6.png"
       }
     ]
   },
