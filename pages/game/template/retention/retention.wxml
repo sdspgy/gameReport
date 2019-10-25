@@ -48,6 +48,7 @@
   </view>
 </view>
 
+  <view class="dividLine"></view>
 <table caption="留存数据" titles="{{titles}}" type="1" data="{{retentionList}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" bind:bottomtap="onBottomTap"/>
 
 <back bind:back="back" />

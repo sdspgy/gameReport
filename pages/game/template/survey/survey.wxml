@@ -35,11 +35,15 @@
   <!-- 实时统计 -->
   <view wx:if="{{isShowRealtime}}" class="realtimeStatis">
     <view class="realtimeStatis-all" wx:for="{{realtimeStatis}}" wx:key="index">
-      <view style=" border-bottom: 1px dashed #1C86EE">{{item.title}}</view>
+      <view class="realTitle">{{item.title}}</view>
+      <view class="divLine"></view>
+      <view style="height:10px"></view>
       <view>{{item.value}}</view>
       <view>{{item.payRate}}</view>
-      <view>{{item.payARPU}}</view>
+      <view>{{item.payARPUs}}</view>
       <view>{{item.payARPPU}}</view>
+      <view>
+        <text decode="{{true}}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</text>{{item.payARPU}}</view>
     </view>
   </view>
 
@@ -61,18 +65,24 @@
     </view>
   </view>
 
-  <table caption="概况数据" titles="{{titles}}" data="{{listData}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
+  <view class="dividLine"></view>
+  <view class='retentionData'>
+    <table caption="概况数据" titles="{{titles}}" data="{{listData}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
+  </view>
 
-<view class="chart">
-  <view class="chart-title">付费数据</view>
-  <view class="chat-pane">
-    <view class="chart-body">
-      <ff-canvas id="chart2"></ff-canvas>
+  <view class="dividLine"></view>
+  <view class="chart">
+    <view class="chart-title">付费数据</view>
+    <view class="chat-pane">
+      <view class="chart-body">
+        <ff-canvas id="chart2"></ff-canvas>
+      </view>
     </view>
   </view>
-</view>
 
+  <view class="dividLine"></view>
   <view class='retentionData'>
     <table caption="留存数据" type="1" titles="{{conf.table.retentionTitles}}" data="{{retentionDataList}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
   </view>
+
 </view>

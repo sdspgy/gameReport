@@ -2,3 +2,10 @@
   width: 90%;
   margin: 0 auto;
 }
+
+.dividLine {
+  margin: 0 auto;
+  height: 1px;
+  background-color: #00c09c;
+  width: 90%;
+}

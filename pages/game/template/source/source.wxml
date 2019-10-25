@@ -48,8 +48,14 @@
   </view>
 </view>
 
-<table caption="新进数据" titles="{{payTitles}}" data="{{tableData}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="onBottomTap" />
+<view class="dividLine"></view>
+<view class="table">
+  <table caption="新进数据" titles="{{payTitles}}" data="{{tableData}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="onBottomTap" />
+</view>
 
-<table wx:if="{{showTable}}" caption="android-ios" titles="{{payTitlesCC}}" data="{{tableDataCC}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="" />
+<view class="dividLine"></view>
+<view class="table">
+  <table wx:if="{{showTable}}" caption="android-ios" titles="{{payTitlesCC}}" data="{{tableDataCC}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="" />
+</view>
 
 <back bind:back="back" />

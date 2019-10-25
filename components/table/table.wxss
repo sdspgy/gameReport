@@ -7,7 +7,8 @@
 
 .table-pane {
   width: 100%;
-  display:inline-block;
+  /* display:inline-block; */
+  display: block;
   height: 20rpx;
   flex-direction: column;
   align-content: center;
@@ -19,7 +20,7 @@
   display: flex;
   flex-direction: column;
   align-content: center;
-  width: 900px;
+  width: 500px;
   border: 0.5px solid #f0f0f0;
 }
 
@@ -49,10 +50,10 @@
 /* 单元格默认75px 35px 文字居中 */
 
 .td, .th {
-  width: 75px;
+  width: 88px;
   height: 35px;
   font-size: 10px;
-  margin: 0 10px;
+  margin: 0 1px;
   text-align: center;
   line-height: 35px;
 }
@@ -87,5 +88,5 @@
 }
 
 .text {
-  color: rgb(81, 235, 255)
+  color: rgb(81, 235, 255);
 }

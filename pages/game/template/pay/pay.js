@@ -517,7 +517,7 @@ Page({
       });
       c1.source(this.data.handelPayCount, {
         value: {
-          tickCount: 5,
+          // tickCount: 5,
           formatter: function formatter(value) {
             return value;
           }
@@ -559,7 +559,7 @@ Page({
       });
       c2.source(this.data.handelPayCount, {
         value: {
-          tickCount: 5,
+          // tickCount: 5,
           formatter: function formatter(ivalue) {
             return ivalue;
           }
@@ -745,6 +745,12 @@ Page({
 
   makeCavas: (data, date) => {
     if (data) {
+      if (date == conf.timeArea.today) {
+        data.sort(function (a, b) {
+          return b.dayOfHour - a.dayOfHour;
+        });
+      }
+
       let handelPayCount = [];
       data.forEach((item, index) => {
         let infopayCount = new Object();

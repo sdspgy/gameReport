@@ -381,7 +381,7 @@ Page({
     let handelRetentionOne = this.makeRetentionOne(detail.data);
     this.setData({
       handelRetentionOne: handelRetentionOne,
-      chartTitle2: handelRetentionOne.length == 0 ? "图表暂无数据" : "留存趋势"
+      chartTitle2: handelRetentionOne.length == 0 ? "图表暂无数据" : detail.data.ds + "留存趋势"
     })
     this.init_f2();
   },
@@ -462,10 +462,10 @@ Page({
             this.setData({
               retentionList: retentionList,
             });
-            let handelRetentionOne = this.makeRetentionOne(retentionList[0]);
+            let handelRetentionOne = this.makeRetentionOne(retentionList[5]);
             this.setData({
               handelRetentionOne: handelRetentionOne,
-              chartTitle2: handelRetentionOne.length == 0 ? "图表暂无数据" : "留存趋势"
+              chartTitle2: handelRetentionOne.length == 0 ? "图表暂无数据" : retentionList[5].ds + "留存趋势"
             })
             this.init_f2();
           }

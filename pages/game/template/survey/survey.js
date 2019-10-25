@@ -139,11 +139,12 @@ Page({
       });
       chart.source(this.data.datas, {
         value: {
-          tickCount: 5,
+          // tickCount: 5,
           formatter: function formatter(ivalue) {
             return ivalue;
           },
           alias: this.data.current + '人数',
+          min: 0,
         },
         time: {
           tickCount: 6,
@@ -183,7 +184,7 @@ Page({
       });
       c2.source(this.data.handelPayCount, {
         value: {
-          tickCount: 5,
+          // tickCount: 5,
           formatter: function formatter(ivalue) {
             return ivalue;
           }
@@ -373,6 +374,11 @@ Page({
 
   makeCavas: (data, date) => {
     if (data) {
+      if (date == 0) {
+        data.sort(function (a, b) {
+          return b.dayOfHour - a.dayOfHour;
+        });
+      }
       let handelPayCount = [];
       data.forEach((item, index) => {
         let infopayCount = new Object();
@@ -540,20 +546,20 @@ Page({
       let realtimeArray = [];
       let realtimeObject1 = new Object();
       realtimeObject1.title = '活跃';
-      realtimeObject1.value = activeNum;
-      realtimeObject1.payRate = 'Android：' + info[0];
-      realtimeObject1.payARPU = 'iOS：' + info[1];
+      realtimeObject1.value = '人数:' + activeNum;
+      realtimeObject1.payRate = 'Android:' + info[0];
+      realtimeObject1.payARPU = 'iOS:' + info[1];
       let realtimeObject2 = new Object();
       realtimeObject2.title = '新增';
-      realtimeObject2.payRate = 'Android：' + info[2];
-      realtimeObject2.payARPU = 'iOS：' + info[3];
-      realtimeObject2.value = newIntall;
+      realtimeObject2.payRate = 'Android:' + info[2];
+      realtimeObject2.payARPU = 'iOS:' + info[3];
+      realtimeObject2.value = '人数:' + newIntall;
       let realtimeObject3 = new Object();
       realtimeObject3.title = '付费';
-      realtimeObject3.value = '总额：' + payTotal / 100;
-      realtimeObject3.payRate = '付费率：' + (activeNum == 0 ? 0 : (payCount * 100 / activeNum).toFixed(2) + '%');
-      realtimeObject3.payARPU = 'ARPU：' + (activeNum == 0 ? 0 : (payTotal / 100 / activeNum).toFixed(2));
-      realtimeObject3.payARPPU = 'ARPPU：' + (payCount == 0 ? 0 : (payTotal / 100 / payCount).toFixed(2));
+      realtimeObject3.value = '总额:' + payTotal / 100;
+      realtimeObject3.payRate = ' 付费率:' + (activeNum == 0 ? 0 : (payCount * 100 / activeNum).toFixed(2) + '%');
+      realtimeObject3.payARPUs = 'ARPU:' + (activeNum == 0 ? 0 : (payTotal / 100 / activeNum).toFixed(2));
+      realtimeObject3.payARPPU = 'ARPPU:' + (payCount == 0 ? 0 : (payTotal / 100 / payCount).toFixed(2));
 
       realtimeArray.push(realtimeObject1);
       realtimeArray.push(realtimeObject2);

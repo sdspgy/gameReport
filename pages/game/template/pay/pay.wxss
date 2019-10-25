@@ -40,8 +40,8 @@
   margin-top: 5px;
 }
 
-table {
-  position: relative;
+.table {
+  height: 640rpx;
 }
 
 .bottom {
@@ -50,4 +50,11 @@ table {
   width: 100%;
   height: 200px;
   z-index: -1;
+}
+
+.dividLine {
+  margin: 0 auto;
+  height: 1px;
+  background-color: #00c09c;
+  width: 90%;
 }

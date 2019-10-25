@@ -526,11 +526,12 @@ Page({
       });
       c2.source(this.data.handelInstallNum, {
         value: {
-          tickCount: 4,
+          // tickCount: 4,
           formatter: function formatter(ivalue) {
             return ivalue;
           },
           alias: '注册数',
+          min: 0,
         },
         time: {
           // type: "timeCat",
@@ -552,6 +553,10 @@ Page({
       });
       c2.line().position('time*value').shape('smooth').color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
       c2.area().position('time*value').shape('smooth').color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
+      c2.point().position('time*value').shape('smooth').style({
+        stroke: '#fff',
+        lineWidth: 1
+      }).color('l(0) 0:#F2C587 0.5:#ED7973 1:#8659AF');
       c2.render();
       return c2;
     })
@@ -686,8 +691,14 @@ Page({
 
   makeCavas: (data, date) => {
     if (data) {
+      let infoData = data;
+      if (date == conf.timeArea.today) {
+        infoData.sort(function(a, b) {
+          return b.dayOfHour - a.dayOfHour;
+        });
+      }
       let handelInstallNum = [];
-      data.forEach((item, index) => {
+      infoData.forEach((item, index) => {
         let info = new Object();
         info.time = (date != conf.timeArea.week && date != conf.timeArea.month) ? (item.dayOfHour + '时') : (item.ds).substr(5, 5);
         info.value = item.installNum;
@@ -696,9 +707,13 @@ Page({
       if (date == conf.timeArea.week || date == conf.timeArea.month || date == conf.timeArea.today) {
         handelInstallNum.reverse();
       }
+
       // console.log("---------payCount:" + JSON.stringify(handelInstallNum));
       return handelInstallNum;
     }
   },
 
+  compare: function(a, b) {
+    return b.dayOfHour - a.dayOfHour;
+  }
 })
