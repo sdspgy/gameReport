@@ -18,21 +18,36 @@ const conf = {
       os: "操作系统",
       clientid: "服",
       creative: "渠道",
-      oneRetentionPercentage: "1日留存",
-      twoRetentionPercentage: "2日留存",
-      threeRetentionPercentage: "3日留存",
-      fourRetentionPercentage: "4日留存",
-      fiveRetentionPercentage: "5日留存",
-      sixRetentionPercentage: "6日留存",
-      sevenRetentionPercentage: "7日留存",
-      eightRetentionPercentage: "8日留存",
-      nineRetentionPercentage: "9日留存",
-      tenRetentionPercentage: "10日留存",
-      elevenRetentionPercentage: "11日留存",
-      twelveRetentionPercentage: "12日留存",
-      thirteenRetentionPercentage: "13日留存",
-      fourteenRetentionPercentage: "14日留存",
-      fifteenRetentionPercentage: "15日留存",
+      oneRetentionPercentage: "1日",
+      twoRetentionPercentage: "2日",
+      threeRetentionPercentage: "3日",
+      fourRetentionPercentage: "4日",
+      fiveRetentionPercentage: "5日",
+      sixRetentionPercentage: "6日",
+      sevenRetentionPercentage: "7日",
+      eightRetentionPercentage: "8日",
+      nineRetentionPercentage: "9日",
+      tenRetentionPercentage: "10日",
+      elevenRetentionPercentage: "11日",
+      twelveRetentionPercentage: "12日",
+      thirteenRetentionPercentage: "13日",
+      fourteenRetentionPercentage: "14日",
+      fifteenRetentionPercentage: "15日",
+      sixteenRetentionPercentage: "16日",
+      seventeenRetentionPercentage: "17日",
+      eighteenRetentionPercentage: "18日",
+      nineteenRetentionPercentage: "19日",
+      twentyteenRetentionPercentage: "20日",
+      twentyOneteenRetentionPercentage: "21日",
+      twentyTwoRetentionPercentage: "22日",
+      twentyThreeRetentionPercentage: "23日",
+      twentyFourRetentionPercentage: "24日",
+      twentyFiveRetentionPercentage: "25日",
+      twentySixRetentionPercentage: "26日",
+      twentySevenRetentionPercentage: "27日",
+      twentyEightRetentionPercentage: "28日",
+      twentyNineRetentionPercentage: "29日",
+      thirtyRetentionPercentage: "30日",
     },
     colWidth: 90,
     tableOs: {
@@ -56,6 +71,21 @@ let retentionTitles = {
     thirteenRetentionPercentage: "13日",
     fourteenRetentionPercentage: "14日",
     fifteenRetentionPercentage: "15日",
+    sixteenRetentionPercentage: "16日",
+    seventeenRetentionPercentage: "17日",
+    eighteenRetentionPercentage: "18日",
+    nineteenRetentionPercentage: "19日",
+    twentyteenRetentionPercentage: "20日",
+    twentyOneteenRetentionPercentage: "21日",
+    twentyTwoRetentionPercentage: "22日",
+    twentyThreeRetentionPercentage: "23日",
+    twentyFourRetentionPercentage: "24日",
+    twentyFiveRetentionPercentage: "25日",
+    twentySixRetentionPercentage: "26日",
+    twentySevenRetentionPercentage: "27日",
+    twentyEightRetentionPercentage: "28日",
+    twentyNineRetentionPercentage: "29日",
+    thirtyRetentionPercentage: "30日",
   },
   tableDs = {
     ds: "日期(星期)"
@@ -76,37 +106,6 @@ Page({
     backData: {
       event: 'back'
     },
-    navData: [{
-      name: "概况", //文本
-      currentMenu: 0, //是否是当前页，0不是  1是
-      style: 0, //样式
-      ico: 'dynamic_fill', //不同图标
-      fn: 'gotoIndex' //对应处理函数
-    }, {
-      name: "新进",
-      currentMenu: 0,
-      style: 0,
-      ico: 'mine_fill',
-      fn: 'gotoOldGoods'
-    }, {
-      name: "留存",
-      currentMenu: 1,
-      style: 1,
-      ico: 'picture_fill',
-      fn: 'gotoPublish'
-    }, {
-      name: "付费",
-      currentMenu: 0,
-      style: 0,
-      ico: 'redpacket_fill',
-      fn: 'gotoRecruit'
-    }, {
-      name: "其他",
-      currentMenu: 0,
-      style: 0,
-      ico: 'task_fill',
-      fn: 'gotoMine'
-    }, ],
     bType: ['info', 'ghost'],
     bTypeIndex: 0,
     source: '0',
@@ -146,10 +145,6 @@ Page({
     this.setData({
       titles: obj
     })
-    // this.setData({
-    //   retentionList: this.data.test
-    // })
-    // 数据初始化
     this.init();
   },
 
@@ -386,7 +381,7 @@ Page({
     let handelRetentionOne = this.makeRetentionOne(detail.data);
     this.setData({
       handelRetentionOne: handelRetentionOne,
-      chartTitle2: handelRetentionOne.length == 0 ? "图表暂无数据" : "图标数据"
+      chartTitle2: handelRetentionOne.length == 0 ? "图表暂无数据" : detail.data.ds + "留存趋势"
     })
     this.init_f2();
   },
@@ -395,28 +390,6 @@ Page({
   onBottomTap: function() {
     this.data.page += 1;
     this.init();
-  },
-
-  //底部菜单
-  gotoIndex: function() {
-    wx.redirectTo({
-      url: '../survey/survey?gameId=' + this.data.gameid,
-    });
-  },
-  gotoOldGoods: function() {
-    wx.redirectTo({
-      url: '../source/source?gameId=' + this.data.gameid,
-    });
-  },
-  gotoRecruit: function() {
-    wx.redirectTo({
-      url: '../pay/pay?gameId=' + this.data.gameid,
-    });
-  },
-  gotoMine: function() {
-    wx.redirectTo({
-      url: '../portrait/portrait?gameId=' + this.data.gameid,
-    });
   },
 
   //切换条件，重置page,retentionList
@@ -463,7 +436,7 @@ Page({
         if (e.data.success === true) {
           // console.log(e.data.shareRetentionList)
           if (e.data.shareRetentionList) {
-            if (e.data.shareRetentionList.length != 0 && this.data.page != 1) {
+            if (e.data.shareRetentionList.length != 0 && this.data.page != 1 && this.data.data != 1) {
               wx.showToast({
                 title: "加载第" + this.data.page + "页",
                 icon: 'success',
@@ -482,15 +455,17 @@ Page({
             if (this.data.retentionList == null) {
               retentionList = retentionList;
             } else {
-              retentionList = this.data.retentionList.concat(retentionList);
+              if (this.data.data != 1) {
+                retentionList = this.data.retentionList.concat(retentionList);
+              }
             }
             this.setData({
               retentionList: retentionList,
             });
-            let handelRetentionOne = this.makeRetentionOne(retentionList[0]);
+            let handelRetentionOne = this.makeRetentionOne(retentionList[5]);
             this.setData({
               handelRetentionOne: handelRetentionOne,
-              chartTitle2: handelRetentionOne.length == 0 ? "图表暂无数据" : "图标数据"
+              chartTitle2: handelRetentionOne.length == 0 ? "图表暂无数据" : retentionList[5].ds + "留存趋势"
             })
             this.init_f2();
           }
@@ -548,17 +523,6 @@ Page({
   },
   makeRetentionOne: function(data) {
     let handelRetentionOne = [];
-    // if (data) {
-    //   let handelRetentionOne = [];
-    //   data.forEach((item, index) => {
-    //     let info = new Object();
-    //     info.time = index + 1;
-    //     info.value = item.oneRetentionPercentage;
-    //     handelRetentionOne.push(info);
-    //   });
-    //   console.log("---------handelRetentionOne:" + JSON.stringify(handelRetentionOne));
-    //   return handelRetentionOne;
-    // }
     if (data) {
       let info1 = new Object();
       info1.time = 1;

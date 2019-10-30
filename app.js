@@ -1,10 +1,8 @@
 import url from "./utils/util.js"
 var gameid = [1];
 App({
-  onLaunch: function() {
-    // 登录
-    // this.login();
-    // 获取用户信息
+  onLaunch: function(options) {
+    console.log('场景值：' + options.scene)
     this.token();
   },
   token: function() {
@@ -49,11 +47,11 @@ App({
                   code: code,
                 },
                 success: function(data) {
-                  wx.showToast({
-                    title: '登录成功',
-                    icon: 'success',
-                    duration: 2000
-                  })
+                  // wx.showToast({
+                  //   title: '登录成功',
+                  //   icon: 'success',
+                  //   duration: 2000
+                  // })
                   if (data.data.success === true) {
                     wx.setStorageSync("token", data.data.token);
                     // wx.reLaunch({

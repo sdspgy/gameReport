@@ -22,14 +22,13 @@
     "pages/game/template/survey/survey",
     "pages/game/template/retention/retention",
     "pages/game/template/source/source",
-    "pages/game/template/portrait/portrait",
-    "pages/game/template/behavior/behavior"
+    "pages/game/template/portrait/portrait"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#87CEFF",
     "navigationBarTitleText": "游戏报表",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "white"
   },
   "tabBar": {
     "selectedColor": "#87CEFF",
@@ -38,32 +37,32 @@
       {
         "pagePath": "pages/game/template/survey/survey",
         "text": "概况",
-        "iconPath": "images/menu/menu1.jpg",
-        "selectedIconPath": "images/menu/menu1.jpg"
+        "iconPath": "images/menu/menu3.png",
+        "selectedIconPath": "images/menu/menu6.png"
       },
       {
         "pagePath": "pages/game/template/source/source",
         "text": "新进",
-        "iconPath": "images/menu/menu1.jpg",
-        "selectedIconPath": "images/menu/menu1.jpg"
+        "iconPath": "images/menu/menu4.png",
+        "selectedIconPath": "images/menu/menu6.png"
       },
       {
         "pagePath": "pages/game/template/retention/retention",
         "text": "留存",
-        "iconPath": "images/menu/menu1.jpg",
-        "selectedIconPath": "images/menu/menu1.jpg"
+        "iconPath": "images/menu/menu5.png",
+        "selectedIconPath": "images/menu/menu6.png"
       },
       {
         "pagePath": "pages/game/template/pay/pay",
         "text": "付费",
-        "iconPath": "images/menu/menu1.jpg",
-        "selectedIconPath": "images/menu/menu1.jpg"
+        "iconPath": "images/menu/menus1.png",
+        "selectedIconPath": "images/menu/menu6.png"
       },
       {
         "pagePath": "pages/game/template/portrait/portrait",
         "text": "其他",
-        "iconPath": "images/menu/menu1.jpg",
-        "selectedIconPath": "images/menu/menu1.jpg"
+        "iconPath": "images/menu/menu2.png",
+        "selectedIconPath": "images/menu/menu6.png"
       }
     ]
   },

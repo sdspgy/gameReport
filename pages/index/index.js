@@ -28,7 +28,7 @@ Page({
       url: '../table/table'
     })
   },
-  onLoad: function() {
+  onLoad: function(options) {
     if (app.globalData.userInfo) {
       this.getReourceType();
       this.init();
@@ -48,9 +48,39 @@ Page({
     }
   },
 
+  onReady: function() {
+    // 页面首次渲染完毕时执行
+    this.isAuthor();
+  },
+
+  isAuthor: function() {
+    wx.login({
+      success: info => {
+        const code = info.code;
+        if (code) {
+          wx.request({
+            url: url.requestUrl + '/api/user/isAuthor',
+            header: {
+              'content-type': 'application/x-www-form-urlencoded'
+            },
+            method: 'post',
+            data: {
+              code: code,
+            },
+            success: (info) => {
+              if (info.data.isAuthor) {
+                this.moreGame();
+              }
+            }
+          })
+        }
+      }
+    })
+  },
+
   moreGame: function() {
     app.login();
-    this.onLoad();
+    // this.onLoad();
   },
 
   init: function() {

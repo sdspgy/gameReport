@@ -19,6 +19,8 @@
     "i-icon": "../../../../dist/icon/index",
     "table": "../../../../components/table/table",
     "ff-canvas": "../../../../f2-canvas/f2-canvas",
-    "van-icon": "../../../../dist/vant/icon/index"
+    "van-icon": "../../../../dist/vant/icon/index",
+    "van-collapse": "../../../../dist/collapse/index",
+    "van-collapse-item": "../../../../dist/collapse-item/index"
   }
 }

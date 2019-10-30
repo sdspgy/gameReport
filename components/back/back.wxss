@@ -1,6 +1,11 @@
 back {
   position: fixed;
   left: 0;
-  top: 35%;
+  top: 40%;
   z-index: 999;
+  width: 30px;
+  height: 30px;
+  background-color: #1c86ee;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
 }

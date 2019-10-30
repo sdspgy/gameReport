@@ -45,13 +45,13 @@
   margin-top: 5px;
 }
 
-table {
-  position: relative;
+.table {
+  height: 640rpx;
 }
 
-.bottom {
-  /* position: absolute;
-  top: 135%;
-  width: 100%;
-  height: 200px; */
+.dividLine {
+  margin: 0 auto;
+  height: 1px;
+  background-color: #00c09c;
+  width: 90%;
 }

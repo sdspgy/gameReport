@@ -20,6 +20,7 @@
     "van-button": "../../../../dist/vant/button/index",
     "van-row": "../../../../dist/vant/row/index",
     "van-col": "../../../../dist/vant/col/index",
-    "van-transition": "../../../../dist/vant/transition/index"
+    "van-transition": "../../../../dist/vant/transition/index",
+    "i-divider": "../../../../dist/divider/index"
   }
 }

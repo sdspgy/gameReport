@@ -18,35 +18,7 @@
       <i-tab key="2" count="IOS" title="IOS"></i-tab>
     </i-tabs>
   </view>
-  <!-- <view class='header' style='width:90%;height:150px'>
-    <view class='headerTitle'>
-      <i-icon type="switch" size="20" color="#5cadff" />今日概况</view>
-    <swiper indicator-dots="{{indicatorDots}}" easing-function="{{easingFunction}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
-      <block wx:for="{{swiperView}}" wx:key="{{index}}">
-        <swiper-item>
-          <view class='swiperView'>
-            <i-row>
-              <i-col span="8" i-class="col-class">
-                <view>{{item.title1}}</view>
-                <view>{{item.num1}}</view>
-                <view>{{item.time1}}</view>
-              </i-col>
-              <i-col span="8" i-class="col-class">
-                <view>{{item.title2}}</view>
-                <view>{{item.num2}}</view>
-                <view>{{item.time2}}</view>
-              </i-col>
-              <i-col span="8" i-class="col-class">
-                <view>{{item.title3}}</view>
-                <view>{{item.num3}}</view>
-                <view>{{item.time3}}</view>
-              </i-col>
-            </i-row>
-          </view>
-        </swiper-item>
-      </block>
-    </swiper>
-  </view> -->
+
   <view class='tabBar'>
     <i-tab-bar i-class='itabBar' current="{{data}}" color="#5cadff" bindchange="handleChange">
       <i-tab-bar-item key="0" icon="remind" current-icon="like_fill" title="今日"></i-tab-bar-item>
@@ -57,7 +29,22 @@
   </view>
 
   <view>
-    <van-icon custom-class="back" name="arrow-left" bind:click='back' info="首页" color='#B0E2FF' size='30px' />
+    <van-icon custom-class="back" name="arrow-left" bind:click='back' info="返回" color='#B0E2FF' size='30px' />
+  </view>
+
+  <!-- 实时统计 -->
+  <view wx:if="{{isShowRealtime}}" class="realtimeStatis">
+    <view class="realtimeStatis-all" wx:for="{{realtimeStatis}}" wx:key="index">
+      <view class="realTitle">{{item.title}}</view>
+      <view class="divLine"></view>
+      <view style="height:10px"></view>
+      <view>{{item.value}}</view>
+      <view>{{item.payRate}}</view>
+      <view>{{item.payARPUs}}</view>
+      <view>{{item.payARPPU}}</view>
+      <view>
+        <text decode="{{true}}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</text>{{item.payARPU}}</view>
+    </view>
   </view>
 
   <view class='os ecstyle'>
@@ -73,47 +60,29 @@
         </i-panel>
       </view>
       <view class="chart-body">
-        <!-- <ec-canvas id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas> -->
         <ff-canvas id="mychart-dom-bar" canvas-id="mychart-bar" opts="{{ ec }}"></ff-canvas>
       </view>
     </view>
   </view>
 
-  <table caption="详细数据" titles="{{conf.table.titles}}" data="{{listData}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
+  <view class="dividLine"></view>
+  <view class='retentionData'>
+    <table caption="概况数据" titles="{{titles}}" data="{{listData}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
+  </view>
 
-  <view class='os'>
-    <view class='container'>
-      <view class='mychartPay'>
-        <view class="caption">付费数据</view>
-        <view class="chart-body">
-          <ec-canvas id="mychart-pay" canvas-id="mychart-pay" ec="{{ mychartPay }}"></ec-canvas>
-        </view>
+  <view class="dividLine"></view>
+  <view class="chart">
+    <view class="chart-title">付费数据</view>
+    <view class="chat-pane">
+      <view class="chart-body">
+        <ff-canvas id="chart2"></ff-canvas>
       </view>
     </view>
   </view>
 
+  <view class="dividLine"></view>
   <view class='retentionData'>
-    <table caption="留存数据" type="1" titles="{{conf.table.retentionTitles}}" data="{{retentionDataList}}" table-height="300" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
+    <table caption="留存数据" type="1" titles="{{conf.table.retentionTitles}}" data="{{retentionDataList}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
   </view>
 
-  <!-- <view class='container'>
-    <view class="section">
-      <view class='pk_text'>漏斗图数据</view>
-      <picker mode="date" value="{{retentionDate}}" start="2015-09-01" end="2032-09-01" bindchange="bindDateChange">
-        <view class="picker">
-          当前选择: {{retentionDate}}
-        </view>
-      </picker>
-    </view>
-    <view class='mychartRetention'>
-      <ec-canvas id="mychart-mychartRetention" canvas-id="mychart-retention" ec="{{ mychartRetention }}"></ec-canvas>
-    </view>
-  </view> -->
 </view>
-<!--底部-->
-<!-- <import src="../../../../template/nav" />
-<view class="flex fix_nav_wp">
-  <block wx:for="{{navData}}" wx:key="">
-    <template is="nav" data="{{...item}}" />
-  </block>
-</view> -->

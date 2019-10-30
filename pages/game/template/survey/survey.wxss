@@ -13,6 +13,33 @@
   line-height: 30px;
 }
 
+.ios {
+  display: block;
+}
+
+.chart-pane {
+  width: 100%;
+  height: 450rpx;
+}
+
+.chart {
+  margin-top: 15px;
+  height: 450rpx;
+}
+
+.chart-title {
+  width: 100%;
+  display: flex;
+  height: 20rpx;
+  flex-direction: column;
+  align-items: center;
+  color: #495060;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 20px;
+}
+
 .chart-body {
   width: 100%;
   height: 400rpx;
@@ -27,8 +54,13 @@
 view.back.van-icon.vant-icon-index--van-icon.van-icon-arrow-left.vant-icon-index--van-icon-arrow-left {
   position: fixed;
   left: 0;
-  top: 35%;
+  top: 40%;
   z-index: 999;
+  width: 30px;
+  height: 30px;
+  background-color: #1c86ee;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
 }
 
 .header {
@@ -122,15 +154,7 @@ view.tab-index--i-tabs-tab-title {
   margin: 0 auto;
   /* font-family: "Times New Roman", Georgia, Serif; */
   font-size: 15px;
-  /* border: 1px solid rgb(0, 255, 85); */
   background-color: rgba(0, 0, 0, 0);
-}
-
-.container {
-  /* margin-top: -14px;
-  width: 100%;
-  height: 230px;
-  z-index: 0; */
 }
 
 ec-canvas {
@@ -157,10 +181,14 @@ view.collapse-item-index--i-collapse-item {
   border-top: none;
 }
 
-.table {
+/* .table {
   border: 0px solid darkgray;
   z-index: -1;
   opacity: 1;
+} */
+
+.table {
+  height: 640rpx;
 }
 
 .warp .tr {
@@ -204,11 +232,11 @@ view.collapse-item-index--i-collapse-item {
 
 /* scroll-view滚动条隐藏 */
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   width: 0;
   height: 0;
   color: transparent;
-}
+} */
 
 .panel {
   height: 50px;
@@ -246,8 +274,7 @@ i-radio > view > i-cell > view > .i-cell {
 }
 
 .retentionData {
-  /* position: relative;
-  top: 300px; */
+  height: 640rpx;
 }
 
 .mychartRetention {
@@ -274,4 +301,47 @@ i-radio > view > i-cell > view > .i-cell {
   top: 148%;
   left: 5%;
   z-index: 7;
+}
+
+.realtimeStatis {
+  width: 90%;
+  height: 100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+}
+
+.realtimeStatis-all {
+  position: relative;
+  top: 20%;
+  width: 100px;
+  height: 95px;
+  background-color: #fff;
+  text-align: center;
+  font-size: 10px;
+  line-height: 0.9rem;
+  border-radius: 30px;
+  font-weight: bold;
+}
+
+.realTitle:after {
+  position: absolute;
+  width: 75rpx;
+  height: 2px;
+  left: 12.5%;
+  background-color: #00c09c;
+}
+
+.divLine {
+  margin: 0 auto;
+  height: 1px;
+  background-color: #00c09c;
+  width: 80%;
+}
+
+.dividLine {
+  margin: 0 auto;
+  height: 1px;
+  background-color: #00c09c;
+  width: 90%;
 }
