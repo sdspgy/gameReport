@@ -127,6 +127,7 @@ Page({
     //数据初始化
     this.init();
   },
+
   //图
   init_one: function() {
     this.oneComponent = this.selectComponent('#mychart-dom-bar');
@@ -375,7 +376,7 @@ Page({
   makeCavas: (data, date) => {
     if (data) {
       if (date == 0) {
-        data.sort(function (a, b) {
+        data.sort(function(a, b) {
           return b.dayOfHour - a.dayOfHour;
         });
       }
