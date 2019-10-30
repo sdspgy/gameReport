@@ -1,7 +1,7 @@
 import url from "../../../../utils/util.js";
 import F2 from '../../../../f2-canvas/lib/f2';
 import * as echarts from '../../../../ec-canvas/echarts';
-var gameid = require('../../../../app.js');
+var appData = require('../../../../app.js');
 // 全局提示
 const {
   $Message
@@ -122,7 +122,7 @@ Page({
   },
   onLoad: function(e) {
     this.setData({
-      gameid: gameid,
+      gameid: appData.overallData[0],
     })
     //数据初始化
     this.init();
@@ -534,11 +534,11 @@ Page({
         payCount += item.payCount;
 
         item.ds = weekFunction(item.ds);
-        item.payAmount = item.payAmount / 100;
+        item.payAmount = item.payAmount / appData.overallData[1].currencyRate;
         item.payRate = item.dauNum == 0 ? 0 : (item.payCount * 100 / item.dauNum).toFixed(2) + '%';
         item.ARPU = item.dauNum == 0 ? 0 : (item.payAmount / item.dauNum).toFixed(2);
         item.ARPPU = item.payCount == 0 ? 0 : (item.payAmount / item.payCount).toFixed(2);
-        item.payInstallAmount = item.payInstallAmount / 100;
+        item.payInstallAmount = item.payInstallAmount / appData.overallData[1].currencyRate;
         item.payInstallRate = item.installNum == 0 ? 0 : (item.payInstallCount * 100 / item.installNum).toFixed(2) + '%';
         item.payInstallARPU = item.installNum == 0 ? 0 : (item.payInstallAmount / item.installNum).toFixed(2);
         item.payInstallARPPU = item.payInstallCount == 0 ? 0 : (item.payInstallAmount / item.payInstallCount).toFixed(2);

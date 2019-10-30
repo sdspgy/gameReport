@@ -1,5 +1,5 @@
 import url from "./utils/util.js"
-var gameid = [1];
+var overallData = [1];
 App({
   onLaunch: function(options) {
     console.log('场景值：' + options.scene)
@@ -85,12 +85,36 @@ App({
   },
 
   gameidEvent: function(info) {
-    gameid[0] = info;
-    console.log(gameid[0]);
+    overallData[0] = info;
+    // console.log(overallData[0]);
+    wx.getUserInfo({
+      success: function(res) {
+        wx.request({
+          url: url.requestUrl + '/test/api/report/game',
+          header: {
+            'content-type': 'application/x-www-form-urlencoded',
+            'token': wx.getStorageSync("token")
+          },
+          method: 'post',
+          data: {
+            gameid: info
+          },
+          success: function(data) {
+            if (data.data.success === true) {
+              overallData[1] = data.data.game;
+            }
+          }
+        })
+      }
+    })
   },
+
 
   globalData: {
     userInfo: null
   }
 })
-module.exports = gameid;
+
+module.exports = {
+  overallData
+};

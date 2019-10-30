@@ -1,6 +1,6 @@
 import url from "../../../../utils/util.js";
 import F2 from '../../../../f2-canvas/lib/f2';
-var gameid = require('../../../../app.js');
+var appData = require('../../../../app.js');
 var common = require("../../../../utils/util.js");
 // 全局提示
 const {
@@ -139,7 +139,7 @@ Page({
 
   onLoad: function(options) {
     this.setData({
-      gameid: gameid
+      gameid: appData.overallData[0]
     });
     let obj = Object.assign({}, tableDs, retentionTitles);
     this.setData({
