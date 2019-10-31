@@ -90,7 +90,7 @@ App({
     wx.getUserInfo({
       success: function(res) {
         wx.request({
-          url: url.requestUrl + '/test/api/report/game',
+          url: url.requestUrl + '/api/report/game',
           header: {
             'content-type': 'application/x-www-form-urlencoded',
             'token': wx.getStorageSync("token")

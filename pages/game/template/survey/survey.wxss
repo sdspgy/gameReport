@@ -51,6 +51,19 @@
   height: 400rpx;
 }
 
+.chart-pie {
+  width: 100%;
+  height: 320rpx;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.pieChart {
+  width: 45%;
+  height: 300rpx;
+}
+
 view.back.van-icon.vant-icon-index--van-icon.van-icon-arrow-left.vant-icon-index--van-icon-arrow-left {
   position: fixed;
   left: 0;

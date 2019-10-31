@@ -65,6 +65,18 @@
     </view>
   </view>
 
+  <!-- 饼图 -->
+  <view class="dividLine"></view>
+  <view class="chart-title">活跃 -- 新增</view>
+  <view class="chart-pie">
+    <div class="pieChart">
+      <ff-canvas id="pieChartD"></ff-canvas>
+    </div>
+    <div class="pieChart">
+      <ff-canvas id="pieChartI"></ff-canvas>
+    </div>
+  </view>
+
   <view class="dividLine"></view>
   <view class='retentionData'>
     <table caption="概况数据" titles="{{titles}}" data="{{listData}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />

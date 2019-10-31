@@ -321,17 +321,19 @@ Page({
           wx.hideLoading();
         }, 100);
         if (e.data.success === true) {
+          let percentage = this.androidIosProportions(e.data.androidIosProportions);
           this.setData({
-            listData: this.tableDataProcess(e.data.shareDailyResultTypes, this.androidIosProportions(e.data.androidIosProportions)),
-            datas: this.f2DI(e.data.dauNumOrInstallNumList, this.data.data),
+            listData: this.tableDataProcess(e.data.shareDailyResultTypes, percentage),
             payList: e.data.payList,
             retentionDataList: this.saturday(e.data.shareRetentionList),
           });
           let handelPayCount = this.makeCavas(this.data.listData, this.data.data);
           this.setData({
+            datas: this.f2DI(e.data.dauNumOrInstallNumList, this.data.data, this.data.listData, this.data.currentIndex),
             handelPayCount: handelPayCount,
           })
           this.init_one();
+          this.makePieChart(e.data.androidIosProportions);
         } else {
           wx.showToast({
             title: e.data.msg,
@@ -371,6 +373,90 @@ Page({
       info.push(((iosInstallNum / installNumSum * 100).toFixed(2)) + '%');
       return info;
     }
+  },
+
+  makePieChart: function(info) {
+    this.pieChartComponent = this.selectComponent('#pieChartD');
+    this.pieChartComponent.init((canvas, width, height) => {
+      const chart = new F2.Chart({
+        el: canvas,
+        width,
+        height,
+        animate: true
+      });
+      chart.source(info, {
+        dauNum: {
+          formatter: function formatter(val) {
+            return val;
+          }
+        }
+      });
+      chart.legend({
+        position: 'right',
+        // itemFormatter: function itemFormatter(val) {
+        //   return val + '  ' + info[val];
+        // }
+      });
+      chart.coord('polar', {
+        transposed: true,
+        radius: 0.85
+      });
+      chart.axis(false);
+      chart.interval().position('a*dauNum').color("os", ['#1890FF', '#13C2C2', '#2FC25B', '#FACC14', '#F04864', '#8543E0']).adjust('stack').style({
+        lineWidth: 1,
+        stroke: '#fff',
+        lineJoin: 'round',
+        lineCap: 'round'
+      }).animate({
+        appear: {
+          duration: 1200,
+          easing: 'bounceOut'
+        }
+      });
+      chart.render();
+    })
+    /**
+     * 饼图新增--------------------------------------------------------------   
+     */
+    this.pieChartComponent = this.selectComponent('#pieChartI');
+    this.pieChartComponent.init((canvas, width, height) => {
+      const chart = new F2.Chart({
+        el: canvas,
+        width,
+        height,
+        animate: true
+      });
+      chart.source(info, {
+        installNum: {
+          formatter: function formatter(val) {
+            return val;
+          }
+        }
+      });
+      chart.legend({
+        position: 'right',
+        // itemFormatter: function itemFormatter(val) {
+        //   return val + '  ' + info[val];
+        // }
+      });
+      chart.coord('polar', {
+        transposed: true,
+        radius: 0.85
+      });
+      chart.axis(false);
+      chart.interval().position('a*installNum').color("os", ['#1890FF', '#13C2C2', '#2FC25B', '#FACC14', '#F04864', '#8543E0']).adjust('stack').style({
+        lineWidth: 1,
+        stroke: '#fff',
+        lineJoin: 'round',
+        lineCap: 'round'
+      }).animate({
+        appear: {
+          duration: 1200,
+          easing: 'bounceOut'
+        }
+      });
+      chart.render();
+    })
   },
 
   makeCavas: (data, date) => {
@@ -491,22 +577,29 @@ Page({
     }
   },
 
-  f2DI: function(data, date) {
+  f2DI: function(data, date, listData, type) {
     let datas = [];
-    if (date == "0") {
-      data.reverse();
-    }
-    data.forEach((item, index) => {
-      let info = new Object();
-      if (date == 0 || date == 1) {
-        info.time = index + '时';
-      } else {
+    if (date == 0 || date == 1) {
+      debugger
+      listData.forEach(info => {
+        let item = new Object();
+        if (type == 0) {
+          item.value = info.dauNum;
+        } else {
+          item.value = info.installNum;
+        }
+        item.time = info.dayOfHour + '时';
+        datas.push(item);
+      });
+    } else {
+      data.forEach((item, index) => {
+        let info = new Object();
         info.time = this.getTime(index);
-      }
-      info.value = item;
-      datas.push(info);
-    });
-    if (date == "7" || date == "30") {
+        info.value = item;
+        datas.push(info);
+      });
+    }
+    if (date == "7" || date == "30" || date == "0") {
       //该方法会改变原来的数组，而不会创建新的数组
       datas.reverse();
     }
@@ -557,10 +650,10 @@ Page({
       realtimeObject2.value = '人数:' + newIntall;
       let realtimeObject3 = new Object();
       realtimeObject3.title = '付费';
-      realtimeObject3.value = '总额:' + payTotal / 100;
+      realtimeObject3.value = '总额:' + payTotal / appData.overallData[1].currencyRate;
       realtimeObject3.payRate = ' 付费率:' + (activeNum == 0 ? 0 : (payCount * 100 / activeNum).toFixed(2) + '%');
-      realtimeObject3.payARPUs = 'ARPU:' + (activeNum == 0 ? 0 : (payTotal / 100 / activeNum).toFixed(2));
-      realtimeObject3.payARPPU = 'ARPPU:' + (payCount == 0 ? 0 : (payTotal / 100 / payCount).toFixed(2));
+      realtimeObject3.payARPUs = 'ARPU:' + (activeNum == 0 ? 0 : (payTotal / appData.overallData[1].currencyRate / activeNum).toFixed(2));
+      realtimeObject3.payARPPU = 'ARPPU:' + (payCount == 0 ? 0 : (payTotal / appData.overallData[1].currencyRate / payCount).toFixed(2));
 
       realtimeArray.push(realtimeObject1);
       realtimeArray.push(realtimeObject2);
