@@ -580,7 +580,6 @@ Page({
   f2DI: function(data, date, listData, type) {
     let datas = [];
     if (date == 0 || date == 1) {
-      debugger
       listData.forEach(info => {
         let item = new Object();
         if (type == 0) {
