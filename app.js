@@ -84,9 +84,11 @@ App({
 
   },
 
-  gameidEvent: function(info) {
+  gameidEvent: function(info, game) {
     overallData[0] = info;
+    overallData[1] = game;
     // console.log(overallData[0]);
+    /*
     wx.getUserInfo({
       success: function(res) {
         wx.request({
@@ -107,6 +109,7 @@ App({
         })
       }
     })
+       */
   },
 
 

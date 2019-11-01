@@ -53,9 +53,21 @@
   <table caption="新进数据" titles="{{payTitles}}" data="{{tableData}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="onBottomTap" />
 </view>
 
+<!-- 饼图 -->
+<view class="dividLine"></view>
+<view class="chart-title">{{pieChartTitle}}活跃 -- 新增</view>
+<view class="chart-pie">
+  <div class="pieChart">
+    <ff-canvas id="pieChartD"></ff-canvas>
+  </div>
+  <div class="pieChart">
+    <ff-canvas id="pieChartI"></ff-canvas>
+  </div>
+</view>
+
 <view class="dividLine"></view>
 <view class="table">
-  <table wx:if="{{showTable}}" caption="android-ios" titles="{{payTitlesCC}}" data="{{tableDataCC}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="" />
+  <table wx:if="{{showTable}}" caption="android-ios" titles="{{payTitlesCC}}" data="{{tableDataCC}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="" bind:bottomtap="" />
 </view>
 
 <back bind:back="back" />

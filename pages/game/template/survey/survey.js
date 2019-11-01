@@ -119,10 +119,12 @@ Page({
     isShowRealtime: false,
     handelPayCount: null,
     proportions: [],
+    currencyRate: 1000,
   },
   onLoad: function(e) {
     this.setData({
       gameid: appData.overallData[0],
+      currencyRate: appData.overallData[1].currencyRate,
     })
     //数据初始化
     this.init();
@@ -376,6 +378,19 @@ Page({
   },
 
   makePieChart: function(info) {
+    let dauNumTotal = 0,
+      installNumTotal = 0;
+    info.forEach(item => {
+      dauNumTotal += item.dauNum;
+      installNumTotal += item.installNum;
+    })
+    var map_pieChartD = {},
+      map_pieChartI = {};
+    info.map(function(obj) {
+      map_pieChartD[obj.os] = (obj.dauNum / dauNumTotal * 100).toFixed(2) + '%';
+      map_pieChartI[obj.os] = (obj.installNum / installNumTotal * 100).toFixed(2) + '%';
+    })
+
     this.pieChartComponent = this.selectComponent('#pieChartD');
     this.pieChartComponent.init((canvas, width, height) => {
       const chart = new F2.Chart({
@@ -392,10 +407,12 @@ Page({
         }
       });
       chart.legend({
-        position: 'right',
-        // itemFormatter: function itemFormatter(val) {
-        //   return val + '  ' + info[val];
-        // }
+        position: 'top',
+        itemFormatter: function itemFormatter(val) {
+          return val + '  ' + map_pieChartD[val];
+        },
+        align: 'center', //图例的对齐方式
+        itemWidth: null
       });
       chart.coord('polar', {
         transposed: true,
@@ -434,10 +451,12 @@ Page({
         }
       });
       chart.legend({
-        position: 'right',
-        // itemFormatter: function itemFormatter(val) {
-        //   return val + '  ' + info[val];
-        // }
+        position: 'top',
+        itemFormatter: function itemFormatter(val) {
+          return val + '  ' + map_pieChartI[val];
+        },
+        align: 'center', //图例的对齐方式
+        itemWidth: null
       });
       chart.coord('polar', {
         transposed: true,
@@ -626,11 +645,11 @@ Page({
         payCount += item.payCount;
 
         item.ds = weekFunction(item.ds);
-        item.payAmount = item.payAmount / appData.overallData[1].currencyRate;
+        item.payAmount = item.payAmount / this.data.currencyRate;
         item.payRate = item.dauNum == 0 ? 0 : (item.payCount * 100 / item.dauNum).toFixed(2) + '%';
         item.ARPU = item.dauNum == 0 ? 0 : (item.payAmount / item.dauNum).toFixed(2);
         item.ARPPU = item.payCount == 0 ? 0 : (item.payAmount / item.payCount).toFixed(2);
-        item.payInstallAmount = item.payInstallAmount / appData.overallData[1].currencyRate;
+        item.payInstallAmount = item.payInstallAmount / this.data.currencyRate;
         item.payInstallRate = item.installNum == 0 ? 0 : (item.payInstallCount * 100 / item.installNum).toFixed(2) + '%';
         item.payInstallARPU = item.installNum == 0 ? 0 : (item.payInstallAmount / item.installNum).toFixed(2);
         item.payInstallARPPU = item.payInstallCount == 0 ? 0 : (item.payInstallAmount / item.payInstallCount).toFixed(2);
@@ -649,10 +668,10 @@ Page({
       realtimeObject2.value = '人数:' + newIntall;
       let realtimeObject3 = new Object();
       realtimeObject3.title = '付费';
-      realtimeObject3.value = '总额:' + payTotal / appData.overallData[1].currencyRate;
+      realtimeObject3.value = '总额:' + payTotal / this.data.currencyRate;
       realtimeObject3.payRate = ' 付费率:' + (activeNum == 0 ? 0 : (payCount * 100 / activeNum).toFixed(2) + '%');
-      realtimeObject3.payARPUs = 'ARPU:' + (activeNum == 0 ? 0 : (payTotal / appData.overallData[1].currencyRate / activeNum).toFixed(2));
-      realtimeObject3.payARPPU = 'ARPPU:' + (payCount == 0 ? 0 : (payTotal / appData.overallData[1].currencyRate / payCount).toFixed(2));
+      realtimeObject3.payARPUs = 'ARPU:' + (activeNum == 0 ? 0 : (payTotal / this.data.currencyRate / activeNum).toFixed(2));
+      realtimeObject3.payARPPU = 'ARPPU:' + (payCount == 0 ? 0 : (payTotal / this.data.currencyRate / payCount).toFixed(2));
 
       realtimeArray.push(realtimeObject1);
       realtimeArray.push(realtimeObject2);
