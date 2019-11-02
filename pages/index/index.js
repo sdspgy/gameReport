@@ -140,28 +140,31 @@ Page({
     const gameidUrl = e.currentTarget.id;
     const gameid = gameidUrl.substr(gameidUrl.length - 1, 1);
     let game = new Object();
-    wx.getUserInfo({
-      success: function(res) {
-        wx.request({
-          url: url.requestUrl + '/api/report/game',
-          header: {
-            'content-type': 'application/x-www-form-urlencoded',
-            'token': wx.getStorageSync("token")
-          },
-          method: 'post',
-          data: {
-            gameid: gameid
-          },
-          success: function(data) {
-            if (data.data.success === true) {
-              game = data.data.game;
-              app.gameidEvent(gameid, game);
-              wx.switchTab({
-                url: e.currentTarget.id,
-              })
-            }
-          }
-        })
+
+    wx.request({
+      url: url.requestUrl + '/api/report/game',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'token': wx.getStorageSync("token")
+      },
+      method: 'post',
+      data: {
+        gameid: gameid
+      },
+      success: function(data) {
+        if (data.data.success === true) {
+          game = data.data.game;
+          app.gameidEvent(gameid, game);
+          wx.switchTab({
+            url: gameidUrl,
+          })
+        }
+      },
+      fail: function(r) {
+        console.log('没有权限')
+      },
+      error: function(r) {
+        console.log("500")
       }
     })
 
