@@ -161,6 +161,39 @@ let titles = {
   tableDs = {
     ds: "日期（星期）",
   },
+  table2 = {
+    dr: "注册数",
+    oneRetentionPercentage: "1日",
+    twoRetentionPercentage: "2日",
+    threeRetentionPercentage: "3日",
+    fourRetentionPercentage: "4日",
+    fiveRetentionPercentage: "5日",
+    sixRetentionPercentage: "6日",
+    sevenRetentionPercentage: "7日",
+    eightRetentionPercentage: "8日",
+    nineRetentionPercentage: "9日",
+    tenRetentionPercentage: "10日",
+    elevenRetentionPercentage: "11日",
+    twelveRetentionPercentage: "12日",
+    thirteenRetentionPercentage: "13日",
+    fourteenRetentionPercentage: "14日",
+    fifteenRetentionPercentage: "15日",
+    sixteenRetentionPercentage: "16日",
+    seventeenRetentionPercentage: "17日",
+    eighteenRetentionPercentage: "18日",
+    nineteenRetentionPercentage: "19日",
+    twentyteenRetentionPercentage: "20日",
+    twentyOneteenRetentionPercentage: "21日",
+    twentyTwoRetentionPercentage: "22日",
+    twentyThreeRetentionPercentage: "23日",
+    twentyFourRetentionPercentage: "24日",
+    twentyFiveRetentionPercentage: "25日",
+    twentySixRetentionPercentage: "26日",
+    twentySevenRetentionPercentage: "27日",
+    twentyEightRetentionPercentage: "28日",
+    twentyNineRetentionPercentage: "29日",
+    thirtyRetentionPercentage: "30日",
+  },
   tableOs = {
     os: "操作系统"
   },
@@ -187,9 +220,11 @@ Page({
     });
     let obj = Object.assign({}, tableDs, titles);
     let payTitlesCC = Object.assign({}, tableDs, tableOs, titles);
+    let retentionTitles = Object.assign({}, tableDs, table2);
     this.setData({
       payTitles: obj,
-      payTitlesCC: payTitlesCC
+      payTitlesCC: payTitlesCC,
+      retentionTitles: retentionTitles
     })
     this.initChart2([]);
     this.queryAndUpdate();
@@ -265,8 +300,10 @@ Page({
     handelPayCount: [],
     page: 1,
     payTitlesCC: [],
+    retentionTitles: table2,
     showTable: true,
     tableDataCC: [],
+    retentionTitlestable:[],
   },
 
   /**
@@ -606,14 +643,17 @@ Page({
       let titleAI = Object.assign({}, tableDayHour, this.data.payTitlesCC);
       delete titleAI.ds;
       let newTitle = Object.assign({}, tableDs, titleAI);
+      
       this.setData({
         showTable: true,
         payTitlesCC: newTitle,
+       
       })
       if (this.data.timeArea == conf.timeArea.week || this.data.timeArea == conf.timeArea.month) {
         delete newTitle.dayOfHour;
         this.setData({
-          payTitlesCC: newTitle
+          payTitlesCC: newTitle,
+          
         })
       }
     } else {
@@ -658,6 +698,9 @@ Page({
       day: day,
       os: os,
       page: page,
+    }
+    let deteday = {
+      day: day,
     }
     if (creative != null) {
       data.creative = creative;
@@ -716,6 +759,23 @@ Page({
         // console.log(tables);
       }
     })
+
+    wx.request({
+      url: url.requestUrl + "/api/registeredRevenuePercentage",
+      header: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'token': wx.getStorageSync("token")
+      },
+      data: deteday,
+      method: "post",
+      success: (res) => {
+        let retentionTitlestable = this.tableprocess2(res.data.msg)
+      
+        this.setData({
+          retentionTitlestable: retentionTitlestable
+        })
+      }
+    })
   },
 
   //切换条件，重置page,retentionList
@@ -725,9 +785,16 @@ Page({
       tableData: []
     })
   },
+  tableprocess2: function(data){
+    if(data){
+      
+      return data;
+    }
+  },
 
   tableDataProcess: function(data) {
     if (data) {
+      // debugger
       data.forEach((item) => {
         item.payRate = item.dauNum == 0 ? 0 : (item.payCount * 100 / item.dauNum).toFixed(2) + "%";
         item.payAmount = item.payAmount / 100;
@@ -746,7 +813,7 @@ Page({
   makeCavas: (data, date) => {
     if (data) {
       if (date == conf.timeArea.today) {
-        data.sort(function (a, b) {
+        data.sort(function(a, b) {
           return b.dayOfHour - a.dayOfHour;
         });
       }
