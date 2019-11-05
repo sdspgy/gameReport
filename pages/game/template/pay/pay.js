@@ -700,6 +700,7 @@ Page({
       page: page,
     }
     let deteday = {
+      gameid: gameid,
       day: day,
     }
     if (creative != null) {
