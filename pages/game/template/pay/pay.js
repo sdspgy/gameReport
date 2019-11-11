@@ -304,6 +304,7 @@ Page({
     showTable: true,
     tableDataCC: [],
     retentionTitlestable:[],
+    retentionTitlestableOS:[],
   },
 
   /**
@@ -351,7 +352,8 @@ Page({
         if (this.data.os == conf.os.android || this.data.os == conf.os.ios) {
           let obj = Object.assign({}, tableDs, tableOs, titles);
           this.setData({
-            payTitles: obj
+            payTitles: obj,
+            retentionTitles: retentionTitles,
           })
         } else {
           let obj = Object.assign({}, tableDs, titles);
@@ -429,14 +431,22 @@ Page({
       if (this.data.sourceCliCre == "daily") {
         if (detail.key == "0") {
           let obj = Object.assign({}, tableDs, titles);
+          let retentionTitles = Object.assign({}, tableDs, table2);
+          
           this.setData({
-            payTitles: obj
+            payTitles: obj,
+            retentionTitles: retentionTitles,
           })
+          
         } else {
           let obj = Object.assign({}, tableDs, tableOs, titles);
+          let retentionTitles = Object.assign({},tableDs,tableOs,table2);
+          
           this.setData({
-            payTitles: obj
+            payTitles: obj,
+            retentionTitles: retentionTitles,
           })
+          
         }
       };
       if (this.data.sourceCliCre == "creative") {
@@ -674,7 +684,6 @@ Page({
         payTitles: newTitle
       })
     }
-
     this.query(this.data.source, this.data.gameid, this.data.timeArea, clientid, this.data.os, creative, this.data.page);
   },
 
@@ -702,6 +711,7 @@ Page({
     let deteday = {
       gameid: gameid,
       day: day,
+      os: os,
     }
     if (creative != null) {
       data.creative = creative;
@@ -756,6 +766,7 @@ Page({
           chartTitle2: handelPayCount.length == 0 ? "图标暂无数据" : "付费趋势",
           tableDataCC: tableDataCC
         })
+        
         this.initChart2();
         // console.log(tables);
       }
@@ -770,11 +781,19 @@ Page({
       data: deteday,
       method: "post",
       success: (res) => {
-        let retentionTitlestable = this.tableprocess2(res.data.msg)
-      
-        this.setData({
-          retentionTitlestable: retentionTitlestable
-        })
+        let a = this.tableprocess2(res.data.msg)
+        let b = this.tableprocess2(res.data.msgOS)
+        this.retentionTitlestable = a;
+        this.retentionTitlestableOS =b;
+        if (os == "0"){
+          this.setData({
+            retentionTitlestable: a,
+          })
+        }else{
+          this.setData({
+            retentionTitlestable: b,
+          })
+        }
       }
     })
   },
@@ -788,14 +807,13 @@ Page({
   },
   tableprocess2: function(data){
     if(data){
-      
+   
       return data;
     }
   },
 
   tableDataProcess: function(data) {
     if (data) {
-      // debugger
       data.forEach((item) => {
         item.payRate = item.dauNum == 0 ? 0 : (item.payCount * 100 / item.dauNum).toFixed(2) + "%";
         item.payAmount = item.payAmount / 100;
