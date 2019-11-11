@@ -69,7 +69,12 @@ i-tabs {
 
 .dividLine {
   margin: 0 auto;
+  margin-top: 15px;
   height: 1px;
   background-color: #00c09c;
   width: 90%;
+}
+
+.table {
+  height: 641rpx;
 }

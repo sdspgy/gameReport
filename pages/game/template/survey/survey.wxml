@@ -82,12 +82,14 @@
     <table caption="概况数据" titles="{{titles}}" data="{{listData}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" />
   </view>
 
-  <view class="dividLine"></view>
-  <view class="chart">
-    <view class="chart-title">付费数据</view>
-    <view class="chat-pane">
-      <view class="chart-body">
-        <ff-canvas id="chart2"></ff-canvas>
+  <view class="pay-chart">
+    <view class="dividLine"></view>
+    <view class="chart">
+      <view class="chart-title">付费数据</view>
+      <view class="chat-pane">
+        <view class="chart-body">
+          <ff-canvas id="chart2"></ff-canvas>
+        </view>
       </view>
     </view>
   </view>

@@ -1,0 +1,27 @@
+/* pages/game/template/portrait/portrait/level.wxss */
+
+.level {
+  width: 90%;
+  margin: 10px auto;
+}
+
+.dividLine {
+  margin: 0 auto;
+  height: 1px;
+  background-color: #00c09c;
+  width: 90%;
+}
+
+.dauLevel_plus{
+  position: relative;
+  top: 20px;
+}
+
+van-tabbar {
+  position: relative;
+  top: 10px;
+}
+
+.table {
+  height: 640rpx;
+}

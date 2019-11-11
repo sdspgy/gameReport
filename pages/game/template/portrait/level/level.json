@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "等级分布",
+  "usingComponents": {
+    "van-tabbar": "../../../../../dist/vant/tabbar/index",
+    "van-tabbar-item": "../../../../../dist/vant/tabbar-item/index",
+    "i-tab-bar": "../../../../../dist/tab-bar/index",
+    "i-tab-bar-item": "../../../../../dist/tab-bar-item/index",
+    "table": "../../../../components/table/table",
+    "ff-canvas": "../../../../f2-canvas/f2-canvas"
+  }
+}

@@ -354,7 +354,13 @@ i-radio > view > i-cell > view > .i-cell {
 
 .dividLine {
   margin: 0 auto;
+  margin-top: 15px;
   height: 1px;
   background-color: #00c09c;
   width: 90%;
+}
+
+.pay-chart {
+  position: relative;
+  top: 30px;
 }

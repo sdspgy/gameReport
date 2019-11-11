@@ -48,7 +48,18 @@
   </view>
 </view>
 
-  <view class="dividLine"></view>
-<table caption="留存数据" titles="{{titles}}" type="1" data="{{retentionList}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" bind:bottomtap="onBottomTap"/>
+<view class="dividLine"></view>
+<view class="table">
+  <table caption="留存数据" titles="{{titles}}" type="1" data="{{retentionList}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" bind:bottomtap="onBottomTap" />
+</view>
 
+<view class="dividLine"></view>
+<view class="table">
+  <table caption="付费留存" titles="{{payRenDayTitles}}" type="" data="{{payRentenTable}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap-payren" bind:coltap="onColTap-payren" bind:bottomtap="onBottomTap-payren" />
+</view>
+
+<view class="dividLine"></view>
+<view class="table">
+  <table caption="安装付费留存" titles="{{payRenDayTitles}}" type="" data="{{payInstallRetenTable}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap-payren" bind:coltap="onColTap-payren" bind:bottomtap="onBottomTap-payren" />
+</view>
 <back bind:back="back" />

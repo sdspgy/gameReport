@@ -98,6 +98,38 @@ let retentionTitles = {
   },
   tableClient = {
     clientid: "服"
+  },
+  payRenDayTitles = {
+    '1day': "1日",
+    '2day': "2日",
+    '3day': "3日",
+    '4day': "4日",
+    '5day': "5日",
+    '6day': "6日",
+    '7day': "7日",
+    '8day': "8日",
+    '9day': "9日",
+    '10day': "10日",
+    '11day': "11日",
+    '12day': "12日",
+    '13day': "13日",
+    '14day': "14日",
+    '15day': "15日",
+    '16day': "16日",
+    '17day': "17日",
+    '18day': "18日",
+    '19day': "19日",
+    '20day': "20日",
+    '21day': "21日",
+    '22day': "22日",
+    '23day': "23日",
+    '24day': "24日",
+    '25day': "25日",
+    '26day': "26日",
+    '27day': "27日",
+    '28day': "28日",
+    '29day': "29日",
+    '30day': "30日",
   }
 
 Page({
@@ -125,6 +157,7 @@ Page({
     type: 0,
     conf: conf,
     titles: retentionTitles,
+    payRenDayTitles: payRenDayTitles,
     os: tableOs,
     pickerShow: false,
     page: 1,
@@ -134,7 +167,9 @@ Page({
       ds: '2019-09-04',
       oneRetentionPercentage: '26',
       twoRetentionPercentage: 30
-    }]
+    }],
+    payRentenTable: [],
+    payInstallRetenTable: [],
   },
 
   onLoad: function(options) {
@@ -142,8 +177,10 @@ Page({
       gameid: appData.overallData[0]
     });
     let obj = Object.assign({}, tableDs, retentionTitles);
+    let payRen = Object.assign({}, tableDs, payRenDayTitles);
     this.setData({
-      titles: obj
+      titles: obj,
+      payRenDayTitles: payRen
     })
     this.init();
   },
@@ -199,7 +236,7 @@ Page({
       this.data.bType[0] = [this.data.bType[1], this.data.bType[1] = this.data.bType[0]][0];
       this.setData({
         bTypeIndex: e.currentTarget.id,
-        bType: this.data.bType
+        bType: this.data.bType,
       })
     };
     this.reset();
@@ -243,46 +280,60 @@ Page({
     if (detail.key != 3) {
       if (this.data.indexStatu == 0) {
         let obj = Object.assign({}, tableDs, tableOs, tableCreative, retentionTitles);
+        let payRen = Object.assign({}, tableDs, tableOs, tableCreative, payRenDayTitles);
         this.setData({
-          titles: obj
+          titles: obj,
+          payRenDayTitles: payRen,
         })
       }
       if (this.data.indexStatu == 1) {
         let obj = Object.assign({}, tableDs, tableOs, tableClient, retentionTitles);
+        let payRen = Object.assign({}, tableDs, tableOs, tableClient, payRenDayTitles);
         this.setData({
-          titles: obj
+          titles: obj,
+          payRenDayTitles: payRen,
         })
       }
       if (this.data.indexStatu == 2) {
         let obj = Object.assign({}, tableDs, tableOs, retentionTitles);
+        let payRen = Object.assign({}, tableDs, tableOs, payRenDayTitles);
         this.setData({
-          titles: obj
+          titles: obj,
+          payRenDayTitles: payRen,
         })
       }
       if (this.data.indexStatu == 2 && detail.key == 0) {
         let obj = Object.assign({}, tableDs, retentionTitles);
+        let payRen = Object.assign({}, tableDs, payRenDayTitles);
         this.setData({
-          titles: obj
+          titles: obj,
+          payRenDayTitles: payRen,
         })
       }
 
     } else {
       if (this.data.indexStatu == 0) {
         let obj = Object.assign({}, tableDs, tableCreative, retentionTitles);
+        let payRen = Object.assign({}, tableDs, tableCreative, payRenDayTitles);
         this.setData({
-          titles: obj
+          titles: obj,
+          payRenDayTitles: payRen,
         })
       }
       if (this.data.indexStatu == 1) {
         let obj = Object.assign({}, tableDs, tableClient, retentionTitles);
+        let payRen = Object.assign({}, tableDs, tableClient, payRenDayTitles);
         this.setData({
-          titles: obj
+          titles: obj,
+          payRenDayTitles: payRen,
         })
       }
       if (this.data.indexStatu == 2) {
         let obj = Object.assign({}, tableDs, retentionTitles);
+        let payRen = Object.assign({}, tableDs, payRenDayTitles);
         this.setData({
-          titles: obj
+          titles: obj,
+          payRenDayTitles: payRen,
         })
       }
 
@@ -308,14 +359,18 @@ Page({
         pickerShow: false,
       })
       if (this.data.sysType == 1 || this.data.sysType == 2) {
-        let obj = Object.assign({}, tableDs, tableOs, retentionTitles)
+        let obj = Object.assign({}, tableDs, tableOs, retentionTitles);
+        let payRen = Object.assign({}, tableDs, tableOs, payRenDayTitles);
         this.setData({
-          titles: obj
+          titles: obj,
+          payRenDayTitles: payRen,
         })
       } else {
-        let obj = Object.assign({}, tableDs, retentionTitles)
+        let obj = Object.assign({}, tableDs, retentionTitles);
+        let payRen = Object.assign({}, tableDs, payRenDayTitles);
         this.setData({
-          titles: obj
+          titles: obj,
+          payRenDayTitles: payRen,
         })
       }
       this.reset();
@@ -326,14 +381,18 @@ Page({
       });
       if (detail.key == 0) {
         if (this.data.sysType == 3) {
-          let obj = Object.assign({}, tableDs, tableCreative, retentionTitles)
+          let obj = Object.assign({}, tableDs, tableCreative, retentionTitles);
+          let payRen = Object.assign({}, tableDs, tableCreative, payRenDayTitles);
           this.setData({
-            titles: obj
+            titles: obj,
+            payRenDayTitles: payRen,
           })
         } else {
-          let obj = Object.assign({}, tableDs, tableOs, tableCreative, retentionTitles)
+          let obj = Object.assign({}, tableDs, tableOs, tableCreative, retentionTitles);
+          let payRen = Object.assign({}, tableDs, tableOs, tableCreative, payRenDayTitles);
           this.setData({
-            titles: obj
+            titles: obj,
+            payRenDayTitles: payRen,
           })
         }
         this.setData({
@@ -344,14 +403,18 @@ Page({
         this.init();
       } else {
         if (this.data.sysType == 3) {
-          let obj = Object.assign({}, tableDs, tableClient, retentionTitles)
+          let obj = Object.assign({}, tableDs, tableClient, retentionTitles);
+          let payRen = Object.assign({}, tableDs, tableClient, payRenDayTitles);
           this.setData({
-            titles: obj
+            titles: obj,
+            payRenDayTitles: payRen,
           })
         } else {
-          let obj = Object.assign({}, tableDs, tableOs, tableClient, retentionTitles)
+          let obj = Object.assign({}, tableDs, tableOs, tableClient, retentionTitles);
+          let payRen = Object.assign({}, tableDs, tableOs, tableClient, payRenDayTitles);
           this.setData({
-            titles: obj
+            titles: obj,
+            payRenDayTitles: payRen,
           })
         }
         this.setData({
@@ -412,6 +475,7 @@ Page({
       title: "数据加载中",
       mask: true
     });
+
     wx.request({
       url: url.requestUrl + '/api/retention',
       header: {
@@ -480,8 +544,100 @@ Page({
       error: function(e) {
 
       }
+    });
+
+    let payRentenData = {
+      gameid: parseInt(this.data.gameid),
+      date: parseInt(this.data.data),
+      device: parseInt(this.data.type) == 0 ? false : true,
+    }
+    if (this.data.sysType != 3) {
+      payRentenData.os = this.data.sysType;
+    }
+    if (this.data.indexStatu == 1) {
+      payRentenData.clientid = this.data.index;
+    }
+    if (this.data.indexStatu == 0) {
+      payRentenData.creative = String(this.data.index)
+    }
+
+    wx.request({
+      url: url.requestUrl + '/api/payRetention',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'token': wx.getStorageSync("token")
+      },
+      data: payRentenData,
+      method: "post",
+      success: (e) => {
+        if (e.data.success === true) {
+          const payReten = e.data.sharePayRetentionMap;
+          const installPayReten = e.data.shareInstallPayRetentionMap;
+          /**
+           * -----------------安装付费留存-------------
+           */
+          if (installPayReten) {
+            let payInstallRetenArray = [];
+            for (let key in installPayReten) {
+              let payInstallRentenObj = {};
+              payInstallRentenObj.ds = common.week(payReten[key][0].ds);
+              payInstallRentenObj.os = payReten[key][0].os;
+              payInstallRentenObj.creative = payReten[key][0].creative;
+              payInstallRentenObj.clientid = payReten[key][0].clientid;
+              for (let i = 1; i <= 30; i++) {
+                payInstallRentenObj[i + 'day'] = 0;
+              }
+              installPayReten[key].forEach(item => {
+                payInstallRentenObj[item.dr + 'day'] = item.payInstallCount == 0 ? 0 : (item.retention / item.payInstallCount * 100).toFixed(2);
+              })
+              payInstallRetenArray.push(payInstallRentenObj);
+            }
+            payInstallRetenArray.sort(this.compare);
+            this.setData({
+              payInstallRetenTable: payInstallRetenArray,
+            })
+          }
+          /**
+           * -------------付费留存---------------
+           */
+          if (payReten) {
+            let payRetenArray = [];
+            for (let key in payReten) {
+              let payRentenObj = {};
+              payRentenObj.ds = common.week(payReten[key][0].ds);
+              payRentenObj.os = payReten[key][0].os;
+              payRentenObj.creative = payReten[key][0].creative;
+              payRentenObj.clientid = payReten[key][0].clientid;
+              for (let i = 1; i <= 30; i++) {
+                payRentenObj[i + 'day'] = 0;
+              }
+              payReten[key].forEach(item => {
+                payRentenObj[item.dr + 'day'] = item.payCount == 0 ? 0 : (item.retention / item.payCount * 100).toFixed(2);
+              })
+              payRetenArray.push(payRentenObj);
+            }
+            payRetenArray.sort(this.compare);
+            this.setData({
+              payRentenTable: payRetenArray,
+            })
+          }
+        }
+      }
     })
   },
+
+  compare: function(obj1, obj2) {
+    var val1 = obj1.ds;
+    var val2 = obj2.ds;
+    if (val1 < val2) {
+      return 1;
+    } else if (val1 > val2) {
+      return -1;
+    } else {
+      return 0;
+    }
+  },
+
   saturday: function(data) {
     if (data) {
       data.forEach((item, index) => {
@@ -521,6 +677,7 @@ Page({
       return data;
     }
   },
+
   makeRetentionOne: function(data) {
     let handelRetentionOne = [];
     if (data) {

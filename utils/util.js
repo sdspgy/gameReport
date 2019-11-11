@@ -14,7 +14,7 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
-var weekFunction = function (ds) {
+var weekFunction = function(ds) {
   let week = new Date(ds);
   let dateweek = week.getDay();
   let i = 7 - dateweek;
@@ -45,10 +45,52 @@ var weekFunction = function (ds) {
   return ds;
 }
 
-const requestUrl = "https://report.nuojuekeji.com/report";
-// const requestUrl = "http://10.2.10.41:8081/report";
+// const requestUrl = "https://report.nuojuekeji.com/report";
+const requestUrl = "http://10.2.10.41:8081/report";
+
+const log = info => {
+  return console.log("-------------" + info + "-------------")
+}
+
+const math = info => {
+  const x = Math.floor(Math.random() * info);
+  return x;
+}
+
+/**
+ * ------------加载图标-----------
+ */
+function showLoading() {
+  wx.showLoading({
+    title: '正在加载...',
+    mask: true
+  });
+}
+/**
+ * -----------清除加载图标-----------
+ */
+function cleanLoading() {
+  setTimeout(function() {
+    wx.hideLoading();
+  }, 100);
+}
+/**
+ * -------------成功图标----------
+ */
+function showSuccess(text) {
+  wx.showToast({
+    title: text == undefined ? "success" : text,
+    icon: 'success',
+    duration: 1000
+  });
+}
 module.exports = {
   formatTime: formatTime,
   week: weekFunction,
   requestUrl: requestUrl,
+  log,
+  math,
+  showLoading,
+  cleanLoading,
+  showSuccess,
 }

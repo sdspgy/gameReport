@@ -22,7 +22,8 @@
     "pages/game/template/survey/survey",
     "pages/game/template/retention/retention",
     "pages/game/template/source/source",
-    "pages/game/template/portrait/portrait"
+    "pages/game/template/portrait/portrait",
+    "pages/game/template/portrait/level/level"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -56,6 +57,12 @@
         "pagePath": "pages/game/template/pay/pay",
         "text": "付费",
         "iconPath": "images/menu/menus1.png",
+        "selectedIconPath": "images/menu/menu6.png"
+      },
+      {
+        "pagePath": "pages/game/template/portrait/portrait",
+        "text": "其他",
+        "iconPath": "images/menu/menu2.png",
         "selectedIconPath": "images/menu/menu6.png"
       }
     ]

@@ -1,0 +1,31 @@
+<!--pages/game/template/portrait/portrait/level.wxml-->
+<view class="level">
+
+  <!-- 操作系统 -->
+  <i-tab-bar i-class="space" current="{{ active_os }}" color="#5cadff" bindchange="osChange">
+    <i-tab-bar-item key="{{conf.os.all}}" icon="mobilephone" current-icon="mobilephone_fill" title="ALL"></i-tab-bar-item>
+    <i-tab-bar-item key="{{conf.os.android}}" icon="mobilephone" current-icon="mobilephone_fill" title="ANDROID"></i-tab-bar-item>
+    <i-tab-bar-item key="{{conf.os.ios}}" icon="mobilephone" current-icon="mobilephone_fill" title="IOS"></i-tab-bar-item>
+    <!-- <i-tab-bar-item key="{{conf.os.none}}" icon="delete" current-icon="delete_fill" title="NONE"></i-tab-bar-item> -->
+  </i-tab-bar>
+
+  <!-- 时间 -->
+  <van-tabbar active="{{ active_ds }}" fixed="{{ds_bottom}}" bind:change="dsChange">
+    <van-tabbar-item name="{{conf.ds.yestoday}}" icon="home-o">昨日</van-tabbar-item>
+    <van-tabbar-item name="{{conf.ds.week}}" icon="home-o">7日</van-tabbar-item>
+    <van-tabbar-item name="{{conf.ds.month}}" icon="home-o">30日</van-tabbar-item>
+  </van-tabbar>
+
+</view>
+
+<view class="dividLine"></view>
+<view class="table">
+  <table caption="活跃等级分布" titles="{{dauLevelTitles}}" data="{{dauLevelData}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" bind:bottomtap="onBottomTap" />
+</view>
+
+<view class="dauLevel_plus">
+  <view class="dividLine"></view>
+  <view class="table">
+    <table caption="活跃等级分布+" titles="{{dauLevelSumTitles}}" data="{{dauLevelDataSum}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" bind:bottomtap="onBottomTap" />
+  </view>
+</view>

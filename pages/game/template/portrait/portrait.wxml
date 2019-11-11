@@ -1,1 +1,17 @@
-<view class='boder'>敬请期待！</view>
+<van-transition show="true" name="fade-up">
+  <view class='border'>
+    <view wx:for="{{smillBorder}}" wx:for-index="index" wx:for-item="item" wx:key="" bindtap="borderClick" class="smill-border {{ item['bgc'] ? 'smill-border-change-bgc' : '' }} " data-url="{{item.url}}">
+      <text class="smillBorder_name">{{item.name}}</text>
+      <view style="margin-left:15px" class="smillBorder_texts">
+        <view> 
+          <text>高效</text>
+        </view>
+        <view>
+          <text>资源</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</van-transition>
+
+<back bind:back="back" />

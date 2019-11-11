@@ -822,9 +822,11 @@ Page({
         })
         this.initChart2();
         // console.log(tables);
-        let detail = new Object();
-        detail.index = 0;
-        this.onRowTap(detail);
+        if (res.data.sharePayResultTypesCC.length > 0) {
+          let detail = new Object();
+          detail.index = 0;
+          this.onRowTap(detail);
+        }
       }
     })
   },
