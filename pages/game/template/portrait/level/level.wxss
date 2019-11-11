@@ -12,9 +12,9 @@
   width: 90%;
 }
 
-.dauLevel_plus{
+.dauLevel_plus {
   position: relative;
-  top: 20px;
+  top: 50px;
 }
 
 van-tabbar {

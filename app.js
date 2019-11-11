@@ -87,31 +87,7 @@ App({
   gameidEvent: function(info, game) {
     overallData[0] = info;
     overallData[1] = game;
-    // console.log(overallData[0]);
-    /*
-    wx.getUserInfo({
-      success: function(res) {
-        wx.request({
-          url: url.requestUrl + '/api/report/game',
-          header: {
-            'content-type': 'application/x-www-form-urlencoded',
-            'token': wx.getStorageSync("token")
-          },
-          method: 'post',
-          data: {
-            gameid: info
-          },
-          success: function(data) {
-            if (data.data.success === true) {
-              overallData[1] = data.data.game;
-            }
-          }
-        })
-      }
-    })
-       */
   },
-
 
   globalData: {
     userInfo: null
