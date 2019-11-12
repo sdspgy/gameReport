@@ -42,6 +42,7 @@
 
 .table {
   height: 640rpx;
+  margin-top: 100rpx;
 }
 
 .bottom {

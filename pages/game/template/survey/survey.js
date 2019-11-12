@@ -125,7 +125,7 @@ Page({
     this.setData({
       gameid: appData.overallData[0],
       currencyRate: appData.overallData[1].currencyRate,
-    })
+    }),
     //数据初始化
     this.init();
   },
@@ -668,6 +668,7 @@ Page({
       realtimeObject2.value = '人数:' + newIntall;
       let realtimeObject3 = new Object();
       realtimeObject3.title = '付费';
+
       realtimeObject3.value = '总额:' + payTotal / this.data.currencyRate;
       realtimeObject3.payRate = ' 付费率:' + (activeNum == 0 ? 0 : (payCount * 100 / activeNum).toFixed(2) + '%');
       realtimeObject3.payARPUs = 'ARPU:' + (activeNum == 0 ? 0 : (payTotal / this.data.currencyRate / activeNum).toFixed(2));

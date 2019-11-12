@@ -3,6 +3,9 @@
     "van-transition": "../../../../dist/vant/transition/index",
     "table": "../../../../components/table/table",
     "back": "../../../../components/back/back",
-    "ff-canvas": "../../../../f2-canvas/f2-canvas"
+    "ff-canvas": "../../../../f2-canvas/f2-canvas",
+    "van-icon": "../../../../dist/vant/icon/index",
+    "van-cell": "../../../../dist/vant//cell/index",
+    "van-cell-group": "../../../../dist/vant//cell-group/index"
   }
 }
