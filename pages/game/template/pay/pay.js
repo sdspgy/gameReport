@@ -469,6 +469,7 @@ Page({
         })
       };
       if (this.data.sourceCliCre == "client") {
+        
         let obj = Object.assign({}, tableDs, tableOs, tableClient, titles);
         let retentionTitles = Object.assign({}, tableDs, table2);
         if (detail.key == "0") {
@@ -481,6 +482,7 @@ Page({
             retentionTitles: retentionTitles,
           })
         }
+        
         this.setData({
           payTitles: obj
         })
@@ -901,6 +903,7 @@ Page({
         if (res.data.sharePayResultTypesCC) {
           tableDataCC = this.tableDataProcess(res.data.sharePayResultTypesCC);
         };
+        
         if (res.data.msg.length != 0 && this.data.page != 1) {
           wx.showToast({
             title: "加载第" + this.data.page + "页",
@@ -955,8 +958,10 @@ Page({
       success: (res) => {
         let a = this.tableprocess2(res.data.msg)
         let b = this.tableprocess2(res.data.msgOS)
+        
         this.retentionTitlestable = a;
         this.retentionTitlestableOS =b;
+        
         if (os == "0"){
           this.setData({
             retentionTitlestable: a,
@@ -979,7 +984,9 @@ Page({
   },
   tableprocess2: function(data){
     if(data){
-   
+      data.forEach((item) =>{
+        item.ds = common.week(item.ds);
+      })
       return data;
     }
   },
