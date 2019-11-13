@@ -305,6 +305,8 @@ Page({
     tableDataCC: [],
     retentionTitlestable:[],
     retentionTitlestableOS:[],
+    pieChartArray: [],
+    pieChartTitle: '',
   },
 
   /**
@@ -451,12 +453,34 @@ Page({
       };
       if (this.data.sourceCliCre == "creative") {
         let obj = Object.assign({}, tableDs, tableOs, tableCreative, titles);
+        let retentionTitles = Object.assign({}, tableDs, table2);
+        if (detail.key == "0"){
+          this.setData({
+            retentionTitles: retentionTitles,
+          })
+        }else{
+          retentionTitles = Object.assign({},tableDs,tableOs,table2);
+          this.setData({
+            retentionTitles: retentionTitles,
+          })
+        }
         this.setData({
           payTitles: obj
         })
       };
       if (this.data.sourceCliCre == "client") {
         let obj = Object.assign({}, tableDs, tableOs, tableClient, titles);
+        let retentionTitles = Object.assign({}, tableDs, table2);
+        if (detail.key == "0") {
+          this.setData({
+            retentionTitles: retentionTitles,
+          })
+        } else {
+          retentionTitles = Object.assign({}, tableDs, tableOs, table2);
+          this.setData({
+            retentionTitles: retentionTitles,
+          })
+        }
         this.setData({
           payTitles: obj
         })
@@ -487,6 +511,152 @@ Page({
     detail
   }) {
     // console.log(detail.index + ":" + JSON.stringify(detail.data));
+    let tableData = this.data.tableDataCC,
+      indexs = 0, 
+      pieChartArray = [];
+    if (detail != undefined) {
+      indexs = detail.index*2
+    }
+    if (conf.timeArea.week == this.data.timeArea || conf.timeArea.month == this.data.timeArea) {
+      tableData.forEach((item, index) => {
+        if (tableData[indexs].ds == item.ds) {
+          pieChartArray.push(item);
+        }
+      })
+    }
+    
+    if (conf.timeArea.yestoday == this.data.timeArea || conf.timeArea.today == this.data.timeArea) {
+      let iOSObject = new Object(),
+        androidObject = new Object();
+      let iOSInstallTotal = 0,
+        iOSDauNumTotal = 0,
+        androidInstallTotal = 0,
+        androidDauNumTotal = 0;
+      tableData.forEach((item) => {
+        if (item.os == 'iOS') {
+          iOSInstallTotal += item.installNum;
+          iOSDauNumTotal += item.dauNum;
+        } else if (item.os == 'android') {
+          androidInstallTotal += item.installNum;
+          androidDauNumTotal += item.dauNum;
+        } else { }
+      })
+      iOSObject.ds = tableData[0].ds;
+      iOSObject.os = 'iOS';
+      iOSObject.installNum = iOSInstallTotal;
+      iOSObject.dauNum = iOSDauNumTotal;
+      androidObject.os = 'android';
+      androidObject.installNum = androidInstallTotal;
+      androidObject.dauNum = androidDauNumTotal;
+      pieChartArray.push(iOSObject);
+      pieChartArray.push(androidObject);
+    }
+
+    this.setData({
+      pieChartArray: pieChartArray,
+      pieChartTitle: pieChartArray[0].ds,
+    })
+    this.makePieChart(pieChartArray);
+  },
+
+  makePieChart: function (info) {
+    let dauNumTotal = 0,
+      installNumTotal = 0;
+    info.forEach(item => {
+      dauNumTotal += item.dauNum;
+      installNumTotal += item.installNum;
+    })
+    var map_pieChartD = {},
+      map_pieChartI = {};
+    info.map(function (obj) {
+      map_pieChartD[obj.os] = (obj.dauNum / dauNumTotal * 100).toFixed(2) + '%';
+      map_pieChartI[obj.os] = (obj.installNum / installNumTotal * 100).toFixed(2) + '%';
+    })
+    this.pieChartComponent = this.selectComponent('#pieChartD');
+    this.pieChartComponent.init((canvas, width, height) => {
+      const chart = new F2.Chart({
+        el: canvas,
+        width,
+        height,
+        animate: true
+      });
+      chart.source(info, {
+        dauNum: {
+          formatter: function formatter(val) {
+            return val;
+          }
+        }
+      });
+      chart.legend({
+        position: 'top',
+        itemFormatter: function itemFormatter(val) {
+          return val + '  ' + map_pieChartD[val];
+        },
+        align: 'center', //图例的对齐方式
+        itemWidth: null
+      });
+      chart.coord('polar', {
+        transposed: true,
+        radius: 0.85
+      });
+      chart.axis(false);
+      chart.interval().position('a*dauNum').color("os", ['#1890FF', '#13C2C2', '#2FC25B', '#FACC14', '#F04864', '#8543E0']).adjust('stack').style({
+        lineWidth: 1,
+        stroke: '#fff',
+        lineJoin: 'round',
+        lineCap: 'round'
+      }).animate({
+        appear: {
+          duration: 1200,
+          easing: 'bounceOut'
+        }
+      });
+      chart.render();
+    })
+    /**
+     * 饼图新增--------------------------------------------------------------   
+     */
+    this.pieChartComponent = this.selectComponent('#pieChartI');
+    this.pieChartComponent.init((canvas, width, height) => {
+      const chart = new F2.Chart({
+        el: canvas,
+        width,
+        height,
+        animate: true
+      });
+      chart.source(info, {
+        installNum: {
+          formatter: function formatter(val) {
+            return val;
+          }
+        }
+      });
+      chart.legend({
+        position: 'top',
+        itemFormatter: function itemFormatter(val) {
+          return val + '  ' + map_pieChartI[val];
+        },
+        align: 'center', //图例的对齐方式
+        itemWidth: null
+      });
+      chart.coord('polar', {
+        transposed: true,
+        radius: 0.85
+      });
+      chart.axis(false);
+      chart.interval().position('a*installNum').color("os", ['#1890FF', '#13C2C2', '#2FC25B', '#FACC14', '#F04864', '#8543E0']).adjust('stack').style({
+        lineWidth: 1,
+        stroke: '#fff',
+        lineJoin: 'round',
+        lineCap: 'round'
+      }).animate({
+        appear: {
+          duration: 1200,
+          easing: 'bounceOut'
+        }
+      });
+      chart.render();
+    })
   },
   //表格竖行被点击
   onColTap: function({
@@ -766,6 +936,11 @@ Page({
         
         this.initChart2();
         // console.log(tables);
+        if (res.data.sharePayResultTypesCC.length > 0) {
+          let detail = new Object();
+          detail.index = 0;
+          this.onRowTap(detail);
+        }
       }
     })
 

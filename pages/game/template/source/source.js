@@ -460,7 +460,7 @@ Page({
         }
       })
     }
-
+    
     if (conf.timeArea.yestoday == this.data.timeArea || conf.timeArea.today == this.data.timeArea) {
       let iOSObject = new Object(),
         androidObject = new Object();

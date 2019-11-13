@@ -50,7 +50,21 @@
 
 <view class="dividLine"></view>
 <view class="table">
-  <table caption="详细数据" titles="{{payTitles}}" data="{{tableData}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="onBottomTap" />
+  <table caption="详细数据" titles="{{payTitles}}" data="{{tableData}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="" bind:bottomtap="onBottomTap" />
+</view>
+
+<!-- 饼图 -->
+<view class="pie-chart">
+  <view wx:if="{{showTable}}" class="dividLine"></view>
+  <view wx:if="{{showTable}}" class="chart-title">{{pieChartTitle}}活跃 -- 新增</view>
+  <view wx:if="{{showTable}}" class="chart-pie">
+    <div class="pieChart">
+      <ff-canvas id="pieChartD"></ff-canvas>
+    </div>
+    <div class="pieChart">
+      <ff-canvas id="pieChartI"></ff-canvas>
+    </div>
+  </view>
 </view>
 
 <view class="dividLine"></view>
