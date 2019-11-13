@@ -515,7 +515,7 @@ Page({
       indexs = 0, 
       pieChartArray = [];
     if (detail != undefined) {
-      indexs = detail.index*2
+      indexs = detail.index
     }
     if (conf.timeArea.week == this.data.timeArea || conf.timeArea.month == this.data.timeArea) {
       tableData.forEach((item, index) => {
