@@ -19,7 +19,7 @@
   background: linear-gradient(rgb(40, 106, 255) 0%, rgb(17, 183, 242) 80%);
   border-radius: 15px;
   /* opacity: 0.5; */
-  animation: que 2s 1s ease-out 2 alternate;
+  /* animation: que 2s 1s ease-out 2 alternate; */
 }
 
 .smill-border-change-bgc {
