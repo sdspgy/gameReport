@@ -20,12 +20,20 @@
 
 <view class="dividLine"></view>
 <view class="table">
-  <table caption="活跃等级分布" titles="{{dauLevelTitles}}" data="{{dauLevelData}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" bind:bottomtap="onBottomTap" />
+  <table caption="活跃等级分布（%）" titles="{{dauLevelTitles}}" data="{{dauLevelData}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" bind:bottomtap="onBottomTap" />
+</view>
+
+<view class="dividLine"></view>
+<view class="chart">
+  <view class="chart-title">层叠柱状图</view>
+  <view class="chart-body">
+    <ff-canvas id="level_one_F2"></ff-canvas>
+  </view>
 </view>
 
 <view class="dauLevel_plus">
   <view class="dividLine"></view>
   <view class="table">
-    <table caption="活跃等级分布+" titles="{{dauLevelSumTitles}}" data="{{dauLevelDataSum}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" bind:bottomtap="onBottomTap" />
+    <table caption="活跃等级分布聚合（%）" titles="{{dauLevelSumTitles}}" data="{{dauLevelDataSum}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" bind:bottomtap="onBottomTap" />
   </view>
 </view>

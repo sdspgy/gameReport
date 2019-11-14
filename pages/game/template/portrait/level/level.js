@@ -3,6 +3,7 @@ import F2 from '../../../../../f2-canvas/lib/f2';
 var appData = require('../../../../../app.js');
 var common = require("../../../../../utils/util.js");
 
+var chartArr = null;
 const conf = {
   source: { //按用户或者设备
     user: 0,
@@ -25,6 +26,9 @@ const conf = {
     tableDs: {
       ds: "日期(星期)"
     },
+    tableOs: {
+      os: "操作系统"
+    },
   },
 }
 Page({
@@ -45,6 +49,7 @@ Page({
     dauLevelSumTitles: {},
     dauLevelData: [],
     dauLevelDataSum: [],
+    chartArr: [],
   },
 
   /**
@@ -131,6 +136,58 @@ Page({
   },
 
   /**
+   * 层叠柱状图
+   */
+  init_f2: function() {
+    this.retentionComponent = this.selectComponent('#level_one_F2');
+    this.retentionComponent.init((canvas, width, height) => {
+      const chart = new F2.Chart({
+        el: canvas,
+        width,
+        height,
+        animate: true
+      });
+      var defs = {
+        xName: {
+          range: [0.15, 0.85],
+          type: 'cat'
+        }
+      };
+      chart.source(this.data.chartArr,{
+        value: {
+          tickCount: 5,
+          min: 0,
+          formatter: function formatter(ivalue) {
+            let RTrimValue = ivalue;
+            return RTrimValue + '%';
+          },
+        },
+      });
+      //设置图列居中显示
+      chart.legend({
+        position: 'top', //图列位置
+        align: 'center', //图例的对齐方式
+        itemWidth: null
+      });
+      chart.tooltip({
+        showCrosshairs: true, //纵坐标线
+        showItemMarker: false, //去小原点
+      });
+      // 坐标轴文本旋转
+      chart.axis('time', {
+        label: {
+          rotate: -Math.PI / 2.5,
+          textAlign: 'end',
+          textBaseline: 'middle'
+        }
+      });
+      chart.interval().position('time*value').color('name').adjust('stack').shape('text');
+      chart.render();
+      // return chart;
+    });
+  },
+
+  /**
    * ------------Request--------
    */
   init: function() {
@@ -139,6 +196,9 @@ Page({
     let info = {
       gameid: parseInt(that.data.gameid),
       date: parseInt(that.data.active_ds),
+    }
+    if (this.data.active_os != conf.os.none) {
+      info.os = this.data.active_os;
     }
     //请求--------------
     common.showLoading();
@@ -175,13 +235,14 @@ Page({
           for (let i = 1; i <= maxLevel; i++) {
             dauLevelTitle[i + 'level'] = i + '级';
           }
-          let dauLevelTitles = Object.assign({}, conf.table.tableDs, dauLevelTitle);
+
           if (dauLevel && dauLevelSum) {
             let dauLevels = [],
               dauLevelSuns = [];
             for (let key in dauLevel) {
               let dauLevelObj = {};
               dauLevelObj.ds = common.week(dauLevel[key][0].ds);
+              dauLevelObj.os = common.week(dauLevel[key][0].os);
               for (let i = 1; i <= maxLevel; i++) {
                 dauLevelObj[i + 'level'] = 0;
               }
@@ -193,29 +254,57 @@ Page({
             //聚合数据----------
             let dauLevelSumTitleNum = Math.ceil(maxLevel / 10);
             let dauLevelSumTitle = new Object();
+            let chartArr = [];
             for (let i = 1; i <= dauLevelSumTitleNum; i++) {
-              dauLevelSumTitle[i * 10 + 'level'] = i * 10 + '级';
+              dauLevelSumTitle[i * 10 + 'level'] = (i * 10 - 9) + "~" + i * 10 + '级';
             }
-            let dauLevelSumTitles = Object.assign({}, conf.table.tableDs, dauLevelSumTitle);
 
             for (let key in dauLevelSum) {
               let dauLevelSumObject = {};
               dauLevelSumObject.ds = common.week(dauLevelSum[key][0].ds);
+              dauLevelSumObject.os = common.week(dauLevelSum[key][0].os);
               dauLevelSum[key].forEach((item, index) => {
                 dauLevelSumObject[(index + 1) * 10 + 'level'] = item.dauNum == 0 ? 0 : (item.dauLevelNumbers / item.dauNum * 100).toFixed(2);
+
+                //层叠柱状图data处理
+                let chartObj = new Object();
+                chartObj.name = ((index + 1) * 10 - 9) + "~" + (index + 1) * 10 + '级';
+                chartObj.time = key;
+                chartObj.value = item.dauNum == 0 ? 0 : parseFloat((item.dauLevelNumbers / item.dauNum * 100).toFixed(2));
+                chartArr.push(chartObj);
               })
               dauLevelSuns.push(dauLevelSumObject);
             }
-
+            chartArr.sort(function(a, b) {
+              if (a.time < b.time) {
+                return -1;
+              } else if (a.time > b.time) {
+                return 1;
+              } else {
+                return 0;
+              }
+            })
             dauLevels.sort(that.compare);
             dauLevelSuns.sort(that.compare);
+
+            let dauLevelTitles = new Object();
+            let dauLevelSumTitles = new Object();
+            if (that.data.active_os == conf.os.android || that.data.active_os == conf.os.ios) {
+              dauLevelTitles = Object.assign({}, conf.table.tableDs, conf.table.tableOs, dauLevelTitle);
+              dauLevelSumTitles = Object.assign({}, conf.table.tableDs, conf.table.tableOs, dauLevelSumTitle);
+            } else {
+              dauLevelTitles = Object.assign({}, conf.table.tableDs, dauLevelTitle);
+              dauLevelSumTitles = Object.assign({}, conf.table.tableDs, dauLevelSumTitle);
+            }
 
             that.setData({
               dauLevelTitles: dauLevelTitles,
               dauLevelSumTitles: dauLevelSumTitles,
               dauLevelData: dauLevels,
               dauLevelDataSum: dauLevelSuns,
+              chartArr: chartArr,
             })
+            that.init_f2();
           }
         } else {
           common.showSuccess("请联系管理员！");

@@ -55,7 +55,7 @@ Page({
       currencyRate: appData.overallData[1].currencyRate,
     })
     common.log("游戏ID:" + this.data.gameid + "---------" + "汇率：" + this.data.currencyRate)
-    this.delayedTimer();
+    // this.delayedTimer();
   },
 
   /*----------------click小盒子-------------*/
