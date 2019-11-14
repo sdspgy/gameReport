@@ -25,3 +25,19 @@ van-tabbar {
 .table {
   height: 640rpx;
 }
+
+.chart-title {
+  color: #495060;
+  font-size: 14px;
+  font-weight: bold;
+  bottom: 20px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+}
+
+.chart-body {
+  width: 100%;
+  height: 610rpx;
+  margin-bottom: 10px;
+}
