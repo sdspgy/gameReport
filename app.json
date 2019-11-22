@@ -29,7 +29,8 @@
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#87CEFF",
     "navigationBarTitleText": "游戏报表",
-    "navigationBarTextStyle": "white"
+    "navigationBarTextStyle": "white",
+    "pageOrientation": "auto"
   },
   "tabBar": {
     "selectedColor": "#87CEFF",

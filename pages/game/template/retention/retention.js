@@ -580,10 +580,10 @@ Page({
             let payInstallRetenArray = [];
             for (let key in installPayReten) {
               let payInstallRentenObj = {};
-              payInstallRentenObj.ds = common.week(payReten[key][0].ds);
-              payInstallRentenObj.os = payReten[key][0].os;
-              payInstallRentenObj.creative = payReten[key][0].creative;
-              payInstallRentenObj.clientid = payReten[key][0].clientid;
+              payInstallRentenObj.ds = common.week(installPayReten[key][0].ds);
+              payInstallRentenObj.os = installPayReten[key][0].os;
+              payInstallRentenObj.creative = installPayReten[key][0].creative;
+              payInstallRentenObj.clientid = installPayReten[key][0].clientid;
               for (let i = 1; i <= 30; i++) {
                 payInstallRentenObj[i + 'day'] = 0;
               }

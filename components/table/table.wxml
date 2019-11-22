@@ -1,6 +1,6 @@
 <view class="table-pane">
   <view class="caption">{{caption}}</view>
-  <scroll-view scroll-with-animation="true" scroll-left="{{left1}}" scroll-x="true">
+  <scroll-view bindscroll="bindToHead_tableHead" scroll-with-animation="flase" scroll-left="{{left1}}" scroll-x="true">
     <view class="table" style="width:{{tableWidth}}px;">
       <view class="tr">
         <view class="th" wx:for="{{titles}}" wx:for-index="key" wx:for-item="value" bindtap="onColTap" data-col="{{key}}">{{value}}</view>
