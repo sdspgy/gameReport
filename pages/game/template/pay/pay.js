@@ -9,7 +9,7 @@ const {
 const app = getApp()
 var chart1 = null;
 var chart2 = null;
-const conf = {
+var conf = {
   source: { //按用户或者设备
     user: 0,
     device: 1
@@ -303,8 +303,8 @@ Page({
     retentionTitles: table2,
     showTable: true,
     tableDataCC: [],
-    retentionTitlestable:[],
-    retentionTitlestableOS:[],
+    retentionTitlestable: [],
+    retentionTitlestableOS: [],
     pieChartArray: [],
     pieChartTitle: '',
   },
@@ -398,9 +398,9 @@ Page({
   sourceCliCreChoiceChange: function({
     detail
   }) {
-    if (this.data.sourceCliCreChoice != detail.index) {
+    if (this.data.sourceCliCreChoice != detail.name) {
       this.setData({
-        sourceCliCreChoice: detail.index
+        sourceCliCreChoice: detail.name
       });
       this.reset();
       this.queryAndUpdate();
@@ -434,32 +434,32 @@ Page({
         if (detail.key == "0") {
           let obj = Object.assign({}, tableDs, titles);
           let retentionTitles = Object.assign({}, tableDs, table2);
-          
+
           this.setData({
             payTitles: obj,
             retentionTitles: retentionTitles,
           })
-          
+
         } else {
           let obj = Object.assign({}, tableDs, tableOs, titles);
-          let retentionTitles = Object.assign({},tableDs,tableOs,table2);
-          
+          let retentionTitles = Object.assign({}, tableDs, tableOs, table2);
+
           this.setData({
             payTitles: obj,
             retentionTitles: retentionTitles,
           })
-          
+
         }
       };
       if (this.data.sourceCliCre == "creative") {
         let obj = Object.assign({}, tableDs, tableOs, tableCreative, titles);
         let retentionTitles = Object.assign({}, tableDs, table2);
-        if (detail.key == "0"){
+        if (detail.key == "0") {
           this.setData({
             retentionTitles: retentionTitles,
           })
-        }else{
-          retentionTitles = Object.assign({},tableDs,tableOs,table2);
+        } else {
+          retentionTitles = Object.assign({}, tableDs, tableOs, table2);
           this.setData({
             retentionTitles: retentionTitles,
           })
@@ -469,7 +469,7 @@ Page({
         })
       };
       if (this.data.sourceCliCre == "client") {
-        
+
         let obj = Object.assign({}, tableDs, tableOs, tableClient, titles);
         let retentionTitles = Object.assign({}, tableDs, table2);
         if (detail.key == "0") {
@@ -482,7 +482,7 @@ Page({
             retentionTitles: retentionTitles,
           })
         }
-        
+
         this.setData({
           payTitles: obj
         })
@@ -514,7 +514,7 @@ Page({
   }) {
     // console.log(detail.index + ":" + JSON.stringify(detail.data));
     let tableData = this.data.tableDataCC,
-      indexs = 0, 
+      indexs = 0,
       pieChartArray = [];
     if (detail != undefined) {
       indexs = detail.index
@@ -526,7 +526,7 @@ Page({
         }
       })
     }
-    
+
     if (conf.timeArea.yestoday == this.data.timeArea || conf.timeArea.today == this.data.timeArea) {
       let iOSObject = new Object(),
         androidObject = new Object();
@@ -541,7 +541,7 @@ Page({
         } else if (item.os == 'android') {
           androidInstallTotal += item.installNum;
           androidDauNumTotal += item.dauNum;
-        } else { }
+        } else {}
       })
       iOSObject.ds = tableData[0].ds;
       iOSObject.os = 'iOS';
@@ -561,7 +561,7 @@ Page({
     this.makePieChart(pieChartArray);
   },
 
-  makePieChart: function (info) {
+  makePieChart: function(info) {
     let dauNumTotal = 0,
       installNumTotal = 0;
     info.forEach(item => {
@@ -570,7 +570,7 @@ Page({
     })
     var map_pieChartD = {},
       map_pieChartI = {};
-    info.map(function (obj) {
+    info.map(function(obj) {
       map_pieChartD[obj.os] = (obj.dauNum / dauNumTotal * 100).toFixed(2) + '%';
       map_pieChartI[obj.os] = (obj.installNum / installNumTotal * 100).toFixed(2) + '%';
     })
@@ -824,7 +824,7 @@ Page({
     if (this.data.os == "0" && this.data.sourceCliCre == "daily") {
       let titleAI = Object.assign({}, tableDayHour, this.data.payTitlesCC);
       delete titleAI.ds;
-      let newTitle = Object.assign({}, tableDs, titleAI); 
+      let newTitle = Object.assign({}, tableDs, titleAI);
       this.setData({
         showTable: true,
         payTitlesCC: newTitle,
@@ -898,12 +898,28 @@ Page({
       data: data,
       method: "post",
       success: (res) => {
-        let tableData = this.tableDataProcess(res.data.msg);
+        //渠道信息
+        let creatives = (res.data.creatives).map(item => ({
+          key: item.creativeid,
+          name: item.creativeName,
+        }));
+        let allObject = new Object();
+        allObject.key = '0';
+        allObject.name = '全渠道';
+        creatives.unshift(allObject);
+        conf.sourceCliCre.creative.choice = creatives;
+        //放入Map,creativeid为key
+        let creativeMap = new Map();
+        creatives.forEach((item, index) => {
+          creativeMap.set(item.key, item.name)
+        })
+
+        let tableData = this.tableDataProcess(res.data.msg, creativeMap);
         let tableDataCC = [];
         if (res.data.sharePayResultTypesCC) {
-          tableDataCC = this.tableDataProcess(res.data.sharePayResultTypesCC);
+          tableDataCC = this.tableDataProcess(res.data.sharePayResultTypesCC, creativeMap);
         };
-        
+
         if (res.data.msg.length != 0 && this.data.page != 1) {
           wx.showToast({
             title: "加载第" + this.data.page + "页",
@@ -936,7 +952,7 @@ Page({
           chartTitle2: handelPayCount.length == 0 ? "图标暂无数据" : "付费趋势",
           tableDataCC: tableDataCC
         })
-        
+
         this.initChart2();
         // console.log(tables);
         if (res.data.sharePayResultTypesCC.length > 0) {
@@ -958,15 +974,15 @@ Page({
       success: (res) => {
         let a = this.tableprocess2(res.data.msg)
         let b = this.tableprocess2(res.data.msgOS)
-        
+
         this.retentionTitlestable = a;
-        this.retentionTitlestableOS =b;
-        
-        if (os == "0"){
+        this.retentionTitlestableOS = b;
+
+        if (os == "0") {
           this.setData({
             retentionTitlestable: a,
           })
-        }else{
+        } else {
           this.setData({
             retentionTitlestable: b,
           })
@@ -982,18 +998,19 @@ Page({
       tableData: []
     })
   },
-  tableprocess2: function(data){
-    if(data){
-      data.forEach((item) =>{
+  tableprocess2: function(data) {
+    if (data) {
+      data.forEach((item) => {
         item.ds = common.week(item.ds);
       })
       return data;
     }
   },
 
-  tableDataProcess: function(data) {
+  tableDataProcess: function(data, creativeMap) {
     if (data) {
       data.forEach((item) => {
+        item.creative = creativeMap.get(item.creative) === undefined ? item.creative : creativeMap.get(item.creative);
         item.payRate = item.dauNum == 0 ? 0 : (item.payCount * 100 / item.dauNum).toFixed(2) + "%";
         item.payAmount = item.payAmount / appData.overallData[1].currencyRate;
         item.ARPU = item.dauNum == 0 ? 0 : (item.payAmount / item.dauNum).toFixed(2);

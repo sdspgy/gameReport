@@ -9,7 +9,7 @@ const {
 const app = getApp()
 var chart1 = null;
 var chart2 = null;
-const conf = {
+var conf = {
   source: { //按用户或者设备
     user: 0,
     device: 1
@@ -261,6 +261,7 @@ Page({
     showTable: true,
     pieChartArray: [],
     pieChartTitle: '',
+    creativeMap: Map,
   },
 
   /**
@@ -351,9 +352,9 @@ Page({
   sourceCliCreChoiceChange: function({
     detail
   }) {
-    if (this.data.sourceCliCreChoice != detail.index) {
+    if (this.data.sourceCliCreChoice != detail.name) {
       this.setData({
-        sourceCliCreChoice: detail.index
+        sourceCliCreChoice: detail.name
       });
       this.reset();
       this.queryAndUpdate();
@@ -460,7 +461,7 @@ Page({
         }
       })
     }
-    
+
     if (conf.timeArea.yestoday == this.data.timeArea || conf.timeArea.today == this.data.timeArea) {
       let iOSObject = new Object(),
         androidObject = new Object();
@@ -783,10 +784,28 @@ Page({
       data: data,
       method: "post",
       success: (res) => {
-        let tableData = this.maketable(res.data.msg);
+        //渠道信息
+        let creatives = (res.data.creatives).map(item => ({
+          key: item.creativeid,
+          name: item.creativeName,
+        }));
+        let allObject = new Object();
+        allObject.key = '0';
+        allObject.name = '全渠道';
+        creatives.unshift(allObject);
+        conf.sourceCliCre.creative.choice = creatives;
+        //放入Map,creativeid为key
+        let creativeMap = new Map();
+        creatives.forEach((item, index) => {
+          creativeMap.set(item.key, item.name)
+        })
+        let haveCreative = true; //此处应该判断为渠道时，做替换才有意义
+
+        let tableData = this.maketable(res.data.msg, haveCreative, creativeMap);
+        haveCreative = false;
         let tableDataCC = [];
         if (res.data.sharePayResultTypesCC) {
-          tableDataCC = this.maketable(res.data.sharePayResultTypesCC);
+          tableDataCC = this.maketable(res.data.sharePayResultTypesCC, haveCreative, creativeMap);
         };
         if (res.data.msg.length != 0 && this.data.page != 1) {
           wx.showToast({
@@ -831,9 +850,17 @@ Page({
     })
   },
 
-  maketable: function(data) {
+  maketable: function(data, haveCreative, creativeMap) {
     if (data) {
+      // let onInputCreative = new Map();
       data.forEach((item) => {
+        if (haveCreative) {
+          //多做个判断，筛选出没有录入的渠道，但没什么卵用
+          // if (!creativeMap.has(item.creative)) {
+          //   onInputCreative.set(item.creative, onInputCreative.size)
+          // }
+          item.creative = creativeMap.get(item.creative) === undefined ? item.creative : creativeMap.get(item.creative);
+        }
         item.payInstallRate = item.installNum == 0 ? 0 : (item.payInstallCount * 100 / item.installNum).toFixed(2) + "%";
         item.payInstallAmount = item.payInstallAmount / appData.overallData[1].currencyRate;
         item.payInstallARPU = item.installNum == 0 ? 0 : (item.payInstallAmount / item.installNum).toFixed(2);

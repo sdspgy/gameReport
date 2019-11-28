@@ -170,6 +170,8 @@ Page({
     }],
     payRentenTable: [],
     payInstallRetenTable: [],
+    creatives: [],
+    creativeMap: {}
   },
 
   onLoad: function(options) {
@@ -476,22 +478,29 @@ Page({
       mask: true
     });
 
+    let data = {
+      gameid: parseInt(this.data.gameid),
+      deviceType: parseInt(this.data.type),
+      osType: parseInt(this.data.sysType),
+      isOs: this.data.isOs,
+      data: parseInt(this.data.data),
+      ccType: parseInt(this.data.indexStatu),
+      ccNum: this.data.index,
+      page: this.data.page,
+    }
+    if (this.data.indexStatu == 1) {
+      data.ccNum = this.data.index;
+    }
+    if (this.data.indexStatu == 0) {
+      data.ccNum = this.data.creatives[this.data.index].key
+    }
     wx.request({
       url: url.requestUrl + '/api/retention',
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'token': wx.getStorageSync("token")
       },
-      data: {
-        gameid: parseInt(this.data.gameid),
-        deviceType: parseInt(this.data.type),
-        osType: parseInt(this.data.sysType),
-        isOs: this.data.isOs,
-        data: parseInt(this.data.data),
-        ccType: parseInt(this.data.indexStatu),
-        ccNum: this.data.index,
-        page: this.data.page,
-      },
+      data: data,
       method: "post",
       success: (e) => {
         setTimeout(() => {
@@ -516,6 +525,15 @@ Page({
             }
             let retentionList = [];
             retentionList = this.saturday(e.data.shareRetentionList);
+
+            //放入Map,creativeid为key
+            let creativeMap = new Map();
+            (e.data.creatives).forEach((item, index) => {
+              creativeMap.set(item.creativeid, item.creativeName)
+            })
+            retentionList.forEach(item => {
+              item.creative = creativeMap.get(item.creative) === undefined ? item.creative : creativeMap.get(item.creative)
+            })
             if (this.data.retentionList == null) {
               retentionList = retentionList;
             } else {
@@ -558,7 +576,7 @@ Page({
       payRentenData.clientid = this.data.index;
     }
     if (this.data.indexStatu == 0) {
-      payRentenData.creative = String(this.data.index)
+      payRentenData.creative = this.data.creatives[this.data.index].key
     }
 
     wx.request({
@@ -574,6 +592,35 @@ Page({
           const payReten = e.data.sharePayRetentionMap;
           const installPayReten = e.data.shareInstallPayRetentionMap;
           /**
+           * 渠道信息
+           * @param creativeMap 替换表格数据
+           * @param creativeNames 替换选择头
+           */
+          let creatives = (e.data.creatives).map(item => ({
+            key: item.creativeid,
+            name: item.creativeName,
+          }));
+          let creativeNames = [];
+          creativeNames.push('全渠道');
+          (e.data.creatives).forEach(item => {
+            creativeNames.push(item.creativeName);
+          });
+
+          let allObject = new Object();
+          allObject.key = '0';
+          allObject.name = '全渠道';
+          creatives.unshift(allObject);
+          //放入Map,creativeid为key
+          let creativeMap = new Map();
+          creatives.forEach((item, index) => {
+            creativeMap.set(item.key, item.name)
+          })
+          this.setData({
+            arrayCreate: creativeNames,
+            creatives: creatives,
+            creativeMap: creativeMap
+          })
+          /**
            * -----------------安装付费留存-------------
            */
           if (installPayReten) {
@@ -582,7 +629,7 @@ Page({
               let payInstallRentenObj = {};
               payInstallRentenObj.ds = common.week(installPayReten[key][0].ds);
               payInstallRentenObj.os = installPayReten[key][0].os;
-              payInstallRentenObj.creative = installPayReten[key][0].creative;
+              payInstallRentenObj.creative = creativeMap.get(installPayReten[key][0].creative) === undefined ? installPayReten[key][0].creative : creativeMap.get(installPayReten[key][0].creative);
               payInstallRentenObj.clientid = installPayReten[key][0].clientid;
               for (let i = 1; i <= 30; i++) {
                 payInstallRentenObj[i + 'day'] = 0;
@@ -606,7 +653,7 @@ Page({
               let payRentenObj = {};
               payRentenObj.ds = common.week(payReten[key][0].ds);
               payRentenObj.os = payReten[key][0].os;
-              payRentenObj.creative = payReten[key][0].creative;
+              payRentenObj.creative = creativeMap.get(payReten[key][0].creative) === undefined ? payReten[key][0].creative : creativeMap.get(payReten[key][0].creative);
               payRentenObj.clientid = payReten[key][0].clientid;
               for (let i = 1; i <= 30; i++) {
                 payRentenObj[i + 'day'] = 0;
