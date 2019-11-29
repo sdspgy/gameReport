@@ -1,0 +1,20 @@
+<view class="table-pane">
+  <!-- 标题 -->
+  <view class="caption">{{caption}}</view>
+  <!-- 表头 -->
+  <scroll-view bindscroll="bindToHead"  scroll-with-animation='true' scroll-left="{{left1}}" scroll-x='true'>
+    <view class="table" style="width:{{tableWidth}}px;">
+      <view class="tr">
+        <view class="th" wx:for="{{titles}}" wx:for-index="key" wx:for-item="value" wx:key="index" bintap="onColTap" data-col="{{key}}">{{value}}</view>
+      </view>
+    </view>
+  </scroll-view>
+  <!-- 表数据 -->
+  <scroll-view id="tbody" bindscroll="bindToHead" bindscrolltolower="bottmoEvent" scroll-left="{{left2}}" scroll-x="true" scroll-y="true" style="height:{{tableHeight}}px;">
+    <view class="table" style="width:{{tableWidth}}px;">
+      <view class="tr {{index % 2 == 0? 'bg-g' : ''}} {{((crtRow==index) && (crtCol==null))? 'selected' : ''}}" wx:for="{{data}}" wx:for-index="index" wx:for-item="item" wx:key="index" bindtap="onRowTap" data-index="{{index}}">
+        <view class="td {{((crtCol == key) && (crtRow == -1))? 'selected' :''}}" wx:for="{{titles}}" wx:for-index="key" wx:for-item="value" wx:key="value" data-index="key">{{item[key]}}</view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

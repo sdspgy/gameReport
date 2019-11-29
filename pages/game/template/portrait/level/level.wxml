@@ -18,14 +18,18 @@
 
 </view>
 
+<van-dropdown-menu class="level_type" overlay="{{ds_bottom}}">
+  <van-dropdown-item value="{{ value_levelType }}" options="{{ option_levelType }}" bind:change="leveTypeChange" />
+</van-dropdown-menu>
+
 <view class="dividLine"></view>
 <view class="table">
-  <table caption="活跃等级分布（%）" titles="{{dauLevelTitles}}" data="{{dauLevelData}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" bind:bottomtap="onBottomTap" />
+  <table caption="{{title}}%" titles="{{dauLevelTitles}}" data="{{dauLevelData}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" bind:bottomtap="onBottomTap" />
 </view>
 
 <view class="dividLine"></view>
 <view class="chart">
-  <view class="chart-title">层叠柱状图</view>
+  <view class="chart-title">{{title}}</view>
   <view class="chart-body">
     <ff-canvas id="level_one_F2"></ff-canvas>
   </view>
@@ -34,6 +38,6 @@
 <view class="dauLevel_plus">
   <view class="dividLine"></view>
   <view class="table">
-    <table caption="活跃等级分布聚合（%）" titles="{{dauLevelSumTitles}}" data="{{dauLevelDataSum}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" bind:bottomtap="onBottomTap" />
+    <table caption="{{title}}聚合%" titles="{{dauLevelSumTitles}}" data="{{dauLevelDataSum}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" bind:bottomtap="onBottomTap" />
   </view>
 </view>

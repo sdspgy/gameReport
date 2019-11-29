@@ -30,6 +30,13 @@ const conf = {
       os: "操作系统"
     },
   },
+  levelType: {
+    dau_level: 0,
+    install_level: 1,
+    pay_level: 2,
+    new_pay_level: 3,
+    pay_install_level: 4
+  }
 }
 Page({
 
@@ -50,6 +57,30 @@ Page({
     dauLevelData: [],
     dauLevelDataSum: [],
     chartArr: [],
+
+    option_levelType: [{
+        text: '活跃等级分布',
+        value: 0
+      },
+      {
+        text: '注册等级分布',
+        value: 1
+      },
+      {
+        text: '付费等级分布',
+        value: 2
+      },
+      {
+        text: '新付费等级分布',
+        value: 3
+      },
+      {
+        text: '新注册付费等级分布',
+        value: 4
+      },
+    ],
+    value_levelType: 0,
+    title: '活跃等级分布',
   },
 
   /**
@@ -136,6 +167,17 @@ Page({
   },
 
   /**
+   * 等级分布的类型
+   */
+  leveTypeChange: function(event) {
+    let levelType = event.detail;
+    this.setData({
+      value_levelType: levelType
+    })
+    this.init();
+  },
+
+  /**
    * 层叠柱状图
    */
   init_f2: function() {
@@ -153,7 +195,7 @@ Page({
           type: 'cat'
         }
       };
-      chart.source(this.data.chartArr,{
+      chart.source(this.data.chartArr, {
         value: {
           tickCount: 5,
           min: 0,
@@ -183,7 +225,7 @@ Page({
       });
       chart.interval().position('time*value').color('name').adjust('stack').shape('text');
       chart.render();
-      // return chart;
+      return chart;
     });
   },
 
@@ -196,6 +238,7 @@ Page({
     let info = {
       gameid: parseInt(that.data.gameid),
       date: parseInt(that.data.active_ds),
+      levelType: parseInt(that.data.value_levelType),
     }
     if (this.data.active_os != conf.os.none) {
       info.os = this.data.active_os;
@@ -247,7 +290,17 @@ Page({
                 dauLevelObj[i + 'level'] = 0;
               }
               dauLevel[key].forEach(item => {
-                dauLevelObj[item.level + 'level'] = item.dauNum == 0 ? 0 : (item.dauLevelNumbers / item.dauNum * 100).toFixed(2);
+                if (that.data.value_levelType == that.data.conf.levelType.dau_level) {
+                  dauLevelObj[item.level + 'level'] = item.dauNum == 0 ? 0 : (item.dauLevelNumbers / item.dauNum * 100).toFixed(2);
+                } else if (that.data.value_levelType == that.data.conf.levelType.install_level) {
+                  dauLevelObj[item.level + 'level'] = item.dauNum == 0 ? 0 : (item.installLevelNumbers / item.dauNum * 100).toFixed(2);
+                } else if (that.data.value_levelType == that.data.conf.levelType.pay_level) {
+                  dauLevelObj[item.level + 'level'] = item.dauNum == 0 ? 0 : (item.payLevelNumbers / item.dauNum * 100).toFixed(2);
+                } else if (that.data.value_levelType == that.data.conf.levelType.new_pay_level) {
+                  dauLevelObj[item.level + 'level'] = item.dauNum == 0 ? 0 : (item.newPayLevelNumbers / item.dauNum * 100).toFixed(2);
+                } else if (that.data.value_levelType == that.data.conf.levelType.pay_install_level) {
+                  dauLevelObj[item.level + 'level'] = item.dauNum == 0 ? 0 : (item.payInstallLevelNumbers / item.dauNum * 100).toFixed(2);
+                }
               })
               dauLevels.push(dauLevelObj);
             }
@@ -264,13 +317,14 @@ Page({
               dauLevelSumObject.ds = common.week(dauLevelSum[key][0].ds);
               dauLevelSumObject.os = common.week(dauLevelSum[key][0].os);
               dauLevelSum[key].forEach((item, index) => {
-                dauLevelSumObject[(index + 1) * 10 + 'level'] = item.dauNum == 0 ? 0 : (item.dauLevelNumbers / item.dauNum * 100).toFixed(2);
-
                 //层叠柱状图data处理
                 let chartObj = new Object();
                 chartObj.name = ((index + 1) * 10 - 9) + "~" + (index + 1) * 10 + '级';
-                chartObj.time = key;
+                chartObj.time = key.substr(5, 5);
+
+                dauLevelSumObject[(index + 1) * 10 + 'level'] = item.dauNum == 0 ? 0 : (item.dauLevelNumbers / item.dauNum * 100).toFixed(2);
                 chartObj.value = item.dauNum == 0 ? 0 : parseFloat((item.dauLevelNumbers / item.dauNum * 100).toFixed(2));
+
                 chartArr.push(chartObj);
               })
               dauLevelSuns.push(dauLevelSumObject);
@@ -297,12 +351,22 @@ Page({
               dauLevelSumTitles = Object.assign({}, conf.table.tableDs, dauLevelSumTitle);
             }
 
+            //处理标题
+            let titles = '';
+            that.data.option_levelType.forEach((item, index) => {
+              if (item.value == that.data.value_levelType) {
+                titles = item.text;
+                return
+              }
+            })
+
             that.setData({
               dauLevelTitles: dauLevelTitles,
               dauLevelSumTitles: dauLevelSumTitles,
               dauLevelData: dauLevels,
               dauLevelDataSum: dauLevelSuns,
               chartArr: chartArr,
+              title: titles
             })
             that.init_f2();
           }

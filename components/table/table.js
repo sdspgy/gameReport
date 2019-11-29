@@ -114,7 +114,14 @@ Component({
       detail
     }) {
       this.setData({
-        left1: detail.scrollLeft
+        left1: detail.scrollLeft,
+      })
+    },
+    bindToHead_tableHead: function({
+      detail
+    }) {
+      this.setData({
+        left2: detail.scrollLeft,
       })
     },
     //底部事件

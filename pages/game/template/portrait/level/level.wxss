@@ -12,6 +12,15 @@
   width: 90%;
 }
 
+.van-dropdown-menu {
+  width: 30%;
+}
+
+.level_type {
+  position: relative;
+  right: -5%;
+}
+
 .dauLevel_plus {
   position: relative;
   top: 50px;
