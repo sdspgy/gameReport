@@ -1,6 +1,6 @@
 <view class="space">
   <!-- 按用户或者设备 -->
-  <i-row i-class="space">
+  <i-row i-class="space" wx:if="{{ishowDevice}}">
     <i-col span="12">
       <i-button type='{{type[conf.source.user]}}' size="small" bind:click="sourceChange" data-source="{{conf.source.user}}">按用户</i-button>
     </i-col>

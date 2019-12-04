@@ -16,7 +16,7 @@ App({
         var code = r.code;
         if (code) {
           wx.getUserInfo({
-            success: (res) =>{
+            success: (res) => {
               wx.request({
                 url: url.requestUrl + '/api/user/login',
                 header: {
@@ -28,7 +28,7 @@ App({
                   iv: res.iv,
                   code: code,
                 },
-                success: (data)=> {
+                success: (data) => {
                   // wx.showToast({
                   //   title: '登录成功',
                   //   icon: 'success',

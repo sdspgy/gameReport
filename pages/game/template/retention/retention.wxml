@@ -1,7 +1,7 @@
 <!-- 全局提示 -->
 <i-message id="message" />
 <view class='boder'>
-  <view class='button'>
+  <view class='button' wx:if="{{ishowDevice}}">
     <i-row>
       <i-col span="12" i-class="col-class">
         <i-button bind:click="handleClick" type="{{bType[0]}}" size="small" id="0">按用户</i-button>

@@ -1,0 +1,21 @@
+<!--pages/game/template/portrait/visit/visit.wxml-->
+<!-- 时间 -->
+<van-tabbar active="{{ active_ds }}" fixed="{{ds_bottom}}" bind:change="dsChange">
+  <van-tabbar-item name="{{conf.ds.yestoday}}" icon="home-o">昨日</van-tabbar-item>
+  <van-tabbar-item name="{{conf.ds.week}}" icon="home-o">7日</van-tabbar-item>
+  <van-tabbar-item name="{{conf.ds.month}}" icon="home-o">30日</van-tabbar-item>
+</van-tabbar>
+
+<view class="dividLine"></view>
+<view class="table">
+  <table caption="访问趋势" titles="{{conf.table.tableV}}" data="{{tableV}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" bind:bottomtap="onBottomTap" />
+</view>
+
+<van-dropdown-menu class="visit_type" overlay="{{ds_bottom}}">
+  <van-dropdown-item value="{{ value_visitType }}" options="{{ option_visitType }}" bind:change="visitTypeChange" />
+</van-dropdown-menu>
+
+<view class="dividLine"></view>
+<view class="chart-body">
+  <ff-canvas id="mychart-dom-bar"></ff-canvas>
+</view>

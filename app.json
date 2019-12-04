@@ -23,7 +23,11 @@
     "pages/game/template/retention/retention",
     "pages/game/template/source/source",
     "pages/game/template/portrait/portrait",
-    "pages/game/template/portrait/level/level"
+    "pages/game/template/portrait/level/level",
+    "pages/game/template/portrait/paybehav/paybehav",
+    "pages/game/template/portrait/device/device",
+    "pages/game/template/portrait/visit/visit",
+    "pages/game/template/portrait/online/online"
   ],
   "window": {
     "backgroundTextStyle": "light",
