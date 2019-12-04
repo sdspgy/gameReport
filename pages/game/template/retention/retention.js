@@ -135,6 +135,7 @@ let retentionTitles = {
 Page({
 
   data: {
+    ishowDevice: true,
     backData: {
       event: 'back'
     },
@@ -176,8 +177,13 @@ Page({
 
   onLoad: function(options) {
     this.setData({
-      gameid: appData.overallData[0]
+      gameid: appData.overallData[0],
+      ishowDevice: appData.overallData[1].parentId == 1 ? false : true
     });
+    //改标题
+    wx.setNavigationBarTitle({
+      title: appData.overallData[1].name + '-留存'
+    })
     let obj = Object.assign({}, tableDs, retentionTitles);
     let payRen = Object.assign({}, tableDs, payRenDayTitles);
     this.setData({

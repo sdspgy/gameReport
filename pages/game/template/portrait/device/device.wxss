@@ -1,0 +1,32 @@
+/* pages/game/template/portrait/device/device.wxss */
+
+.dividLine {
+  margin: 0 auto;
+  height: 1px;
+  background-color: #00c09c;
+  width: 90%;
+}
+
+.table {
+  height: 640rpx;
+}
+
+.chart-title {
+  color: #495060;
+  font-size: 14px;
+  font-weight: bold;
+  bottom: 20px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+}
+
+.chart-body {
+  width: 100%;
+  height: 800rpx;
+  margin-bottom: 10px;
+}
+
+.chart {
+  height: 800rpx;
+}

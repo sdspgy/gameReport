@@ -1,0 +1,20 @@
+<!--pages/game/template/portrait/online/online.wxml-->
+<!-- 时间 -->
+<van-tabbar active="{{ active_ds }}" fixed="{{ds_bottom}}" bind:change="dsChange">
+  <van-tabbar-item name="{{conf.ds.yestoday}}" icon="home-o">昨日</van-tabbar-item>
+  <van-tabbar-item name="{{conf.ds.week}}" icon="home-o">7日</van-tabbar-item>
+  <van-tabbar-item name="{{conf.ds.month}}" icon="home-o">30日</van-tabbar-item>
+</van-tabbar>
+
+<view class="dividLine"></view>
+<view class="table">
+  <table caption="在线时长" titles="{{conf.table.tableV}}" data="{{tableV}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="onColTap" bind:bottomtap="onBottomTap" />
+</view>
+
+<view class="dividLine"></view>
+<view class="chart">
+  <view class="chart-title">在线时长</view>
+  <view class="chart-body">
+    <ff-canvas id="payBehav_one_F2"></ff-canvas>
+  </view>
+</view>

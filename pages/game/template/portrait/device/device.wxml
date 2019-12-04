@@ -1,0 +1,13 @@
+<!--pages/game/template/portrait/device/device.wxml-->
+<van-tabbar active="{{ active_type }}" fixed="{{type_bottom}}" bind:change="typeChange">
+  <van-tabbar-item name="{{conf.type.install}}" icon="home-o">安装</van-tabbar-item>
+  <van-tabbar-item name="{{conf.type.dau}}" icon="home-o">活跃</van-tabbar-item>
+</van-tabbar>
+
+<view class="dividLine"></view>
+<view class="chart">
+  <view class="chart-title">设备分布</view>
+  <view class="chart-body">
+    <ff-canvas id="device_one_F2"></ff-canvas>
+  </view>
+</view>

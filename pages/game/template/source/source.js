@@ -175,8 +175,13 @@ Page({
   onLoad: function(options) {
     // 页面创建时执行
     this.setData({
-      gameid: appData.overallData[0]
+      gameid: appData.overallData[0],
+      ishowDevice: appData.overallData[1].parentId == 1 ? false : true
     });
+    //改标题
+    wx.setNavigationBarTitle({
+      title: appData.overallData[1].name + '-新进'
+    })
     let obj = Object.assign({}, tableDs, titles);
     let payTitlesCC = Object.assign({}, tableDs, tableOs, titles);
     this.setData({
@@ -220,6 +225,7 @@ Page({
    * -------------------------------------------------------------------------------------------------------
    */
   data: {
+    ishowDevice: true,
     conf: conf,
     source: conf.source.user,
     sourceCliCre: conf.sourceCliCre.daily.val,

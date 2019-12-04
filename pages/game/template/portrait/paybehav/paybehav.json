@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "付费行为",
+  "usingComponents": {
+    "van-tabbar": "../../../../../dist/vant/tabbar/index",
+    "van-tabbar-item": "../../../../../dist/vant/tabbar-item/index",
+    "i-tab-bar": "../../../../../dist/tab-bar/index",
+    "i-tab-bar-item": "../../../../../dist/tab-bar-item/index",
+    "van-dropdown-menu": "../../../../../dist/vant/dropdown-menu/index",
+    "van-dropdown-item": "../../../../../dist/vant/dropdown-item/index",
+    "table": "../../../../components/table/table",
+    "customTable": "../../../../components/customTable/customTable",
+    "ff-canvas": "../../../../f2-canvas/f2-canvas"
+  }
+}

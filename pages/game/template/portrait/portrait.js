@@ -16,21 +16,21 @@ Page({
     }, {
       name: '付费行为',
       bgc: false,
-      url: './level/level',
+      url: './paybehav/paybehav',
     }, {
-      name: 'Ip匹配',
+      name: '访问趋势',
       bgc: false,
-      url: './level/level',
+      url: './visit/visit',
+    }, {
+      name: '设备分布',
+      bgc: false,
+      url: './device/device',
     }, {
       name: '在线时长',
       bgc: false,
-      url: './level/level',
+      url: './online/online',
     }, {
       name: '大R',
-      bgc: false,
-      url: './level/level',
-    }, {
-      name: '机型网络分布',
       bgc: false,
       url: './level/level',
     }, {
@@ -53,6 +53,10 @@ Page({
     this.setData({
       gameid: appData.overallData[0],
       currencyRate: appData.overallData[1].currencyRate,
+    })
+    //改标题
+    wx.setNavigationBarTitle({
+      title: appData.overallData[1].name
     })
     common.log("游戏ID:" + this.data.gameid + "---------" + "汇率：" + this.data.currencyRate)
     // this.delayedTimer();

@@ -91,6 +91,10 @@ Page({
       gameid: appData.overallData[0],
       currencyRate: appData.overallData[1].currencyRate,
     })
+    //改标题
+    wx.setNavigationBarTitle({
+      title: appData.overallData[1].name + '-等级分布'
+    })
     common.log("游戏ID:" + this.data.gameid + "---------" + "汇率：" + this.data.currencyRate)
     this.init();
   },
@@ -259,27 +263,29 @@ Page({
           const dauLevelSum = e.data.levelDauSum;
 
           //最大等级-----------
-          let maxLevel = 0;
-          let dauLevelKeys = Object.keys(dauLevel).sort(function(o1, o2) {
-            if (o1 < o2) {
-              return 1;
-            } else if (o1 > o2) {
-              return -1;
-            } else {
-              return 0;
-            }
-          });
-          let maxDate = dauLevelKeys[0];
-          let maxDauLevel = dauLevel[maxDate];
-          maxLevel = maxDauLevel[maxDauLevel.length - 1].level;
-
-          // 处理表头-----------
-          let dauLevelTitle = new Object();
-          for (let i = 1; i <= maxLevel; i++) {
-            dauLevelTitle[i + 'level'] = i + '级';
-          }
-
           if (dauLevel && dauLevelSum) {
+            let maxLevel = 0;
+            let dauLevelKeys = Object.keys(dauLevel).sort(function(o1, o2) {
+              if (o1 < o2) {
+                return 1;
+              } else if (o1 > o2) {
+                return -1;
+              } else {
+                return 0;
+              }
+            });
+            if (Object.keys(dauLevel).length > 0 && Object.keys(dauLevelSum).length > 0) {
+              let maxDate = dauLevelKeys[0];
+              let maxDauLevel = dauLevel[maxDate];
+              maxLevel = maxDauLevel[maxDauLevel.length - 1].level;
+            }
+
+            // 处理表头-----------
+            let dauLevelTitle = new Object();
+            for (let i = 1; i <= maxLevel; i++) {
+              dauLevelTitle[i + 'level'] = i + '级';
+            }
+
             let dauLevels = [],
               dauLevelSuns = [];
             for (let key in dauLevel) {
@@ -293,13 +299,13 @@ Page({
                 if (that.data.value_levelType == that.data.conf.levelType.dau_level) {
                   dauLevelObj[item.level + 'level'] = item.dauNum == 0 ? 0 : (item.dauLevelNumbers / item.dauNum * 100).toFixed(2);
                 } else if (that.data.value_levelType == that.data.conf.levelType.install_level) {
-                  dauLevelObj[item.level + 'level'] = item.dauNum == 0 ? 0 : (item.installLevelNumbers / item.dauNum * 100).toFixed(2);
+                  dauLevelObj[item.level + 'level'] = item.installNum == 0 ? 0 : (item.installLevelNumbers / item.dauNum * 100).toFixed(2);
                 } else if (that.data.value_levelType == that.data.conf.levelType.pay_level) {
-                  dauLevelObj[item.level + 'level'] = item.dauNum == 0 ? 0 : (item.payLevelNumbers / item.dauNum * 100).toFixed(2);
+                  dauLevelObj[item.level + 'level'] = item.payCount == 0 ? 0 : (item.payLevelNumbers / item.dauNum * 100).toFixed(2);
                 } else if (that.data.value_levelType == that.data.conf.levelType.new_pay_level) {
-                  dauLevelObj[item.level + 'level'] = item.dauNum == 0 ? 0 : (item.newPayLevelNumbers / item.dauNum * 100).toFixed(2);
+                  dauLevelObj[item.level + 'level'] = item.newPayCount == 0 ? 0 : (item.newPayLevelNumbers / item.dauNum * 100).toFixed(2);
                 } else if (that.data.value_levelType == that.data.conf.levelType.pay_install_level) {
-                  dauLevelObj[item.level + 'level'] = item.dauNum == 0 ? 0 : (item.payInstallLevelNumbers / item.dauNum * 100).toFixed(2);
+                  dauLevelObj[item.level + 'level'] = item.payInstallCount == 0 ? 0 : (item.payInstallLevelNumbers / item.dauNum * 100).toFixed(2);
                 }
               })
               dauLevels.push(dauLevelObj);

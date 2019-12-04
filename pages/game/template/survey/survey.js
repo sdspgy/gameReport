@@ -68,6 +68,7 @@ const conf = {
   }
 Page({
   data: {
+    ishowDevice: true,
     gameid: "",
     bType: ['info', 'ghost'],
     conf: conf,
@@ -123,9 +124,14 @@ Page({
   },
   onLoad: function(e) {
     this.setData({
-      gameid: appData.overallData[0],
-      currencyRate: appData.overallData[1].currencyRate,
-    }),
+        gameid: appData.overallData[0],
+        currencyRate: appData.overallData[1].currencyRate,
+        ishowDevice: appData.overallData[1].parentId == 1 ? false : true
+      }),
+      //改标题
+      wx.setNavigationBarTitle({
+        title: appData.overallData[1].name + '-概况'
+      })
     //数据初始化
     this.init();
   },
@@ -279,7 +285,7 @@ Page({
   },
 
   back: function() {
-    wx.redirectTo({
+    wx.reLaunch({
       url: '../../../index/index',
     })
   },
