@@ -163,36 +163,36 @@ let titles = {
   },
   table2 = {
     dr: "注册数",
-    oneRetentionPercentage: "1日",
-    twoRetentionPercentage: "2日",
-    threeRetentionPercentage: "3日",
-    fourRetentionPercentage: "4日",
-    fiveRetentionPercentage: "5日",
-    sixRetentionPercentage: "6日",
-    sevenRetentionPercentage: "7日",
-    eightRetentionPercentage: "8日",
-    nineRetentionPercentage: "9日",
-    tenRetentionPercentage: "10日",
-    elevenRetentionPercentage: "11日",
-    twelveRetentionPercentage: "12日",
-    thirteenRetentionPercentage: "13日",
-    fourteenRetentionPercentage: "14日",
-    fifteenRetentionPercentage: "15日",
-    sixteenRetentionPercentage: "16日",
-    seventeenRetentionPercentage: "17日",
-    eighteenRetentionPercentage: "18日",
-    nineteenRetentionPercentage: "19日",
-    twentyteenRetentionPercentage: "20日",
-    twentyOneteenRetentionPercentage: "21日",
-    twentyTwoRetentionPercentage: "22日",
-    twentyThreeRetentionPercentage: "23日",
-    twentyFourRetentionPercentage: "24日",
-    twentyFiveRetentionPercentage: "25日",
-    twentySixRetentionPercentage: "26日",
-    twentySevenRetentionPercentage: "27日",
-    twentyEightRetentionPercentage: "28日",
-    twentyNineRetentionPercentage: "29日",
-    thirtyRetentionPercentage: "30日",
+    '0day': "1日",
+    '1day': "2日",
+    '2day': "3日",
+    '3day': "4日",
+    '4day': "5日",
+    '5day': "6日",
+    '6day': "7日",
+    '7day': "8日",
+    '8day': "9日",
+    '9day': "10日",
+    '10day': "11日",
+    '11day': "12日",
+    '12day': "13日",
+    '13day': "14日",
+    '14day': "15日",
+    '15day': "16日",
+    '16day': "17日",
+    '17day': "18日",
+    '18day': "19日",
+    '19day': "20日",
+    '20day': "21日",
+    '21day': "22日",
+    '22day': "23日",
+    '23day': "24日",
+    '24day': "25日",
+    '25day': "26日",
+    '26day': "27日",
+    '27day': "28日",
+    '28day': "29日",
+    '29day': "30日",
   },
   tableOs = {
     os: "操作系统"
@@ -978,9 +978,8 @@ Page({
       data: deteday,
       method: "post",
       success: (res) => {
-        let a = this.tableprocess2(res.data.msg)
-        let b = this.tableprocess2(res.data.msgOS)
-
+        let a = this.tableDataProcessa(res.data.msg);
+        let b = this.tableDataProcessb(res.data.msgOS);
         this.retentionTitlestable = a;
         this.retentionTitlestableOS = b;
 
@@ -996,6 +995,49 @@ Page({
       }
     })
   },
+  tableDataProcessa: function(data){
+    if (data) {
+      let aArray = [];
+      for (let key in data) {
+        let aObj = {};
+        aObj.ds = common.week(data[key][0].ds);
+        for (let i = 0; i <= 29; i++) {
+          aObj[i + 'day'] = 0;
+        }
+        data[key].forEach(item => {
+          aObj.dr = item.dr;
+          for (let i = item.date; i <= item.day; i++) {
+            aObj[i + 'day'] = item.income;
+          }
+        })
+        aArray.push(aObj)
+      }
+      data = aArray
+    }
+    return data;
+  },
+  tableDataProcessb: function (data) {
+    if(data) {
+      let bArray = [];
+      for (let key in data) {
+        let bObj = {};
+        bObj.ds = common.week(data[key][0].ds);
+        for (let i = 0; i <= 29; i++) {
+          bObj[i + 'day'] = 0;
+        }
+        data[key].forEach(item => {
+          bObj.dr = item.dr;
+          bObj.os = item.os;
+          for (let i = item.date; i <= item.day; i++) {
+            bObj[i + 'day'] = item.income;
+          }
+        })
+        bArray.push(bObj)
+      }
+      data = bArray
+    }
+    return data;
+  },
 
   //切换条件，重置page,retentionList
   reset: function() {
@@ -1003,14 +1045,6 @@ Page({
       page: 1,
       tableData: []
     })
-  },
-  tableprocess2: function(data) {
-    if (data) {
-      data.forEach((item) => {
-        item.ds = common.week(item.ds);
-      })
-      return data;
-    }
   },
 
   tableDataProcess: function(data, creativeMap) {
