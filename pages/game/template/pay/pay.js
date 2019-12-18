@@ -919,11 +919,23 @@ Page({
         creatives.forEach((item, index) => {
           creativeMap.set(item.key, item.name)
         })
-
-        let tableData = this.tableDataProcess(res.data.msg, creativeMap);
+        let clients = (res.data.clients).map(item =>({
+          key:item.clientid,
+          name:item.clientName,
+        }));
+        let allObject2 = new Object();
+        allObject2.key = '-1'
+        allObject2.name = '所有服'
+        clients.unshift(allObject2);
+        conf.sourceCliCre.client.choice = clients;
+        let clientMap = new map();
+        clients.forEach((item,index) =>{
+          clientMap.set(item.key, item.name)
+        })
+        let tableData = this.tableDataProcess(res.data.msg, creativeMap,clientMap);
         let tableDataCC = [];
         if (res.data.sharePayResultTypesCC) {
-          tableDataCC = this.tableDataProcess(res.data.sharePayResultTypesCC, creativeMap);
+          tableDataCC = this.tableDataProcess(res.data.sharePayResultTypesCC, creativeMap,clientMap);
         };
 
         if (res.data.msg.length != 0 && this.data.page != 1) {
@@ -968,7 +980,6 @@ Page({
         }
       }
     })
-
     wx.request({
       url: url.requestUrl + "/api/registeredRevenuePercentage",
       header: {
@@ -1047,9 +1058,10 @@ Page({
     })
   },
 
-  tableDataProcess: function(data, creativeMap) {
+  tableDataProcess: function(data, creativeMap, clientMap) {
     if (data) {
       data.forEach((item) => {
+        item.client = clientMap.get(item.client) === undefined ? item.client : clientMap.get(item.client);
         item.creative = creativeMap.get(item.creative) === undefined ? item.creative : creativeMap.get(item.creative);
         item.payRate = item.dauNum == 0 ? 0 : (item.payCount * 100 / item.dauNum).toFixed(2) + "%";
         item.payAmount = item.payAmount / appData.overallData[1].currencyRate;
