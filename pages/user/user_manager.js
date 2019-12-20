@@ -5,17 +5,17 @@ Page({
    * 页面的初始数据
    */
   data: {
-    user_list: []
+    userList: []
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     this.findAllUser()
   },
 
-  findAllUser: function (res) {
+  findAllUser: function(res) {
     wx.request({
       url: url.requestUrl + '/api/user/findAllUser',
       header: {
@@ -23,10 +23,10 @@ Page({
         'token': wx.getStorageSync("token")
       },
       method: "post",
-      success: e=> {
+      success: e => {
         if (e.data.success) {
           this.setData({
-            user_list:JSON.parse(e.data.msg)
+            userList: e.data.msg.records
           })
         } else {
           wx.redirectTo({
@@ -37,15 +37,15 @@ Page({
     })
   },
 
-  choose: function (res) {
+  choose: function(res) {
     var id = res.currentTarget.id;
     wx.showActionSheet({
-      itemList: ['查看详情','拉黑'],
+      itemList: ['查看详情', '拉黑'],
       success: r => {
         if (!r.cancel) {
           if (r.tapIndex === 0) {
             this.findUserDetail(id)
-          }else{
+          } else {
             this.blackUser(id);
           }
         }
@@ -53,13 +53,13 @@ Page({
     });
   },
 
-  findUserDetail: function (id) {
+  findUserDetail: function(id) {
     wx.navigateTo({
-      url: 'user?message='+id,
+      url: 'user?message=' + id,
     })
   },
 
-  modifyUserRole: function (id) {
+  modifyUserRole: function(id) {
     wx.navigateTo({
       url: 'user_change_role?message=' + id,
     })

@@ -299,13 +299,13 @@ Page({
                 if (that.data.value_levelType == that.data.conf.levelType.dau_level) {
                   dauLevelObj[item.level + 'level'] = item.dauNum == 0 ? 0 : (item.dauLevelNumbers / item.dauNum * 100).toFixed(2);
                 } else if (that.data.value_levelType == that.data.conf.levelType.install_level) {
-                  dauLevelObj[item.level + 'level'] = item.installNum == 0 ? 0 : (item.installLevelNumbers / item.dauNum * 100).toFixed(2);
+                  dauLevelObj[item.level + 'level'] = item.installNum == 0 ? 0 : (item.installLevelNumbers / item.installNum * 100).toFixed(2);
                 } else if (that.data.value_levelType == that.data.conf.levelType.pay_level) {
-                  dauLevelObj[item.level + 'level'] = item.payCount == 0 ? 0 : (item.payLevelNumbers / item.dauNum * 100).toFixed(2);
+                  dauLevelObj[item.level + 'level'] = item.payCount == 0 ? 0 : (item.payLevelNumbers / item.payCount * 100).toFixed(2);
                 } else if (that.data.value_levelType == that.data.conf.levelType.new_pay_level) {
-                  dauLevelObj[item.level + 'level'] = item.newPayCount == 0 ? 0 : (item.newPayLevelNumbers / item.dauNum * 100).toFixed(2);
+                  dauLevelObj[item.level + 'level'] = item.newPayCount == 0 ? 0 : (item.newPayLevelNumbers / item.newPayCount * 100).toFixed(2);
                 } else if (that.data.value_levelType == that.data.conf.levelType.pay_install_level) {
-                  dauLevelObj[item.level + 'level'] = item.payInstallCount == 0 ? 0 : (item.payInstallLevelNumbers / item.dauNum * 100).toFixed(2);
+                  dauLevelObj[item.level + 'level'] = item.payInstallCount == 0 ? 0 : (item.payInstallLevelNumbers / item.payInstallCount * 100).toFixed(2);
                 }
               })
               dauLevels.push(dauLevelObj);

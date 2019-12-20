@@ -128,6 +128,12 @@ Page({
           this.setData({
             'resources': e.data.resourceType,
           })
+        } else {
+          wx.showToast({
+            title: e.data.msg,
+            icon: 'none',
+            duration: 1000
+          })
         }
       },
       error: function(e) {
