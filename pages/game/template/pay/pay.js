@@ -919,16 +919,17 @@ Page({
         creatives.forEach((item, index) => {
           creativeMap.set(item.key, item.name)
         })
+
         let clients = (res.data.clients).map(item =>({
-          key:item.clientid,
-          name:item.clientName,
+          key:item.serverid,
+          name:item.serverName,
         }));
         let allObject2 = new Object();
         allObject2.key = '-1'
         allObject2.name = '所有服'
         clients.unshift(allObject2);
         conf.sourceCliCre.client.choice = clients;
-        let clientMap = new map();
+        let clientMap = new Map();
         clients.forEach((item,index) =>{
           clientMap.set(item.key, item.name)
         })
