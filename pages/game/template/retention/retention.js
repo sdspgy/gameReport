@@ -606,6 +606,12 @@ Page({
             key: item.creativeid,
             name: item.creativeName,
           }));
+
+          let clients = (e.data.clients).map(item => ({
+            key: item.serverid,
+            name: item.serverName,
+          }));
+
           let creativeNames = [];
           creativeNames.push('全渠道');
           (e.data.creatives).forEach(item => {
@@ -621,10 +627,24 @@ Page({
           creatives.forEach((item, index) => {
             creativeMap.set(item.key, item.name)
           })
+
+          let clientNames = [];
+          clientNames.push('所有服');
+          (e.data.clients).forEach(item =>{
+            clientNames.push(item.serverName);
+          });
+          let clientMap = new Map();
+          clients.forEach((item,indx) =>{
+            clientMap.set(item.key,item.name)
+          })
+
           this.setData({
             arrayCreate: creativeNames,
             creatives: creatives,
-            creativeMap: creativeMap
+            creativeMap: creativeMap,
+            arrayClient:clientNames,
+            clients: clients,
+            clientMap: clientMap
           })
           /**
            * -----------------安装付费留存-------------

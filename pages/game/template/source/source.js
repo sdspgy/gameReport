@@ -807,11 +807,25 @@ Page({
         })
         let haveCreative = true; //此处应该判断为渠道时，做替换才有意义
 
-        let tableData = this.maketable(res.data.msg, haveCreative, creativeMap);
+        let clients = (res.data.clients).map(item => ({
+          key: item.serverid,
+          name: item.serverName,
+        }));
+        let allObject2 = new Object();
+        allObject2.key = '-1'
+        allObject2.name = '所有服'
+        clients.unshift(allObject2);
+        conf.sourceCliCre.client.choice = clients;
+        let clientMap = new Map();
+        clients.forEach((item, index) => {
+          clientMap.set(item.key, item.name)
+        })
+
+        let tableData = this.maketable(res.data.msg, haveCreative, creativeMap,clientMap);
         haveCreative = false;
         let tableDataCC = [];
         if (res.data.sharePayResultTypesCC) {
-          tableDataCC = this.maketable(res.data.sharePayResultTypesCC, haveCreative, creativeMap);
+          tableDataCC = this.maketable(res.data.sharePayResultTypesCC, haveCreative, creativeMap,clientMap);
         };
         if (res.data.msg.length != 0 && this.data.page != 1) {
           wx.showToast({
@@ -856,7 +870,7 @@ Page({
     })
   },
 
-  maketable: function(data, haveCreative, creativeMap) {
+  maketable: function(data, haveCreative, creativeMap,clientMap) {
     if (data) {
       // let onInputCreative = new Map();
       data.forEach((item) => {
@@ -867,6 +881,7 @@ Page({
           // }
           item.creative = creativeMap.get(item.creative) === undefined ? item.creative : creativeMap.get(item.creative);
         }
+        item.client = clientMap.get(item.client) === undefined ? item.client : clientMap.get(item.client);
         item.payInstallRate = item.installNum == 0 ? 0 : (item.payInstallCount * 100 / item.installNum).toFixed(2) + "%";
         item.payInstallAmount = item.payInstallAmount / appData.overallData[1].currencyRate;
         item.payInstallARPU = item.installNum == 0 ? 0 : (item.payInstallAmount / item.installNum).toFixed(2);

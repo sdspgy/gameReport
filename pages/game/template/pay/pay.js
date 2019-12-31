@@ -905,6 +905,7 @@ Page({
       method: "post",
       success: (res) => {
         //渠道信息
+        debugger
         let creatives = (res.data.creatives).map(item => ({
           key: item.creativeid,
           name: item.creativeName,
@@ -945,7 +946,7 @@ Page({
             icon: 'success',
             duration: 1000
           });
-        }
+        }  
         if (res.data.msg.length == 0 && this.data.page != 1) {
           wx.showToast({
             title: "已经是最后一页数据",
