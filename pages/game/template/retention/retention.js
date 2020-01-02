@@ -97,7 +97,7 @@ let retentionTitles = {
     creative: "渠道"
   },
   tableClient = {
-    clientid: "服"
+    client: "服"
   },
   payRenDayTitles = {
     '1day': "1日",
@@ -172,6 +172,8 @@ Page({
     payRentenTable: [],
     payInstallRetenTable: [],
     creatives: [],
+    clients: [],
+    clientMap: {},
     creativeMap: {}
   },
 
@@ -531,14 +533,20 @@ Page({
             }
             let retentionList = [];
             retentionList = this.saturday(e.data.shareRetentionList);
-
             //放入Map,creativeid为key
             let creativeMap = new Map();
             (e.data.creatives).forEach((item, index) => {
               creativeMap.set(item.creativeid, item.creativeName)
             })
+            
+            let clientMap = new Map();
+            (e.data.clients).forEach((item, index) => {
+              clientMap.set(item.serverid, item.serverName)
+            })
+
             retentionList.forEach(item => {
-              item.creative = creativeMap.get(item.creative) === undefined ? item.creative : creativeMap.get(item.creative)
+              item.creative = creativeMap.get(item.creative) === undefined ? item.creative : creativeMap.get(item.creative);
+              item.client = clientMap.get(String(item.clientid)) === undefined ? item.client : clientMap.get(String(item.clientid));
             })
             if (this.data.retentionList == null) {
               retentionList = retentionList;
@@ -656,7 +664,7 @@ Page({
               payInstallRentenObj.ds = common.week(installPayReten[key][0].ds);
               payInstallRentenObj.os = installPayReten[key][0].os;
               payInstallRentenObj.creative = creativeMap.get(installPayReten[key][0].creative) === undefined ? installPayReten[key][0].creative : creativeMap.get(installPayReten[key][0].creative);
-              payInstallRentenObj.clientid = installPayReten[key][0].clientid;
+              payInstallRentenObj.client = clientMap.get(String(installPayReten[key][0].clientid));
               for (let i = 1; i <= 30; i++) {
                 payInstallRentenObj[i + 'day'] = 0;
               }
@@ -680,7 +688,7 @@ Page({
               payRentenObj.ds = common.week(payReten[key][0].ds);
               payRentenObj.os = payReten[key][0].os;
               payRentenObj.creative = creativeMap.get(payReten[key][0].creative) === undefined ? payReten[key][0].creative : creativeMap.get(payReten[key][0].creative);
-              payRentenObj.clientid = payReten[key][0].clientid;
+              payRentenObj.client = clientMap.get(String(payReten[key][0].clientid));
               for (let i = 1; i <= 30; i++) {
                 payRentenObj[i + 'day'] = 0;
               }

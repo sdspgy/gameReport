@@ -159,7 +159,7 @@ let titles = {
     creative: "渠道"
   },
   tableClient = {
-    clientid: "服"
+    client: "服"
   },
   tableDayHour = {
     dayOfHour: '～时'
@@ -881,7 +881,7 @@ Page({
           // }
           item.creative = creativeMap.get(item.creative) === undefined ? item.creative : creativeMap.get(item.creative);
         }
-        item.client = clientMap.get(item.client) === undefined ? item.client : clientMap.get(item.client);
+        item.client = clientMap.get(String(item.clientid)) === undefined ? item.client : clientMap.get(String(item.clientid));
         item.payInstallRate = item.installNum == 0 ? 0 : (item.payInstallCount * 100 / item.installNum).toFixed(2) + "%";
         item.payInstallAmount = item.payInstallAmount / appData.overallData[1].currencyRate;
         item.payInstallARPU = item.installNum == 0 ? 0 : (item.payInstallAmount / item.installNum).toFixed(2);

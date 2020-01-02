@@ -201,7 +201,7 @@ let titles = {
     creative: "渠道"
   },
   tableClient = {
-    clientid: "服"
+    client: "服"
   },
   tableDayHour = {
     dayOfHour: '～时'
@@ -905,7 +905,6 @@ Page({
       method: "post",
       success: (res) => {
         //渠道信息
-        debugger
         let creatives = (res.data.creatives).map(item => ({
           key: item.creativeid,
           name: item.creativeName,
@@ -972,6 +971,7 @@ Page({
           chartTitle2: handelPayCount.length == 0 ? "图标暂无数据" : "付费趋势",
           tableDataCC: tableDataCC
         })
+       
 
         this.initChart2();
         // console.log(tables);
@@ -1063,7 +1063,7 @@ Page({
   tableDataProcess: function(data, creativeMap, clientMap) {
     if (data) {
       data.forEach((item) => {
-        item.client = clientMap.get(item.client) === undefined ? item.client : clientMap.get(item.client);
+        item.client = clientMap.get(String(item.clientid)) === undefined ? item.client : clientMap.get(String(item.clientid));
         item.creative = creativeMap.get(item.creative) === undefined ? item.creative : creativeMap.get(item.creative);
         item.payRate = item.dauNum == 0 ? 0 : (item.payCount * 100 / item.dauNum).toFixed(2) + "%";
         item.payAmount = item.payAmount / appData.overallData[1].currencyRate;
