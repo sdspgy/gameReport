@@ -54,7 +54,7 @@
 </view>
 
 <view class="dividLine"></view>
-<view class="table">
+<view class="table" hidden="{{isShowVanTabs}}">
   <table caption="注收比" titles="{{retentionTitles}}" data="{{retentionTitlestable}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="" />
 </view>
 

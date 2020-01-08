@@ -538,16 +538,27 @@ Page({
             (e.data.creatives).forEach((item, index) => {
               creativeMap.set(item.creativeid, item.creativeName)
             })
+
+            let clients = (e.data.clients).map(item => ({
+              key: item.serverid,
+              name: item.serverName,
+            }));
+
+            let object = new Object();
+            object.key = '-1';
+            object.name = '所有服';
+            clients.unshift(object);
             
             let clientMap = new Map();
-            (e.data.clients).forEach((item, index) => {
-              clientMap.set(item.serverid, item.serverName)
+            (clients).forEach((item, index) => {
+              clientMap.set(item.key , item.name)
             })
 
             retentionList.forEach(item => {
               item.creative = creativeMap.get(item.creative) === undefined ? item.creative : creativeMap.get(item.creative);
               item.client = clientMap.get(String(item.clientid)) === undefined ? item.client : clientMap.get(String(item.clientid));
             })
+            debugger
             if (this.data.retentionList == null) {
               retentionList = retentionList;
             } else {
@@ -641,11 +652,17 @@ Page({
           (e.data.clients).forEach(item =>{
             clientNames.push(item.serverName);
           });
+
+          let object = new Object();
+          object.key = '0';
+          object.name = '所有服';
+          clients.unshift(object);
+
           let clientMap = new Map();
           clients.forEach((item,indx) =>{
             clientMap.set(item.key,item.name)
           })
-
+          debugger
           this.setData({
             arrayCreate: creativeNames,
             creatives: creatives,
