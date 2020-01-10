@@ -97,7 +97,7 @@ let retentionTitles = {
     creative: "渠道"
   },
   tableClient = {
-    clientid: "服"
+    client: "服"
   },
   payRenDayTitles = {
     '1day': "1日",
@@ -172,6 +172,8 @@ Page({
     payRentenTable: [],
     payInstallRetenTable: [],
     creatives: [],
+    clients: [],
+    clientMap: {},
     creativeMap: {}
   },
 
@@ -531,15 +533,32 @@ Page({
             }
             let retentionList = [];
             retentionList = this.saturday(e.data.shareRetentionList);
-
             //放入Map,creativeid为key
             let creativeMap = new Map();
             (e.data.creatives).forEach((item, index) => {
               creativeMap.set(item.creativeid, item.creativeName)
             })
-            retentionList.forEach(item => {
-              item.creative = creativeMap.get(item.creative) === undefined ? item.creative : creativeMap.get(item.creative)
+
+            let clients = (e.data.clients).map(item => ({
+              key: item.serverid,
+              name: item.serverName,
+            }));
+
+            let object = new Object();
+            object.key = '-1';
+            object.name = '所有服';
+            clients.unshift(object);
+            
+            let clientMap = new Map();
+            (clients).forEach((item, index) => {
+              clientMap.set(item.key , item.name)
             })
+
+            retentionList.forEach(item => {
+              item.creative = creativeMap.get(item.creative) === undefined ? item.creative : creativeMap.get(item.creative);
+              item.client = clientMap.get(String(item.clientid)) === undefined ? item.client : clientMap.get(String(item.clientid));
+            })
+            debugger
             if (this.data.retentionList == null) {
               retentionList = retentionList;
             } else {
@@ -606,6 +625,12 @@ Page({
             key: item.creativeid,
             name: item.creativeName,
           }));
+
+          let clients = (e.data.clients).map(item => ({
+            key: item.serverid,
+            name: item.serverName,
+          }));
+
           let creativeNames = [];
           creativeNames.push('全渠道');
           (e.data.creatives).forEach(item => {
@@ -621,10 +646,30 @@ Page({
           creatives.forEach((item, index) => {
             creativeMap.set(item.key, item.name)
           })
+
+          let clientNames = [];
+          clientNames.push('所有服');
+          (e.data.clients).forEach(item =>{
+            clientNames.push(item.serverName);
+          });
+
+          let object = new Object();
+          object.key = '0';
+          object.name = '所有服';
+          clients.unshift(object);
+
+          let clientMap = new Map();
+          clients.forEach((item,indx) =>{
+            clientMap.set(item.key,item.name)
+          })
+          debugger
           this.setData({
             arrayCreate: creativeNames,
             creatives: creatives,
-            creativeMap: creativeMap
+            creativeMap: creativeMap,
+            arrayClient:clientNames,
+            clients: clients,
+            clientMap: clientMap
           })
           /**
            * -----------------安装付费留存-------------
@@ -636,7 +681,7 @@ Page({
               payInstallRentenObj.ds = common.week(installPayReten[key][0].ds);
               payInstallRentenObj.os = installPayReten[key][0].os;
               payInstallRentenObj.creative = creativeMap.get(installPayReten[key][0].creative) === undefined ? installPayReten[key][0].creative : creativeMap.get(installPayReten[key][0].creative);
-              payInstallRentenObj.clientid = installPayReten[key][0].clientid;
+              payInstallRentenObj.client = clientMap.get(String(installPayReten[key][0].clientid));
               for (let i = 1; i <= 30; i++) {
                 payInstallRentenObj[i + 'day'] = 0;
               }
@@ -660,7 +705,7 @@ Page({
               payRentenObj.ds = common.week(payReten[key][0].ds);
               payRentenObj.os = payReten[key][0].os;
               payRentenObj.creative = creativeMap.get(payReten[key][0].creative) === undefined ? payReten[key][0].creative : creativeMap.get(payReten[key][0].creative);
-              payRentenObj.clientid = payReten[key][0].clientid;
+              payRentenObj.client = clientMap.get(String(payReten[key][0].clientid));
               for (let i = 1; i <= 30; i++) {
                 payRentenObj[i + 'day'] = 0;
               }

@@ -201,7 +201,7 @@ let titles = {
     creative: "渠道"
   },
   tableClient = {
-    clientid: "服"
+    client: "服"
   },
   tableDayHour = {
     dayOfHour: '～时'
@@ -920,10 +920,23 @@ Page({
           creativeMap.set(item.key, item.name)
         })
 
-        let tableData = this.tableDataProcess(res.data.msg, creativeMap);
+        let clients = (res.data.clients).map(item =>({
+          key:item.serverid,
+          name:item.serverName,
+        }));
+        let allObject2 = new Object();
+        allObject2.key = '-1'
+        allObject2.name = '所有服'
+        clients.unshift(allObject2);
+        conf.sourceCliCre.client.choice = clients;
+        let clientMap = new Map();
+        clients.forEach((item,index) =>{
+          clientMap.set(item.key, item.name)
+        })
+        let tableData = this.tableDataProcess(res.data.msg, creativeMap,clientMap);
         let tableDataCC = [];
         if (res.data.sharePayResultTypesCC) {
-          tableDataCC = this.tableDataProcess(res.data.sharePayResultTypesCC, creativeMap);
+          tableDataCC = this.tableDataProcess(res.data.sharePayResultTypesCC, creativeMap,clientMap);
         };
 
         if (res.data.msg.length != 0 && this.data.page != 1) {
@@ -932,7 +945,7 @@ Page({
             icon: 'success',
             duration: 1000
           });
-        }
+        }  
         if (res.data.msg.length == 0 && this.data.page != 1) {
           wx.showToast({
             title: "已经是最后一页数据",
@@ -958,6 +971,7 @@ Page({
           chartTitle2: handelPayCount.length == 0 ? "图标暂无数据" : "付费趋势",
           tableDataCC: tableDataCC
         })
+       
 
         this.initChart2();
         // console.log(tables);
@@ -968,7 +982,6 @@ Page({
         }
       }
     })
-
     wx.request({
       url: url.requestUrl + "/api/registeredRevenuePercentage",
       header: {
@@ -1047,9 +1060,10 @@ Page({
     })
   },
 
-  tableDataProcess: function(data, creativeMap) {
+  tableDataProcess: function(data, creativeMap, clientMap) {
     if (data) {
       data.forEach((item) => {
+        item.client = clientMap.get(String(item.clientid)) === undefined ? item.client : clientMap.get(String(item.clientid));
         item.creative = creativeMap.get(item.creative) === undefined ? item.creative : creativeMap.get(item.creative);
         item.payRate = item.dauNum == 0 ? 0 : (item.payCount * 100 / item.dauNum).toFixed(2) + "%";
         item.payAmount = item.payAmount / appData.overallData[1].currencyRate;
