@@ -558,7 +558,6 @@ Page({
               item.creative = creativeMap.get(item.creative) === undefined ? item.creative : creativeMap.get(item.creative);
               item.client = clientMap.get(String(item.clientid)) === undefined ? item.client : clientMap.get(String(item.clientid));
             })
-            debugger
             if (this.data.retentionList == null) {
               retentionList = retentionList;
             } else {
