@@ -53,8 +53,8 @@
   <table caption="详细数据" titles="{{payTitles}}" data="{{tableData}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="onBottomTap" />
 </view>
 
+<view class="table" hidden="{{isShowVanTabs}}">
 <view class="dividLine"></view>
-<view class="table">
   <table caption="注收比" titles="{{retentionTitles}}" data="{{retentionTitlestable}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="" bind:coltap="" bind:bottomtap="" />
 </view>
 
@@ -73,8 +73,8 @@
 </view>
 
 <view class="dividLine"></view>
-<view class="table">
-  <table wx:if="{{showTable}}" caption="android-ios" titles="{{payTitlesCC}}" data="{{tableDataCC}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="" bind:bottomtap="" />
+<view class="table" wx:if="{{showTable}}">
+  <table caption="android-ios" titles="{{payTitlesCC}}" data="{{tableDataCC}}" table-height="250" scroll-y="true" col-width="{{conf.table.colWidth}}" bind:rowtap="onRowTap" bind:coltap="" bind:bottomtap="" />
 </view>
 
 <back bind:back="back" />

@@ -5,7 +5,7 @@
 </view>
 
 <!-- 轮播图 -->
-<swiper indicator-dots="{{indicatorDots}}" easing-function="{{easingFunction}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+<swiper indicator-dots="{{indicatorDots}}" easing-function="{{easingFunction}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" circular="{{indicatorDots}}">
   <block wx:for="{{imgUrls}}" wx:key="{{index}}">
     <swiper-item>
       <image src="{{item}}" class="slide-image" style="width:100%; height:100%" />

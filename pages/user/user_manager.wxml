@@ -4,7 +4,7 @@
     <view class="th">昵称</view>
     <view class="th">操作</view>
   </view>
-  <view class="tr" wx:key="{{item.openId}}" wx:for="{{user_list}}" wx:for-index="index">
+  <view class="tr" wx:key="{{item.openId}}" wx:for="{{userList}}" wx:for-index="index">
     <view class='td'>
       <image class="userinfo-avatar" src="{{item.avatarUrl}}" mode="cover"></image>
     </view>
